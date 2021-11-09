@@ -1,0 +1,186 @@
+<template>
+  <div class="container">
+    <h3>글쓰기</h3>
+    <div class="AddWrap">
+      <form>
+        <table class="tbAdd">
+          <colgroup>
+            <col style="width: 15%" />
+            <col style="width: 75%" />
+          </colgroup>
+          <tr>
+            <th>태그</th>
+            <td>
+              <input type="button" class="button" id="how" v-on:click="select_tag($event)" value="#운동법" />
+              <input type="button" class ="button" id="tool" v-on:click="select_tag($event)" value="#운동기구"/>
+              <input type="button" class ="button" id="diet" v-on:click="select_tag($event)" value="#식단"/>
+            </td>
+          </tr>
+          <tr>
+            <th>제목</th>
+            <td><input type="text" v-model="subject" /></td>
+          </tr>
+          <tr>
+            <th>내용</th>
+            <td><textarea v-model="cont" ref="cont"></textarea></td>
+          </tr>
+        </table>
+      </form>
+    </div>
+
+    <div class="btnWrap">
+      <router-link to="/board/list"><input type="button" value="목록" class="btn"></router-link>
+      <input type="button" value="등록" class="btnAdd btn" @click =Add>
+    </div>
+  </div>
+
+</template>
+
+<script>
+import TestData from './test.json'
+
+export default {
+  data(){
+    return{
+      tag:''
+      ,subject:''
+      ,cont:''
+      ,idx:0
+      ,id:'ㅇㅇ'
+      ,regdate:''
+      ,form:''
+    }
+  },
+  methods:{
+    select_tag:function(event){
+      let click = document.getElementById(event.currentTarget.id);
+
+      let buttons=document.getElementsByClassName("button");
+
+      buttons.forEach((tag)=>{
+        tag.classList.remove("active")
+      })
+
+      click.classList.add("active");
+    }
+    ,fnList(){
+      this.$router.push({path:'./list'})
+    }
+    ,Add:function (){
+      if(!this.subject){
+        alert("제목을 입력해 주세요")
+        return;
+      }
+      let today = new Date();
+      this.form = {
+        subject : this.subject
+        ,cont:this.cont
+        ,id:this.id
+        ,idx:this.idx
+        ,regdate: today.getFullYear()+'-'+today.getMonth() +'-' + today.getDate()
+      }
+      let AddData = JSON.stringify(TestData.concat(this.form))
+      console.log(AddData)
+
+      this.fnList();
+    }
+  }
+
+}
+</script>
+<style scoped>
+
+.container{
+  width: 100%;
+  height: 100%;
+  margin-top: 0px;
+}
+.tbAdd {
+  width: 90%;
+}
+
+.tbAdd td {
+  padding: 10px 10px;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.tbAdd td input {
+  width: 100%;
+  min-height: 30px;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+
+.tbAdd td input[type=button]{
+  width: auto;
+  margin: auto 10px;
+  font-size: .6em;
+
+  border: 1px solid #7994db;
+  background-color: white;
+  color: #7994db;
+  border-radius: 40px;
+}
+
+.tbAdd td .button:hover{
+  background-color: #7994db;
+  color: white;
+}
+
+.tbAdd td .button.active{
+  background-color: #7994db;
+  color: white;
+}
+
+
+.tbAdd td textarea {
+  width: 100%;
+  min-height: 300px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.btnWrap {
+  text-align: center;
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+
+}
+
+.btnWrap a {
+  margin: 0 10px;
+}
+
+.btn{
+  width: 100px;
+  padding: 3px;
+  border: 1px solid #aaa;
+  background: white;
+  border-radius: .5em;
+  box-shadow: 0 1px 0 1px rgba(0, 0, 0, .04);
+}
+
+.btnAdd {
+  background:#7994db;
+  color: white;
+}
+
+
+@media(max-width:767px) {
+
+  .tbAdd {
+    font-size: .8em;
+  }
+
+  .btnWrap {
+    text-align: center;
+    text-align-last: center;
+  }
+  .btn{
+    width: 80px;
+  }
+}
+
+</style>

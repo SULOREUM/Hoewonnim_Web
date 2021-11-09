@@ -18,10 +18,20 @@
   },
   "homepage": "https://github.com/SULOREUM/Hoewonnim_Web#readme",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/vue-fontawesome": "^2.0.6",
+    "axios": "^0.24.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongodb": "^4.1.4"
+    "jquery": "^3.6.0",
+    "mongodb": "^4.1.4",
+    "vue-awesome-swiper": "^4.1.1",
+    "vue-burger-menu": "^2.0.5",
+    "vue-google-oauth2": "^1.5.8",
+    "vue-google-signin-button-directive": "^1.0.3",
+    "vue-router": "^3.5.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.14"
