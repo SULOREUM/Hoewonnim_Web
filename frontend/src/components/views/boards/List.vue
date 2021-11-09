@@ -50,7 +50,7 @@
 
     <div class="top-menu">
       <div class="wt-button">
-        <router-link to="/board/write"><input type="button" value="글쓰기"></router-link>
+        <router-link to="/views/boards/Write"><input type="button" value="글쓰기"></router-link>
       </div>
 
       <div class="search">
