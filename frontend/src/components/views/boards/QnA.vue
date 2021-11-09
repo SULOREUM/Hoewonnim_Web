@@ -8,6 +8,7 @@
       <div class="sub-item" id="diet" v-on:click="showTag($event)"><span>#식단</span></div>
     </div>
 
+
     <div class="list">
       <table class="tbList">
         <colgroup>
@@ -16,6 +17,7 @@
           <col style="width:10%">
           <col style="width:20%">
         </colgroup>
+
         <tr>
           <th>no.</th>
           <th>제목</th>
@@ -23,7 +25,7 @@
           <th>날짜</th>
         </tr>
 
-        <tr v-for="(row, idx) in items" :key="idx">
+        <tr v-for="(row, idx) in paginatedData" :key="idx">
           <td>{{row.idx}}</td>
           <td class="txt_center"><a href="javascript:;">{{row.subject}}</a></td>
           <td>{{row.id}}</td>
@@ -33,20 +35,31 @@
           <td colspan="4">데이터가 없습니다.</td>
         </tr>
 
-
       </table>
+      <div class="btn-cover">
+        <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
+          이전
+        </button>
+        <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
+        <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn">
+          다음
+        </button>
+      </div>
 
     </div>
-    <div class="search">
-      <form>
-        <input type="text" name="key">
-        <span class="search-button" v-on:click="searchKey"><font-awesome-icon icon="search" /></span>
-      </form>
+
+    <div class="top-menu">
       <div class="wt-button">
-        <router-link to="/views/boards/Write"><input type="button" value="글쓰기"></router-link>
+        <router-link to="/board/write"><input type="button" value="글쓰기"></router-link>
+      </div>
+
+      <div class="search">
+        <form>
+          <input type="text" name="key">
+          <span class="search-button" v-on:click="searchKey"><font-awesome-icon icon="search" /></span>
+        </form>
       </div>
     </div>
-
 
   </div>
 
@@ -57,18 +70,18 @@
 
 import TestData from './test.json'
 
-
-
 export default {
 
   data() { //변수생성
     return{
       body:'' //리스트 페이지 데이터전송
       ,board_code:'news' //게시판코드
-      ,list:'' //리스트 데이터
       ,items:''
+      ,pageNum : 0
+      ,pageSize : 16
     }
-  },created(){
+  }
+  ,created(){
     this.items = TestData
   }
   , methods:{
@@ -79,11 +92,31 @@ export default {
       let click = document.getElementById(event.currentTarget.id);
       let tags = document.getElementsByClassName("sub-item");
 
-      tags.forEach((tag)=>{
+      Array.from(tags).forEach((tag)=>{
         tag.classList.remove("active");
       })
 
       click.classList.add("active");
+    }
+    ,nextPage () {
+      this.pageNum += 1;
+    }
+    ,prevPage () {
+      this.pageNum -= 1;
+    }
+  }
+  ,computed:{
+    pageCount () {
+      let listLeng = this.items.length,
+          listSize = this.pageSize,
+          page = Math.floor(listLeng / listSize);
+      if (listLeng % listSize > 0) page += 1;
+      return page;
+    },
+    paginatedData () {
+      const start = this.pageNum * this.pageSize,
+          end = start + this.pageSize;
+      return this.items.slice(start, end);
     }
   }
 }
@@ -143,30 +176,21 @@ select:hover{
 
 select:focus {
   border-color: #aaa;
-  box-shadow: 0 0 1px 1px #22a8d8;
+  box-shadow: 0 0 1px 1px #6075eb;
   box-shadow: 0 0 0 1px -moz-mac-focusring;
   color: #222;
   outline: none;
 }
-
-input{
-  width: 30%;
-  padding: .6em .8em .5em .8em;
-  margin: 0;
-
+input[type="text"]{
   border:none;
+  padding: .6em .8em .5em .8em;
   border-bottom: 2px solid  #aaa;
   outline: none;
-
   background-color: rgba(0,0,0,0);
 }
 input:focus{
-  border-bottom: 2px solid  #22a8d8;
+  border-bottom: 2px solid rgba(96, 117, 235, 0.5);
 }
-.search{
-  padding: 10px 30px;
-}
-
 .search-button{
   width: 10%;
   color: #aaa;
@@ -175,17 +199,17 @@ input:focus{
 }
 .search-button:hover{
   cursor:pointer;
-  color:#22a8d8;
+  color:#6075eb;
 }
 
 .list{
-  margin-top: 20px;
   flex-grow: 5;
   font-size: 0.9em;
+  margin-top: 20px;
 }
 .tbList{
   width: 90%;
-  margin: 0px auto;
+  margin: 20px auto;
 }
 
 .tbList th{border-top:1px solid #888;}
@@ -200,23 +224,52 @@ input:focus{
 .tbList td.txt_center a:hover{
   color:#6075eb;
 }
-
-.wt-button input{
-  border: 1px solid white;
-  background: rgba(202, 223, 224,0.5);
+.btn-cover{
+  width: 50%;
+  margin-left: 25%;
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 30px;
+}
+.btn-cover button{
+  border: 1px solid rgba(96, 117, 235, 0.28);
+  background-color: rgba(0,0,0,0);
+  color: #222222;
+  padding: 5px 20px;
   border-radius: .5em;
   box-shadow: 0 1px 0 1px rgba(0, 0, 0, .04);
 
   text-align-last: center;
   text-align: center;
   font-size: 0.7em;
-
-  width: 10%;
-  margin-top: 20px;
 }
+.btn-cover button:hover{
+  cursor: pointer;
+  background-color: rgba(96, 117, 235, 0.28);
+}
+.top-menu{
+  margin: 0px 10%;
+  display: flex;
+  justify-content: space-between;
+}
+.wt-button input{
+  display: flex;
+  justify-content: center;
+  border: 1px solid rgba(96, 117, 235, 0.28);
+  background-color: rgba(0,0,0,0);
+  padding: 5px 20px;
+  border-radius: .5em;
+  box-shadow: 0 1px 0 1px rgba(0, 0, 0, .04);
+
+  text-align-last: center;
+  text-align: center;
+  font-size: 0.7em;
+}
+
 
 .wt-button input:hover {
   cursor: pointer;
+  background-color: rgba(96, 117, 235, 0.28);
 }
 
 .wt-button input:focus {
@@ -228,12 +281,12 @@ input:focus{
 }
 
 
+
 @media(max-width:767px) {
 
   .container {
     font-size: .7em;
   }
-
   .sub-menu .sub-item{
     width: 15%;
     white-space: nowrap;

@@ -29,7 +29,7 @@
     </div>
 
     <div class="btnWrap">
-      <router-link to="/board/list"><input type="button" value="목록" class="btn"></router-link>
+      <router-link to="/views/boards/List"><input type="button" value="목록" class="btn"></router-link>
       <input type="button" value="등록" class="btnAdd btn" @click =Add>
     </div>
   </div>
@@ -57,7 +57,7 @@ export default {
 
       let buttons=document.getElementsByClassName("button");
 
-      buttons.forEach((tag)=>{
+      Array.from(buttons).forEach((tag)=>{
         tag.classList.remove("active")
       })
 

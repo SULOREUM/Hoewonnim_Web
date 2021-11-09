@@ -54,7 +54,7 @@ export default {
       let clicked = document.getElementById(event.currentTarget.id);
       let menu = document.getElementsByClassName("item");
 
-      menu.forEach((m) => {
+      Array.from(menu).forEach((m) => {
         m.classList.remove("active")
       })
       clicked.classList.add("active");
@@ -63,7 +63,7 @@ export default {
     , clickburger: function () {
       let menu = document.getElementsByClassName("item");
 
-      menu.forEach((m) => {
+      Array.from(menu).forEach((m) => {
         m.classList.remove("active")
       })
     }
