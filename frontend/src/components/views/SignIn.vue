@@ -1,6 +1,8 @@
 <template>
   <div class="wrapper">
-    <h3>Login</h3>
+    <div class="logo">
+      <router-link style="color: black" to="/">Hoewonnim</router-link>
+    </div>
     <input type="text" placeholder="email"><br>
     <input type="password" placeholder="password"><br>
     <button class="login_button">로그인</button>
@@ -8,7 +10,6 @@
 
 
     <button @click="googleLoginBtn" class="login_button"> 구글 로그인
-      <!--     <img style="width: 100%" src="@/assets/dumbbell.png">-->
     </button>
     <div id="my-signin2" style="display: none"></div>
 
@@ -24,7 +25,7 @@
 
 <script>
 export default {
-  name: "SignIn",
+  name: "sign_up",
   data(){
     return{
       googleSignInParams:{
@@ -97,17 +98,27 @@ export default {
 
 <style scoped>
 .wrapper{
-  margin-top: 12%;
+  margin-top: 5%;
   width: 30%;
   position: relative;
   margin-left: 35%;
   margin-right: 35%;
 }
 
+.logo{
+  width: 10%;
+  position: center;
+
+  font-family: 'SBAggroB',serif;
+  color: black;
+  margin: 20px;
+}
+
+
 .login_button{
   width: 100%;
   margin-top: 10px;
-  background:#1AAB8A;
+  background:#7994DB;
   color:#fff;
   border:none;
   position:relative;
@@ -120,7 +131,7 @@ export default {
 }
 .login_button:hover{
   background:#fff;
-  color:#1AAB8A;
+  color:#7994DB;
 }
 .login_button:before,.login_button:after{
   content:'';
@@ -129,7 +140,7 @@ export default {
   right:0;
   height:2px;
   width:0;
-  background: #1AAB8A;
+  background: #7994DB;
   transition:400ms ease all;
 }
 .login_button:after{
@@ -154,12 +165,13 @@ export default {
   margin-bottom: 20px;
 }
 .join{
-  color: steelblue;
+  color: #7994DB;
   font-weight: bolder;
 }
 input{
   width: 100%;
   padding: 15px;
+  font-size: 0.8em;
 }
 
 p{
@@ -182,6 +194,6 @@ img{
   object-fit: cover;
 }
 input{
-  outline-color: #1AAB8A;
+  outline-color: #7994DB;
 }
 </style>

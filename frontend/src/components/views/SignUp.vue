@@ -7,13 +7,10 @@
 
       <!-- ID -->
       <div>
-        <h3 class="join_title">
-          <label for="id">아이디</label>
-        </h3>
+        <h3 class="join_title"><label for="id">아이디</label></h3>
         <span class="box int_id">
-                        <input v-model="signup.id" type="text" id="id" class="int" maxlength="20">
-                        <span class="step_url"></span>
-                    </span>
+          <input v-model="signup.id" type="text" id="id" class="int" maxlength="20">
+        </span>
         <span class="error_next_box"></span>
       </div>
 
@@ -45,7 +42,7 @@
         <h3 class="join_title"><label for="name">이름</label></h3>
         <span class="box int_name">
                         <input v-model="signup.name" type="text" id="name" class="int" maxlength="20">
-                    </span>
+        </span>
         <span class="error_next_box"></span>
       </div>
 
@@ -56,37 +53,23 @@
         <div id="bir_wrap">
           <!-- BIRTH_YY -->
           <div id="bir_yy">
-                            <span class="box">
-                                <input type="text" id="yy" class="int" maxlength="4" placeholder="년(4자)">
-                            </span>
+            <span class="box">
+              <input type="text" id="yy" class="int" maxlength="4" placeholder="년(4자)">
+            </span>
           </div>
 
           <!-- BIRTH_MM -->
           <div id="bir_mm">
-                            <span class="box">
-                                <select id="mm" class="sel">
-                                    <option>월</option>
-                                    <option value="01">1</option>
-                                    <option value="02">2</option>
-                                    <option value="03">3</option>
-                                    <option value="04">4</option>
-                                    <option value="05">5</option>
-                                    <option value="06">6</option>
-                                    <option value="07">7</option>
-                                    <option value="08">8</option>
-                                    <option value="09">9</option>
-                                    <option value="10">10</option>
-                                    <option value="11">11</option>
-                                    <option value="12">12</option>
-                                </select>
-                            </span>
+            <span class="box">
+              <input type="text" id="mm" class="int" maxlength="2" placeholder="월">
+            </span>
           </div>
 
           <!-- BIRTH_DD -->
           <div id="bir_dd">
-                            <span class="box">
-                                <input type="text" id="dd" class="int" maxlength="2" placeholder="일">
-                            </span>
+            <span class="box">
+              <input type="text" id="dd" class="int" maxlength="2" placeholder="일">
+            </span>
           </div>
 
         </div>
@@ -97,12 +80,12 @@
       <div>
         <h3 class="join_title"><label for="gender">성별</label></h3>
         <span class="box gender_code">
-                        <select id="gender" class="sel" v-model="signup.gender">
-                            <option>성별</option>
-                            <option value="M">남자</option>
-                            <option value="F">여자</option>
-                        </select>
-                    </span>
+          <select id="gender" class="sel" v-model="signup.gender">
+            <option>성별</option>
+            <option value="M">남자</option>
+            <option value="F">여자</option>
+          </select>
+          </span>
         <span class="error_next_box">필수 정보입니다.</span>
       </div>
 
@@ -124,12 +107,19 @@
         <span class="error_next_box"></span>
       </div>
 
+      <!-- 관심 사항 -->
+      <div>
+        <h3 class="join_title">관심사항</h3>
+        <input type="button" class="button" id="how" v-on:click="select_tag($event)" value="#필테" />
+        <input type="button" class ="button" id="tool" v-on:click="select_tag($event)" value="#운동"/>
+        <input type="button" class ="button" id="diet" v-on:click="select_tag($event)" value="#헬스"/>
+        <span class="error_next_box"></span>
+      </div>
+
 
       <!-- JOIN BTN-->
       <div class="btn_area">
-        <button type="button" id="btnJoin" @click="isSuccess">
-          <span>가입하기</span>
-        </button>
+        <input type="submit" id="btnJoin" @click="isSuccess" value="가입하기">
       </div>
 
 
@@ -186,11 +176,106 @@ export default {
       }
       alert('회원가입 성공!')
     },
+    select_tag:function(event){
+      let click = document.getElementById(event.currentTarget.id);
+      click.classList.toggle("active");
+    }
+
   }
 };
 </script>
 
 <style scoped>
+
+.tbAdd {
+  width: 90%;
+}
+
+.tbAdd td {
+  padding: 10px 10px;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.tbAdd td input {
+  width: 100%;
+  min-height: 30px;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+
+.button{
+  width: auto;
+  margin: auto 10px;
+  padding: 5px;
+  font-size: .6em;
+
+  border: 1px solid #7994db;
+  background-color: white;
+  color: #7994db;
+  border-radius: 40px;
+}
+
+.button:hover{
+  background-color: #7994db;
+  color: white;
+}
+
+.button.active{
+  background-color: #7994db;
+  color: white;
+}
+
+
+.tbAdd td textarea {
+  width: 100%;
+  min-height: 300px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.btnWrap {
+  text-align: center;
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+
+}
+
+.btnWrap a {
+  margin: 0 10px;
+}
+
+.btn{
+  width: 100px;
+  padding: 3px;
+  border: 1px solid #aaa;
+  background: white;
+  border-radius: .5em;
+  box-shadow: 0 1px 0 1px rgba(0, 0, 0, .04);
+}
+
+.btnAdd {
+  background:#7994db;
+  color: white;
+}
+
+
+@media(max-width:767px) {
+
+  .tbAdd {
+    font-size: .8em;
+  }
+
+  .btnWrap {
+    text-align: center;
+    text-align-last: center;
+  }
+  .btn{
+    width: 80px;
+  }
+}
+
 .wrapper {
   position: relative;
   width: 40%;
@@ -235,32 +320,29 @@ h3 {
   display: block;
   position: relative;
   width: 100%;
-  height: 15px;
+  height: 30px;
   border: none;
   background: #fff;
   font-size: 15px;
+  outline-color: #7994DB;
 }
 
 
 .box.int_id {
-  padding-right: 110px;
+  /*padding-right: 110px;*/
+  outline-color: #7994DB;
 }
 
 .box.int_pass {
-  padding-right: 40px;
+  padding-right: 45px;
 }
 
 .box.int_pass_check {
-  padding-right: 40px;
+  padding-right: 45px;
 }
 
-.step_url {
-  /*@google.com*/
-  position: absolute;
-  top: 16px;
-  right: 13px;
-  font-size: 15px;
-  color: #8e8e8e;
+.sel{
+  outline-color: #7994DB;
 }
 
 .pswdImg {
@@ -344,7 +426,7 @@ select {
   cursor: pointer;
   color: #fff;
   background-color: #7994DB;
-  font-size: 20px;
+  font-size: 1em;
   font-weight: 400;
 }
 
