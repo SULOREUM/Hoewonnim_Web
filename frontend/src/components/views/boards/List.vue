@@ -25,8 +25,8 @@
           <th>날짜</th>
         </tr>
 
-        <tr v-for="item in paginatedData" :key="item.id">
-          <td>{{item.postNum}}</td>
+        <tr v-for="(item,idx) in paginatedData" :key="item.id">
+          <td>{{items.length - idx}}</td>
           <td class="txt_center"><router-link :to="{ name: 'DetailBoardPage', params: { id: item._id }}">{{item.title}}</router-link></td>
           <td>{{item.createdUser}}</td>
           <td>{{item.createdAt.substring(0,10)}}</td>
@@ -77,9 +77,10 @@ export default {
       ,board_code:'news' //게시판코드
       ,items:''
       ,pageNum : 0
-      ,pageSize : 16
+      ,pageSize : 6
       ,error: ''
       ,text: ''
+      ,len:0
     }
   }
   ,async created(){
