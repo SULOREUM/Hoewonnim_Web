@@ -18,11 +18,11 @@
           </tr>
           <tr>
             <th>제목</th>
-            <td><input type="text" v-model="subject" /></td>
+            <td><input type="text" v-model="title" /></td>
           </tr>
           <tr>
             <th>내용</th>
-            <td><textarea v-model="cont" ref="cont"></textarea></td>
+            <td><textarea v-model="content" ref="content"></textarea></td>
           </tr>
         </table>
       </form>
@@ -42,13 +42,23 @@ import updatePosts from "@/services/updatePosts";
 export default {
   data(){
     return{
-      id:''
-      ,tag:''
-      ,subject:''
-      ,cont:''
-      ,user:'ㅇㅇ'
-      ,regdate:''
-      ,form:{}
+      // id:''
+      // ,tag:''
+      // ,subject:''
+      // ,cont:''
+      // ,user:'ㅇㅇ'
+      // ,regdate:''
+      // ,form:{}
+      title: '',
+      content: '',
+      tag: '',
+      detailTag: '',
+      postNum: 3,
+      likedCount : 0,
+      likedUsers: [],
+      createdUser: 'suloreum',
+      comments: [],
+      data : {}
     }
   },
   methods:{
@@ -67,24 +77,32 @@ export default {
       this.$router.push({path:'./list'})
     }
     ,Add:function (){
-      if(!this.subject){
+      if(!this.title){
         alert("제목을 입력해 주세요")
         return;
       }
-      let today = new Date();
-      this.form = {
-        subject : this.subject
-        ,cont:this.cont
-        ,user:this.user
-        ,regdate: today.getFullYear()+'-'+today.getMonth() +'-' + today.getDate()
-        ,id:this.id
+
+      this.data = {
+        title: this.title,
+        content: this.content,
+        tag: this.tag,
+        detailTag: this.detailTag,
+        postNum: this.postNum,
+        likedCount : this.likedCount,
+        likedUsers: this.likedUsers,
+        createdUser: this.createdUser,
+        comments: this.comments,
       }
-      updatePosts.insertList(this.form)
+
+      console.log(this.data);
+
+      updatePosts.insertPost(this.data)
       this.fnList();
     }
+
   },
   async created(){
-    let len = await updatePosts.getLists();
+    let len = await updatePosts.getPosts();
     this.id = len.length + 1;
   }
 

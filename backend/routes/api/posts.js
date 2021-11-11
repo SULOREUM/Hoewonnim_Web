@@ -9,19 +9,26 @@ router.get('/', async (req, res) => {
     res.send(await posts.find({}).toArray());
 });
 
+router.get('/:id', async function(req, res){
+    // const find_id = parseInt(req.params.id, 10);
+    const find_id = mongodb.ObjectID(req.params.id);
+    const posts = await loadPostsCollections();
+    res.send(await posts.find({_id:find_id}).toArray());
+});
+
 // Add Posts
 router.post('/', async (req, res) => {
     const posts = await loadPostsCollections();
     await posts.insertOne({
-        title: req.body.title,
-        content: req.body.content,
-        tag: req.body.tag,
-        detailTag: req.body.detailTag,
-        postNum: req.body.postNum,
-        likedCount : req.body.likedCount,
-        likedUsers: req.body.likedUsers,
-        createdUser: req.body.createdUser,
-        comments: req.body.comments,
+        title: req.body.data.title,
+        content: req.body.data.content,
+        tag: req.body.data.tag,
+        detailTag: req.body.data.detailTag,
+        postNum: req.body.data.postNum,
+        likedCount : req.body.data.likedCount,
+        likedUsers: req.body.data.likedUsers,
+        createdUser: req.body.data.createdUser,
+        comments: req.body.data.comments,
         createdAt: new Date()
     });
     res.status(201).send();

@@ -12,35 +12,24 @@ class updatePosts {
         return promise.then(res=>res.data)
     }
     // Create Post
-    static insertPost(text) {
+    static insertPost(post) {
         return axios.post(url, {
-            text
+            post
         });
     }
     //Delete Post
     static deletePost(id) {
         return axios.delete(`${url}${id}`);
     }
-    //Get Lists
-    static getLists() {
-        const promise = new Promise(resolve => {
-            const res = axios.get('http://localhost:3000/api/boards/')
-            resolve(res)
-        })
-        return promise.then(res=>res.data)
-    }
+
     //Show Details
-    static showList(id) {
+    static getDetailPost(id) {
         const promise = new Promise(resolve => {
-            const res = axios.get(`http://localhost:3000/api/boards/${id}`)
+            console.log(id)
+            const res = axios.get(`${url}${id}`)
             resolve(res)
         })
         return promise.then(res=>res.data)
-    }
-    static insertList(data) {
-        return axios.post('http://localhost:3000/api/boards/', {
-            data
-        });
     }
 }
 
