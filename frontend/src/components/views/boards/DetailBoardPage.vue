@@ -11,15 +11,15 @@
           </colgroup>
           <tr>
             <th>제목</th>
-            <td>{{list.subject}}</td>
+            <td>{{list.title}}</td>
           </tr>
           <tr>
             <th>id</th>
-            <td>{{list.user}}</td>
+            <td>{{list.createdUser}}</td>
           </tr>
           <tr>
             <th>내용</th>
-            <td>{{list.cont}}</td>
+            <td>{{list.content}}</td>
           </tr>
         </table>
       </form>
@@ -37,8 +37,8 @@
 import updatePosts from "@/services/updatePosts";
 export default {
   created: async function() {
-    var id = this.$route.params.id;
-    var arr = await updatePosts.showList(id);
+    const id = this.$route.params.id;
+    const arr = await updatePosts.getDetailPost(id);
     this.list = arr[0]
   },
   data: function() {
