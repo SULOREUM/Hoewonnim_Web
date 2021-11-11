@@ -26,6 +26,7 @@
     </div>
 
     <div class="btnWrap">
+      <input type="button" value="삭제" class="btn">
       <router-link :to="{ name: 'List' }"><input type="button" value="돌아가기" class="btn"></router-link>
     </div>
   </div>
