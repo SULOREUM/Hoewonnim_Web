@@ -94,8 +94,6 @@ export default {
         comments: this.comments,
       }
 
-      console.log(this.data);
-
       updatePosts.insertPost(this.data)
       this.fnList();
     }

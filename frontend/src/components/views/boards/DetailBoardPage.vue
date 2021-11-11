@@ -26,7 +26,7 @@
     </div>
 
     <div class="btnWrap">
-      <input type="button" value="삭제" class="btn">
+      <input type="button" value="삭제" class="btn" @click =Del>
       <router-link :to="{ name: 'List' }"><input type="button" value="돌아가기" class="btn"></router-link>
     </div>
   </div>
@@ -44,6 +44,16 @@ export default {
   },
   data: function() {
     return { list: {} };
+  },
+  methods: {
+    fnList(){
+      this.$router.push({path:'./list'})
+    },
+    Del: function () {
+      alert("삭제완료");
+      updatePosts.deletePost(this.$route.params.id);
+      this.fnList()
+    }
   }
 };
 </script>
