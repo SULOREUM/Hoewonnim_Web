@@ -25,11 +25,11 @@
           <th>날짜</th>
         </tr>
 
-        <tr v-for="(row, idx) in paginatedData" :key="idx">
-          <td>{{row.idx}}</td>
-          <td class="txt_center"><a href="javascript:;">{{row.subject}}</a></td>
-          <td>{{row.id}}</td>
-          <td>{{row.regdate.substring(0,10)}}</td>
+        <tr v-for="item in paginatedData" :key="item.id">
+          <td>{{item.id}}</td>
+          <td class="txt_center"><router-link :to="{ name: 'DetailBoardPage', params: { id: item.id }}">{{item.subject}}</router-link></td>
+          <td>{{item.user}}</td>
+          <td>{{item.regdate.substring(0,10)}}</td>
         </tr>
         <tr v-if="items.length == 0">
           <td colspan="4">데이터가 없습니다.</td>
@@ -67,8 +67,7 @@
 
 <script>
 
-
-import TestData from './test.json'
+import updatePosts from "@/services/updatePosts";
 
 export default {
 
@@ -79,10 +78,16 @@ export default {
       ,items:''
       ,pageNum : 0
       ,pageSize : 16
+      ,error: ''
+      ,text: ''
     }
   }
-  ,created(){
-    this.items = TestData
+  ,async created(){
+    try{
+      this.items = await updatePosts.getLists();
+    }catch(err){
+      this.error = err.message;
+    }
   }
   , methods:{
     searchKey:function(){

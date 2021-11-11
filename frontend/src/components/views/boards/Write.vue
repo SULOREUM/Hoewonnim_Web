@@ -37,18 +37,18 @@
 </template>
 
 <script>
-import TestData from './test.json'
+import updatePosts from "@/services/updatePosts";
 
 export default {
   data(){
     return{
-      tag:''
+      id:''
+      ,tag:''
       ,subject:''
       ,cont:''
-      ,idx:0
-      ,id:'ㅇㅇ'
+      ,user:'ㅇㅇ'
       ,regdate:''
-      ,form:''
+      ,form:{}
     }
   },
   methods:{
@@ -75,15 +75,17 @@ export default {
       this.form = {
         subject : this.subject
         ,cont:this.cont
-        ,id:this.id
-        ,idx:this.idx
+        ,user:this.user
         ,regdate: today.getFullYear()+'-'+today.getMonth() +'-' + today.getDate()
+        ,id:this.id
       }
-      let AddData = JSON.stringify(TestData.concat(this.form))
-      console.log(AddData)
-
+      updatePosts.insertList(this.form)
       this.fnList();
     }
+  },
+  async created(){
+    let len = await updatePosts.getLists();
+    this.id = len.length + 1;
   }
 
 }

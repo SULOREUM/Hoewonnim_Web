@@ -13,6 +13,7 @@ import QnA from "../components/views/boards/QnA";
 import Promotion from "../components/views/boards/Promotion";
 import Photo from "../components/views/boards/Photo";
 import Write from "../components/views/boards/Write";
+import DetailBoardPage from "../components/views/boards/DetailBoardPage"
 
 Vue.use(Router); // use vue router
 
@@ -74,8 +75,13 @@ const routes = [
     },
     {
         path:'/views/boards/List',
-        name: List,
+        name: 'List',
         component: List
+    },
+    {
+        path:'/views/boards/List/:id',
+        name: 'DetailBoardPage',
+        component: DetailBoardPage
     }
 
 ]
