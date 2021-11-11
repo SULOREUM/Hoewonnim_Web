@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     fnList(){
-      this.$router.push({path:'./list'})
+      this.$router.push({path:'/views/boards/List'})
     },
     Del: function () {
       alert("삭제완료");
