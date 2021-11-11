@@ -12,9 +12,9 @@ class updatePosts {
         return promise.then(res=>res.data)
     }
     // Create Post
-    static insertPost(post) {
+    static insertPost(data) {
         return axios.post(url, {
-            post
+            data
         });
     }
     //Delete Post
