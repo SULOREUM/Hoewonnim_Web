@@ -26,10 +26,10 @@
         </tr>
 
         <tr v-for="item in paginatedData" :key="item.id">
-          <td>{{item.id}}</td>
-          <td class="txt_center"><router-link :to="{ name: 'DetailBoardPage', params: { id: item.id }}">{{item.subject}}</router-link></td>
-          <td>{{item.user}}</td>
-          <td>{{item.regdate.substring(0,10)}}</td>
+          <td>{{item.postNum}}</td>
+          <td class="txt_center"><router-link :to="{ name: 'DetailBoardPage', params: { id: item._id }}">{{item.title}}</router-link></td>
+          <td>{{item.createdUser}}</td>
+          <td>{{item.createdAt.substring(0,10)}}</td>
         </tr>
         <tr v-if="items.length == 0">
           <td colspan="4">데이터가 없습니다.</td>
@@ -84,7 +84,7 @@ export default {
   }
   ,async created(){
     try{
-      this.items = await updatePosts.getLists();
+      this.items = await updatePosts.getPosts();
     }catch(err){
       this.error = err.message;
     }
