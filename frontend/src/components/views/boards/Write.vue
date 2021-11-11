@@ -42,13 +42,6 @@ import updatePosts from "@/services/updatePosts";
 export default {
   data(){
     return{
-      // id:''
-      // ,tag:''
-      // ,subject:''
-      // ,cont:''
-      // ,user:'ㅇㅇ'
-      // ,regdate:''
-      // ,form:{}
       title: '',
       content: '',
       tag: '',
@@ -98,10 +91,6 @@ export default {
       this.fnList();
     }
 
-  },
-  async created(){
-    let len = await updatePosts.getPosts();
-    this.id = len.length + 1;
   }
 
 }
