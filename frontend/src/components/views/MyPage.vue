@@ -58,9 +58,9 @@
                 <th>no.</th>
                 <th>제목</th>
               </tr>
-              <tr v-for="(row, idx) in list" :key="idx">
-                <td class="txt_middle">{{ row.idx }}</td>
-                <td class="txt_left"><a href="javascript:;">{{ row.subject }}</a></td>
+              <tr v-for="(post, idx) in posts" :key="idx">
+                <td class="txt_middle">{{ post.postNum }}</td>
+                <td class="txt_left"><a href="javascript:;">{{ post.title }}</a></td>
               </tr>
               <tr v-if="list.length == 0">
                 <td colspan="2">작성한 글이 없습니다.</td>
@@ -98,6 +98,7 @@
 <script>
 
 import $ from "jquery";
+import updatePosts from "@/services/updatePosts";
 
 const testData = [
   {
@@ -146,11 +147,20 @@ export default {
       list: '', // 글 데이터 가져오기
       likedList: '',
       userinfo: '',
+      ///
+      posts: [],
+      error: '',
+      text: ''
     }
   },
-  created() {
+  async created() {
     this.list = testData
     this.userinfo = testData_userinfo
+    try {
+      this.posts = await updatePosts.getPosts();
+    } catch (err) {
+      this.error = err.message;
+    }
   }
 }
 </script>
