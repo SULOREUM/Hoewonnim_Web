@@ -77,7 +77,7 @@ export default {
       ,board_code:'news' //게시판코드
       ,items:''
       ,pageNum : 0
-      ,pageSize : 6
+      ,pageSize : 16
       ,error: ''
       ,text: ''
       ,len:0
