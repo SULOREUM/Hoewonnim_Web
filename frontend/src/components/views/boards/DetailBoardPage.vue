@@ -19,6 +19,7 @@
 
     <div class="btnWrap">
       <input type="button" value="삭제" class="btn" @click =Del>
+      <router-link :to="{ name: 'Write', params: { id: this.$route.params.id}}"><input type="button" value="수정" class="btn" ></router-link>
       <input type="button" value="돌아가기" class="btn" @click =fnList>
     </div>
   </div>
