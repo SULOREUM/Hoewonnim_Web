@@ -21,6 +21,11 @@ class updatePosts {
     static deletePost(id) {
         return axios.delete(`${url}${id}`);
     }
+    static UpdatePost(data,id){
+        return axios.post(`${url}${id}`,{
+            data
+        });
+    }
 
     //Show Details
     static getDetailPost(id) {

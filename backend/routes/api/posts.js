@@ -34,6 +34,19 @@ router.post('/', async (req, res) => {
     res.status(201).send();
 });
 
+router.post('/:id', async (req, res) => {
+    const post = await loadPostsCollections();
+    post.update(
+        {_id: mongodb.ObjectID(req.params.id)},
+        {$set:{
+            title: req.body.data.title,
+                content: req.body.data.content,
+                tag: req.body.data.tag}}
+    );
+
+    res.status(201).send();
+});
+
 // Delete Post
 router.delete('/:id', async (req, res) => {
     const posts = await loadPostsCollections();
