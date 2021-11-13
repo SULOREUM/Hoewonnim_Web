@@ -8,7 +8,6 @@
       <div class="sub-item" id="diet" v-on:click="showTag($event)"><span>#식단</span></div>
     </div>
 
-
     <div class="list">
       <table class="tbList">
         <colgroup>
@@ -26,7 +25,7 @@
         </tr>
 
         <tr v-for="(item,idx) in paginatedData" :key="item.id">
-          <td>{{items.length - idx}}</td>
+          <td>{{paginatedData.length - idx}}</td>
           <td class="txt_center"><router-link :to="{ name: 'DetailBoardPage', params: { id: item._id }}">{{item.title}}</router-link></td>
           <td>{{item.createdUser}}</td>
           <td>{{item.createdAt.substring(0,10)}}</td>
@@ -81,6 +80,7 @@ export default {
       ,error: ''
       ,text: ''
       ,len:0
+      ,tag:'all'
     }
   }
   ,async created(){
@@ -103,6 +103,7 @@ export default {
       })
 
       click.classList.add("active");
+      this.tag = event.currentTarget.id;
     }
     ,nextPage () {
       this.pageNum += 1;
@@ -120,9 +121,15 @@ export default {
       return page;
     },
     paginatedData () {
+      let arr;
+      if(this.tag === 'all' | ''){
+        arr = this.items;
+      }else{
+        arr = Object.values(this.items).filter(item => item.tag === this.tag)
+      }
       const start = this.pageNum * this.pageSize,
           end = start + this.pageSize;
-      return this.items.slice(start, end);
+      return arr.slice(start, end);
     }
   }
 }
