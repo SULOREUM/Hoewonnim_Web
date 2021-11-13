@@ -65,6 +65,7 @@ export default {
       })
 
       click.classList.add("active");
+      this.tag = event.currentTarget.id;
     }
     ,fnList(){
       this.$router.push({path:'./list'})
