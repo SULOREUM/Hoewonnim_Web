@@ -59,8 +59,8 @@
                 <th>제목</th>
               </tr>
               <tr v-for="(post, idx) in posts" :key="idx">
-                <td class="txt_middle">{{ post.postNum }}</td>
-                <td class="txt_left"><a href="javascript:;">{{ post.title }}</a></td>
+                <td class="txt_middle">{{ posts.length - idx }}</td>
+                <td class="txt_left"><a href="javascript:;"><router-link :to="{ name: 'DetailBoardPage', params: { id: post._id }}">{{ post.title }}</router-link></a></td>
               </tr>
               <tr v-if="list.length == 0">
                 <td colspan="2">작성한 글이 없습니다.</td>
@@ -150,14 +150,17 @@ export default {
       ///
       posts: [],
       error: '',
-      text: ''
+      text: '',
+      userName: ''
     }
   },
   async created() {
     this.list = testData
     this.userinfo = testData_userinfo
+    this.userName = 'chosiyeon'
     try {
       this.posts = await updatePosts.getPosts();
+      this.posts = Object.values(this.posts).filter(posts => posts.createdUser === this.userName)
     } catch (err) {
       this.error = err.message;
     }
