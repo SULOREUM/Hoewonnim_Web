@@ -79,8 +79,8 @@
               </tr>
 
               <tr v-for="(row, idx) in likedList" :key="idx">
-                <td class="txt_middle">{{ row.idx }}</td>
-                <td class="txt_left"><a href="javascript:;">{{ row.subject }}</a></td>
+                <td class="txt_middle">{{ likedList.length - idx }}</td>
+                <td class="txt_left"><a href="javascript:;">{{ row.title }}</a></td>
               </tr>
               <tr v-if="likedList.length == 0">
                 <td colspan="2">좋아요 한 글이 없습니다.</td>
@@ -145,13 +145,13 @@ export default {
       state: '관리자',
       sex: '여',
       list: '', // 글 데이터 가져오기
-      likedList: '',
+      likedList: [],
       userinfo: '',
       ///
       posts: [],
       error: '',
       text: '',
-      userName: ''
+      userName: '',
     }
   },
   async created() {
@@ -161,9 +161,12 @@ export default {
     try {
       this.posts = await updatePosts.getPosts();
       this.posts = Object.values(this.posts).filter(posts => posts.createdUser === this.userName)
+      this.likedList = await updatePosts.getPosts();
+      this.likedList = Object.values(this.likedList).filter(posts => posts.likedUsers.length >0 && posts.likedUsers.includes(this.userName))
     } catch (err) {
       this.error = err.message;
     }
+    console.log(this.likedList)
   }
 }
 </script>
