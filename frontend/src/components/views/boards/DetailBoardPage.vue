@@ -60,10 +60,14 @@ export default {
       this.fnList()
     },
     Like:function (){
+      console.log(this.list.likedUsers)
       this.updatedData = {
         likedCount: this.list.likedCount += 1
+        ,likedUsers : 'chosiyeon'
       }
       updatePosts.UpdatePost(this.updatedData,this.$route.params.id);
+      console.log(this.list.likedUsers)
+
     }
   }
 };
