@@ -148,6 +148,7 @@ export default {
       likedList: [],
       userinfo: '',
       ///
+      Post:[],
       posts: [],
       error: '',
       text: '',
@@ -159,14 +160,12 @@ export default {
     this.userinfo = testData_userinfo
     this.userName = 'chosiyeon'
     try {
-      this.posts = await updatePosts.getPosts();
-      this.posts = Object.values(this.posts).filter(posts => posts.createdUser === this.userName)
-      this.likedList = await updatePosts.getPosts();
-      this.likedList = Object.values(this.likedList).filter(posts => posts.likedUsers.length >0 && posts.likedUsers.includes(this.userName))
+      this.Post = await updatePosts.getPosts();
+      this.posts = Object.values(this.Post).filter(posts => posts.createdUser === this.userName)
+      this.likedList = Object.values(this.Post).filter(posts => posts.likedUsers.length >0 && posts.likedUsers.includes(this.userName))
     } catch (err) {
       this.error = err.message;
     }
-    console.log(this.likedList)
   }
 }
 </script>
