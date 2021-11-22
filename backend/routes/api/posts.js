@@ -36,14 +36,28 @@ router.post('/', async (req, res) => {
 
 router.post('/:id', async (req, res) => {
     const post = await loadPostsCollections();
-    post.update(
-        {_id: mongodb.ObjectID(req.params.id)},
-        {$set:{
-            title: req.body.data.title,
-                content: req.body.data.content,
-                tag: req.body.data.tag}}
-    );
-
+    if (req.body.data.likedCount == null) {
+        post.update(
+            {_id: mongodb.ObjectID(req.params.id)},
+            {
+                $set: {
+                    title: req.body.data.title,
+                    content: req.body.data.content,
+                    tag: req.body.data.tag
+                }
+            }
+        );
+    }
+    else{
+        post.update(
+            {_id: mongodb.ObjectID(req.params.id)},
+            {
+                $set: {
+                    likedCount: req.body.data.likedCount,
+                }
+            }
+        );
+    }
     res.status(201).send();
 });
 
