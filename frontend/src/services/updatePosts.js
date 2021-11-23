@@ -11,6 +11,7 @@ class updatePosts {
         })
         return promise.then(res=>res.data)
     }
+
     // Create Post
     static insertPost(data) {
         return axios.post(url, {
@@ -20,6 +21,12 @@ class updatePosts {
     //Delete Post
     static deletePost(id) {
         return axios.delete(`${url}${id}`);
+    }
+
+    static UpdatePost(data,id){
+        return axios.post(`${url}${id}`,{
+            data
+        });
     }
 
     //Show Details

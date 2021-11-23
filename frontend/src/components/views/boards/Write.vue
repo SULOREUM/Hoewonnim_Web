@@ -30,7 +30,8 @@
 
     <div class="btnWrap">
       <router-link to="/views/boards/List"><input type="button" value="목록" class="btn"></router-link>
-      <input type="button" value="등록" class="btnAdd btn" @click =Add>
+      <input v-if="this.id === undefined" type="button" value="등록" class="btnAdd btn" @click = Add >
+      <input v-if="this.id !== undefined" type="button" value="수정" class="btnAdd btn" @click = Update >
     </div>
   </div>
 
@@ -51,7 +52,22 @@ export default {
       likedUsers: [],
       createdUser: 'suloreum',
       comments: [],
-      data : {}
+      data : {},
+      list: {},
+      id : undefined
+    }
+  },
+  async created() {
+    this.id = this.$route.params.id;
+    console.log(this.id)
+    if(this.id!==undefined) {
+      const arr = await updatePosts.getDetailPost(this.id);
+      this.list = arr[0]
+      this.title = this.list.title;
+      this.content = this.list.content;
+
+      let sel_tag = document.getElementById(this.list.tag);
+      sel_tag.classList.add("active");
     }
   },
   methods:{
@@ -65,9 +81,10 @@ export default {
       })
 
       click.classList.add("active");
+      this.tag = event.currentTarget.id;
     }
     ,fnList(){
-      this.$router.push({path:'./list'})
+      this.$router.push({path:'/views/boards/List'})
     }
     ,Add:function (){
       if(!this.title){
@@ -87,9 +104,16 @@ export default {
         comments: this.comments,
       }
 
-      console.log(this.data);
-
       updatePosts.insertPost(this.data)
+      this.fnList();
+    },
+    Update:function (){
+      this.data = {
+        title: this.title,
+        content: this.content,
+        tag: this.tag
+      }
+      updatePosts.UpdatePost(this.data,this.id)
       this.fnList();
     }
 
@@ -169,6 +193,7 @@ export default {
   background: white;
   border-radius: .5em;
   box-shadow: 0 1px 0 1px rgba(0, 0, 0, .04);
+  cursor: pointer;
 }
 
 .btnAdd {

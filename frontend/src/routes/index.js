@@ -69,8 +69,8 @@ const routes = [
         component: Photo
     },
     {
-        path:'/views/boards/Write',
-        name: Write,
+        path:'/views/boards/Write/:id?',
+        name: 'Write',
         component: Write
     },
     {
