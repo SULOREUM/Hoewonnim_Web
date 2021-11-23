@@ -61,19 +61,24 @@ export default {
     },
     Like:function (){
       console.log(this.list.likedUsers)
-      this.updatedData = {
-        title: this.list.title,
-        content: this.list.content,
-        tag: this.list.tag,
-        detailTag: this.list.detailTag,
-        postNum: this.list.postNum,
-        likedCount : this.list.likedCount += 1,
-        likedUsers: 'chosiyeon',
-        createdUser: this.list.createdUser,
-        comments: this.list.comments,
+      if(this.list.likedUsers.includes('chosiyeon')){
+        alert("이미 좋아요한 글")
+        return ;
       }
-      updatePosts.UpdatePost(this.updatedData,this.$route.params.id);
-      console.log(this.list.likedUsers)
+      else{
+        this.updatedData = {
+          title: this.list.title,
+          content: this.list.content,
+          tag: this.list.tag,
+          detailTag: this.list.detailTag,
+          postNum: this.list.postNum,
+          likedCount : this.list.likedCount += 1,
+          likedUsers: 'chosiyeon',
+          createdUser: this.list.createdUser,
+          comments: this.list.comments,
+        }
+        updatePosts.UpdatePost(this.updatedData,this.$route.params.id);
+      }
 
     }
   }
