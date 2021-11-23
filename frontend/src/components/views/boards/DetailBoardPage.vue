@@ -62,8 +62,15 @@ export default {
     Like:function (){
       console.log(this.list.likedUsers)
       this.updatedData = {
-        likedCount: this.list.likedCount += 1
-        ,likedUsers : 'chosiyeon'
+        title: this.list.title,
+        content: this.list.content,
+        tag: this.list.tag,
+        detailTag: this.list.detailTag,
+        postNum: this.list.postNum,
+        likedCount : this.list.likedCount += 1,
+        likedUsers: 'chosiyeon',
+        createdUser: this.list.createdUser,
+        comments: this.list.comments,
       }
       updatePosts.UpdatePost(this.updatedData,this.$route.params.id);
       console.log(this.list.likedUsers)
