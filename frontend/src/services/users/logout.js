@@ -1,10 +1,10 @@
-import axios from "axios";
+// import axios from "axios";
 
 const url = 'https://localhost:3000/api/users';
 
 class join {
 
-    handleLogout = async () => {
+    updateLogin = async () => {
         await fetch(url, {
             method: 'POST',
             headers: {
