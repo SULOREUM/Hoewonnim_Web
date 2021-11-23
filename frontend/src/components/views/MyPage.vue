@@ -226,7 +226,12 @@ export default {
 
 .user_name {
   height: 10%;
+  color: black;
   /*rgb(196, 221, 222);*/
+}
+
+.user_name a {
+  color: dimgray;
 }
 
 .user_like {
@@ -417,7 +422,11 @@ export default {
 
 .tableList td.txt_left {
   text-align: left;
-  font-size: 0.8em;
+}
+
+.tableList td.txt_left a{
+  font-size: 1em;
+  color: black;
 }
 
 .tableList td.txt_middle {
@@ -436,6 +445,7 @@ img {
 p {
   display: table-cell;
   vertical-align: middle;
+  color: black;
 }
 @media all and (min-width: 768px) and (max-width: 1023px) {
   .container {
