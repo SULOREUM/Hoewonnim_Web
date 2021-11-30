@@ -39,7 +39,7 @@ router.post('/:id', async (req, res) => {
         post.update(
             {_id: mongodb.ObjectID(req.params.id)},
             {
-                $push: {
+                $set: {
                     title: req.body.data.title,
                     content: req.body.data.content,
                     tag: req.body.data.tag,

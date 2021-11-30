@@ -30,6 +30,20 @@
           <p>{{list.likedCount}}</p>
         </button>
       </div>
+
+      <div class="CommentWrap">
+        <div v-for="item in this.comments" :key="item.id">
+          <p>{{item}}</p>
+        </div>
+        <div v-if="this.comments.length == 0">
+          <p colspan="4">댓글이 없습니다.</p>
+        </div>
+
+        <div class = CommentRegister>
+          <input type="text" placeholder="댓글을 입력하세요" v-model="comment">
+          <input type="button" value="댓글등록" class="btn" @click=RegisterComment>
+        </div>
+      </div>
     </div>
 
   </div>
@@ -43,11 +57,13 @@ export default {
     const id = this.$route.params.id;
     const arr = await updatePosts.getDetailPost(id);
     this.list = arr[0]
+    this.comments = arr[0].comments;
   },
   data: function() {
     return {
       list: {}
       ,updatedData: {}
+      ,comments:[]
     };
   },
   methods: {
@@ -60,12 +76,14 @@ export default {
       this.fnList()
     },
     Like:function (){
-      console.log(this.list.likedUsers)
       if(this.list.likedUsers.includes('chosiyeon')){
         alert("이미 좋아요한 글")
         return ;
       }
       else{
+        let likedUser = this.list.likedUsers
+
+        likedUser.push('chosiyeon')
         this.updatedData = {
           title: this.list.title,
           content: this.list.content,
@@ -73,13 +91,38 @@ export default {
           detailTag: this.list.detailTag,
           postNum: this.list.postNum,
           likedCount : this.list.likedCount += 1,
-          likedUsers: 'chosiyeon',
+          likedUsers: likedUser,
           createdUser: this.list.createdUser,
           comments: this.list.comments,
         }
         updatePosts.UpdatePost(this.updatedData,this.$route.params.id);
       }
 
+    }
+    ,RegisterComment:function(){
+      if (this.comment == null){
+        alert("댓글을 입력하세요!")
+        return ;
+      }
+      else{
+
+        let comment = this.list.comments
+        comment.push(this.comment)
+
+        this.updatedData = {
+          title: this.list.title,
+          content: this.list.content,
+          tag: this.list.tag,
+          detailTag: this.list.detailTag,
+          postNum: this.list.postNum,
+          likedCount : this.list.likedCount,
+          likedUsers: this.list.likedUsers,
+          createdUser: this.list.createdUser,
+          comments: comment,
+        }
+        updatePosts.UpdatePost(this.updatedData,this.$route.params.id);
+        this.comment = null;
+      }
     }
   }
 };
@@ -173,6 +216,25 @@ export default {
   margin: 0;
 }
 
+.CommentWrap{
+  margin: 30px;
+  font-size: 0.8em;
+  text-align: left;
+
+}
+.CommentWrap p{
+  border-bottom: rgba(121, 148, 219, 0.45) solid 1px;
+  margin: 30px;
+}
+.CommentRegister{
+  margin-top: 30px;
+  text-align: center;
+}
+.CommentRegister input[type=text]{
+  min-height: 30px;
+  min-width: 300px;
+}
+
 
 @media(max-width:767px) {
 
@@ -184,6 +246,12 @@ export default {
   .btn{
     width: 60px;
   }
+
+  .CommentRegister input[type=text]{
+    min-height: 30px;
+    min-width: 100px;
+  }
+
 }
 
 </style>
