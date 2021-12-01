@@ -78,17 +78,15 @@
                 <th>제목</th>
               </tr>
 
-              <tr v-for="(row, idx) in likedList" :key="idx">
-                <td class="txt_middle">{{ row.idx }}</td>
-                <td class="txt_left"><a href="javascript:;">{{ row.subject }}</a></td>
+              <tr v-for="(post, idx) in likedList" :key="idx">
+                <td class="txt_middle">{{ likedList.length - idx }}</td>
+                <td class="txt_left"><a href="javascript:;"><router-link :to="{ name: 'DetailBoardPage', params: { id: post._id }}">{{ post.title }}</router-link></a></td>
               </tr>
               <tr v-if="likedList.length == 0">
                 <td colspan="2">좋아요 한 글이 없습니다.</td>
               </tr>
             </table>
           </div>
-          <!--          <div class="square_left2"></div>-->
-          <!--          <div class="square_right2"></div>-->
         </div>
       </div>
     </div>
@@ -99,6 +97,7 @@
 
 import $ from "jquery";
 import updatePosts from "@/services/updatePosts";
+import getUserInfo from "@/services/users/getUserInfo";
 
 const testData = [
   {
@@ -145,22 +144,25 @@ export default {
       state: '관리자',
       sex: '여',
       list: '', // 글 데이터 가져오기
-      likedList: '',
+      likedList: [],
       userinfo: '',
       ///
+      Post:[],
       posts: [],
       error: '',
       text: '',
-      userName: ''
+      userName: '',
     }
   },
   async created() {
     this.list = testData
     this.userinfo = testData_userinfo
     this.userName = 'chosiyeon'
+    getUserInfo.getUser()
     try {
-      this.posts = await updatePosts.getPosts();
-      this.posts = Object.values(this.posts).filter(posts => posts.createdUser === this.userName)
+      this.Post = await updatePosts.getPosts();
+      this.posts = Object.values(this.Post).filter(posts => posts.createdUser === this.userName)
+      this.likedList = Object.values(this.Post).filter(posts => posts.likedUsers.length >0 && posts.likedUsers.includes(this.userName))
     } catch (err) {
       this.error = err.message;
     }
