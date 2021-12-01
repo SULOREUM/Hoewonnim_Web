@@ -111,7 +111,13 @@ export default {
       this.data = {
         title: this.title,
         content: this.content,
-        tag: this.tag
+        tag: this.tag,
+        detailTag: this.list.detailTag,
+        postNum: this.list.postNum,
+        likedCount : this.list.likedCount,
+        likedUsers: this.list.likedUsers,
+        createdUser: this.list.createdUser,
+        comments: this.list.comments,
       }
       updatePosts.UpdatePost(this.data,this.id)
       this.fnList();

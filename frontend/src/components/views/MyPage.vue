@@ -78,6 +78,7 @@
                 <th>제목</th>
               </tr>
 
+
               <tr v-for="(post, idx) in likedList" :key="idx">
                 <td class="txt_middle">{{ likedList.length - idx }}</td>
                 <td class="txt_left"><a href="javascript:;"><router-link :to="{ name: 'DetailBoardPage', params: { id: post._id }}">{{ post.title }}</router-link></a></td>
@@ -94,10 +95,10 @@
 </template>
 
 <script>
-
 import $ from "jquery";
 import updatePosts from "@/services/updatePosts";
 import getUserInfo from "@/services/users/getUserInfo";
+
 
 const testData = [
   {
@@ -146,6 +147,13 @@ export default {
       list: '', // 글 데이터 가져오기
       likedList: [],
       userinfo: '',
+      // name: '',
+      // age: '',
+      // state: '',
+      // sex: '',
+      // list: '', // 글 데이터 가져오기
+      // likedList: [],
+      // userinfo: '',
       ///
       Post:[],
       posts: [],
@@ -166,6 +174,11 @@ export default {
     } catch (err) {
       this.error = err.message;
     }
+    // try{
+    //   this.name = await getUserInfo.getUser();
+    // }catch (err){
+    //   this.error = console.log(err);
+    // }
   }
 }
 </script>

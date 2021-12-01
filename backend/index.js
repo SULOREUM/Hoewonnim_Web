@@ -7,9 +7,11 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+const users = require('./routes/api/users')
 const posts = require('./routes/api/posts');
 const boards = require('./routes/api/boards');
 
+app.use('/api/users', users);
 app.use('/api/posts', posts);
 app.use('/api/boards',boards);
 // // Handle production
