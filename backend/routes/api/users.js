@@ -5,21 +5,20 @@ const router = express.Router();
 
 // Get Users
 router.get('/', async (req, res) => {
-    const posts = await loadPostsCollections();
-    res.send(await posts.find({}).sort({createdAt:-1}).toArray());
+    const users = await loadUsersCollections();
+    res.send(await users.find({}).sort({createdAt:-1}).toArray());
 });
 
 router.get('/:id', async function(req, res){
-    // const find_id = parseInt(req.params.id, 10);
     const find_id = mongodb.ObjectID(req.params.id);
-    const posts = await loadPostsCollections();
-    res.send(await posts.find({_id:find_id}).toArray());
+    const users = await loadUsersCollections();
+    res.send(await users.find({_id:find_id}).toArray());
 });
 
 // Add User
 router.post('/', async (req, res) => {
-    const posts = await loadPostsCollections();
-    await posts.insertOne({
+    const users = await loadUsersCollections();
+    await users.insertOne({
         id: req.body.id,
         password: req.body.data.password,
         name: req.body.data.name,
@@ -39,8 +38,8 @@ router.post('/', async (req, res) => {
 });
 
 router.post('/:id', async (req, res) => {
-    const post = await loadPostsCollections();
-    post.update(
+    const user = await loadUsersCollections();
+    user.update(
         {_id: mongodb.ObjectID(req.params.id)},
         {
             $set: {
@@ -66,12 +65,12 @@ router.post('/:id', async (req, res) => {
 
 // Delete User
 router.delete('/:id', async (req, res) => {
-    const posts = await loadPostsCollections();
-    await posts.deleteOne({_id: new mongodb.ObjectID(req.params.id)});
+    const users = await loadUsersCollections();
+    await users.deleteOne({_id: new mongodb.ObjectID(req.params.id)});
     res.status(200).send();
 });
 
-async function loadPostsCollections() {
+async function loadUsersCollections() {
     const client = await mongodb.MongoClient.connect('mongodb+srv://adminSuloreum:qwer1234@hoewonnimcluster.6jzln.mongodb.net/Hoewonnim', {
         useNewUrlParser: true
     })

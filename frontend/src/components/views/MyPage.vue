@@ -14,9 +14,9 @@
               <col style="width:50%">
               <col style="width:50%">
             </colgroup>
-            <tr v-for="data in userinfo" :key="data">
+            <tr v-for="data in user_interest" :key="data">
               <td class="txt_middle">{{ data }}</td>
-              <td class="txt_middle">{{ data }}</td>
+<!--              <td class="txt_middle">{{ data }}</td>-->
             </tr>
           </table>
         </div>
@@ -97,22 +97,6 @@ import $ from "jquery";
 import updatePosts from "@/services/updatePosts";
 import getUserInfo from "@/services/users/getUserInfo";
 
-
-const testData = [
-  {
-    "idx": 3,
-    "subject": "안녕하세요"
-  },
-  {
-    "idx": 1,
-    "subject": "반가워요"
-  }
-]
-
-const testData_userinfo = [
-  "운동", "헬스", "필테"
-]
-
 export default {
   name: "MyPage",
   mounted() {
@@ -144,6 +128,7 @@ export default {
       sex: '',
       list: '', // 글 데이터 가져오기
       likedList: [],
+      user_interest: [],
       ///
       Post:[],
       posts: [],
@@ -156,8 +141,6 @@ export default {
     }
   },
   async created() {
-    this.list = testData
-    this.userinfo = testData_userinfo
     this.id = 'suloreum'
     this.userName = 'chosiyeon'
 
@@ -168,6 +151,7 @@ export default {
       this.state = this.user[0].state
       this.sex = this.user[0].sex
       this.age = this.user[0].age
+      this.user_interest = this.user[0].interest
     }catch (err){
       this.error = console.log(err);
     }
