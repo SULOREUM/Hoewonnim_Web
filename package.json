@@ -33,7 +33,8 @@
     "vue-burger-menu": "^2.0.5",
     "vue-google-oauth2": "^1.5.8",
     "vue-google-signin-button-directive": "^1.0.3",
-    "vue-router": "^3.5.3"
+    "vue-router": "^3.5.3",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.14"

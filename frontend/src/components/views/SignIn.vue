@@ -3,9 +3,13 @@
     <div class="logo">
       <router-link style="color: black" to="/">Hoewonnim</router-link>
     </div>
-    <input type="text" placeholder="email"><br>
-    <input type="password" placeholder="password"><br>
-    <button class="login_button">로그인</button>
+    <div>
+      <form @submit="onsubmit">
+        <input type="text" placeholder="아이디를 입력하세요" v-model="uid"><br>
+        <input type="password" placeholder="비밀번호를 입력하세요" v-model="password"><br>
+        <button type="submit" class="login_button">로그인</button>
+      </form>
+    </div>
     <div class="g-signin2" data-onsuccess="onSignIn"> </div> <!--구글 로그인-->
 
 
@@ -18,23 +22,39 @@
         alt="kakao logo"
         src="@/assets/kakao_login_large_wide.png"
         @click="kakaoLoginLink"/><br>
-    <span>새로 오셨나요? <span><router-link to="/join" class="join">회원가입하기</router-link></span></span>
+    <span>새로 오셨나요? <span><router-link to="/views/SignUp" class="SignUp">회원가입하기</router-link></span></span>
     <button class="login_button" @click="signout">로그아웃</button>
   </div>
 </template>
 
 <script>
 export default {
-  name: "sign_up",
+  name: "Signin",
   data(){
     return{
       googleSignInParams:{
         clientId: '516796777908-c0iquqolepstq9ft7ucu23rprqs5qf2e.apps.googleusercontent.com'
-      }
-
+      },
+      uid: '',
+      password: ''
     }
   },
   methods: {
+    async onsubmit(){
+      if(this.id ==='')
+        alert('아이디를 입력하세요.');
+      else if(this.password === '')
+        alert('비밀번호를 입력하세요.')
+      try {
+        // let loginResult = await this.login({uid: this.uid, password: this.password})
+        // if (loginResult) this.goToPages() // 로그인 실패시 loginResult === false 이므로 goToPages 메소드는 실행되지 않는다.
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    goToPages(){
+      this.$router.push({path:'/views/boards/List'})
+    },
     kakaoLoginLink(){
       const params = {
         redirectUri: 'http://localhost:8080/auth',
@@ -86,13 +106,6 @@ export default {
       console.log(error);
     },
   },
-
-  // onSignedIn(googleUser) {
-  //   const signoutElement = document.getElementById('signout');
-  //   signoutElement.innerHTML =
-  //       'Sign out ' + googleUser.getBasicProfile().getEmail();
-  // }
-  // },
 };
 </script>
 
