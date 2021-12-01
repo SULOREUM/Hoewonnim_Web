@@ -18,7 +18,7 @@
         alt="kakao logo"
         src="@/assets/kakao_login_large_wide.png"
         @click="kakaoLoginLink"/><br>
-    <span>새로 오셨나요? <span><router-link to="/signup" class="join">회원가입하기</router-link></span></span>
+    <span>새로 오셨나요? <span><router-link to="/join" class="join">회원가입하기</router-link></span></span>
     <button class="login_button" @click="signout">로그아웃</button>
   </div>
 </template>
