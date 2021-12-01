@@ -77,8 +77,6 @@
                 <th>no.</th>
                 <th>제목</th>
               </tr>
-
-
               <tr v-for="(post, idx) in likedList" :key="idx">
                 <td class="txt_middle">{{ likedList.length - idx }}</td>
                 <td class="txt_left"><a href="javascript:;"><router-link :to="{ name: 'DetailBoardPage', params: { id: post._id }}">{{ post.title }}</router-link></a></td>
@@ -140,45 +138,49 @@ export default {
   },
   data() {
     return {
-      name: '조시연',
-      age: '23',
-      state: '관리자',
-      sex: '여',
+      name: '',
+      age: '',
+      state: '',
+      sex: '',
       list: '', // 글 데이터 가져오기
       likedList: [],
-      userinfo: '',
-      // name: '',
-      // age: '',
-      // state: '',
-      // sex: '',
-      // list: '', // 글 데이터 가져오기
-      // likedList: [],
-      // userinfo: '',
       ///
       Post:[],
       posts: [],
       error: '',
       text: '',
       userName: '',
+      //
+      Users:[],
+      user: {}
     }
   },
   async created() {
     this.list = testData
     this.userinfo = testData_userinfo
+    this.id = 'suloreum'
     this.userName = 'chosiyeon'
-    getUserInfo.getUser()
+
+    try{
+      this.Users = await getUserInfo.getUsers()
+      this.user = Object.values(this.Users).filter(users => users.id === this.id)
+      this.name = this.user[0].name
+      this.state = this.user[0].state
+      this.sex = this.user[0].sex
+      this.age = this.user[0].age
+    }catch (err){
+      this.error = console.log(err);
+    }
+
+    // name id로 수정해야함
     try {
       this.Post = await updatePosts.getPosts();
-      this.posts = Object.values(this.Post).filter(posts => posts.createdUser === this.userName)
-      this.likedList = Object.values(this.Post).filter(posts => posts.likedUsers.length >0 && posts.likedUsers.includes(this.userName))
+      this.posts = Object.values(this.Post).filter(posts => posts.createdUser === this.name)
+      this.likedList = Object.values(this.Post).filter(posts => posts.likedUsers.length >0 && posts.likedUsers.includes(this.name))
     } catch (err) {
       this.error = err.message;
     }
-    // try{
-    //   this.name = await getUserInfo.getUser();
-    // }catch (err){
-    //   this.error = console.log(err);
-    // }
+
   }
 }
 </script>
