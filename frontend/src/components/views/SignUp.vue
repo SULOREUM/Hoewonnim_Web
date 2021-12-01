@@ -131,7 +131,7 @@
 </template>
 
 <script>
-import signup from "@/services/users/signup";
+import join from "@/services/users/join";
 export default {
   data() {
     return {
@@ -197,11 +197,11 @@ export default {
         name: this.signup.name,
         gender: this.signup.gender,
         phone: this.signup.phone,
-        // mail: this.signup.mail,
-        // login: this.signup.login,
-        // challenge: this.signup.challenge,
-        // weight: this.signup.weight,
-        // preference: this.signup.preference
+        // mail: this.join.mail,
+        // login: this.join.login,
+        // challenge: this.join.challenge,
+        // weight: this.join.weight,
+        // preference: this.join.preference
       }
       join.createUser(this.data)
 
