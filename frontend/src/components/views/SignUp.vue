@@ -9,7 +9,7 @@
       <div>
         <h3 class="join_title"><label for="id">아이디</label></h3>
         <span class="box int_id">
-          <input v-model="signup.id" type="text" id="id" class="int" maxlength="20">
+          <input v-model="id" type="text" id="id" class="int" maxlength="20">
         </span>
         <span class="error_next_box"></span>
       </div>
@@ -18,7 +18,7 @@
       <div>
         <h3 class="join_title"><label for="pswd1">비밀번호</label></h3>
         <span class="box int_pass">
-                        <input v-model="signup.password" type="password" id="pswd1" class="int" maxlength="20" @blur="passwordValid">
+                        <input v-model="password" type="password" id="pswd1" class="int" maxlength="20" @blur="passwordValid">
                         <span id="alertTxt">사용불가</span>
                         <img src="@/assets/lock.png" id="pswd1_img1" class="pswdImg">
                     </span>
@@ -41,7 +41,7 @@
       <div>
         <h3 class="join_title"><label for="name">이름</label></h3>
         <span class="box int_name">
-                        <input v-model="signup.name" type="text" id="name" class="int" maxlength="20">
+                        <input v-model="name" type="text" id="name" class="int" maxlength="20">
         </span>
         <span class="error_next_box"></span>
       </div>
@@ -80,7 +80,7 @@
       <div>
         <h3 class="join_title"><label for="gender">성별</label></h3>
         <span class="box gender_code">
-          <select id="gender" class="sel" v-model="signup.gender">
+          <select id="gender" class="sel" v-model="gender">
             <option>성별</option>
             <option value="M">남자</option>
             <option value="F">여자</option>
@@ -102,7 +102,7 @@
       <div>
         <h3 class="join_title"><label for="mobile">휴대전화</label></h3>
         <span class="box int_mobile">
-                        <input v-model="signup.phone" type="tel" id="mobile" class="int" maxlength="11" pattern="[+]{1}[0-9]{11,14}" placeholder="'-'을 제외한 휴대폰번호를 입력해 주세요">
+                        <input v-model="phone" type="tel" id="mobile" class="int" maxlength="11" pattern="[+]{1}[0-9]{11,14}" placeholder="'-'을 제외한 휴대폰번호를 입력해 주세요">
                     </span>
         <span class="error_next_box"></span>
       </div>
@@ -131,25 +131,28 @@
 </template>
 
 <script>
+import updateUsers from "../../services/updateUsers";
 export default {
   name: "join",
   data() {
     return {
-      signup:{
-        id:null,
-        password: null,
-        name: null,
-        gender: '성별',
-        phone: null,
-      },
+      id:null,
+      password: null,
+      name: null,
+      gender: '성별',
+      phone: null,
+
       passwordValidFlag: true,
       passwordCheck: '',
       passwordCheckFlag: true
     }
   },
   methods: {
+    fnList(){
+      this.$router.push({path:'/views/boards/List'})
+    },
     passwordValid(){
-      if(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,16}$/.test(this.signup.password)){
+      if(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,16}$/.test(this.password)){
         this.passwordValidFlag = true;
       }
       else{
@@ -157,7 +160,7 @@ export default {
       }
     },
     passwordCheckValid(){
-      if(this.signup.password ==this.passwordCheck){
+      if(this.password ==this.passwordCheck){
         this.passwordCheckFlag = true;
       }
       else{
@@ -165,8 +168,8 @@ export default {
       }
     },
     isSuccess(){
-      if(this.signup.id == null || this.signup.password == null
-          || this.signup.name == null || this.signup.gender === '성별' || this.signup.phone == null){
+      if(this.id == null || this.password == null
+          || this.name == null || this.gender === '성별' || this.phone == null){
         alert('입력이 되지 않은 곳이 있습니다!')
         return
       }
@@ -174,13 +177,25 @@ export default {
         alert('비밀번호를 확인해주세요!')
         return
       }
-      alert('회원가입 성공!')
+      else{
+        alert('회원가입 성공!')
+        this.data = {
+          id : this.id,
+          password: this.password,
+          name: this.name,
+          gender: this.gender,
+          phone: this.phone
+        }
+        console.log(this.data)
+
+        updateUsers.insertUser(this.data)
+        this.fnList();
+      }
     },
     select_tag:function(event){
       let click = document.getElementById(event.currentTarget.id);
       click.classList.toggle("active");
     }
-
   }
 };
 </script>
