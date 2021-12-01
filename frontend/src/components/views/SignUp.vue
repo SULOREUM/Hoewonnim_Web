@@ -147,17 +147,16 @@ export default {
       passwordCheckFlag: true
     }
   },
-  // 이 부분에 마이페이지 ㄱㄱ
-  // async created() {
-  //   this.id = this.$route.params.id;
-  //   console.log(this.id)
-  //   if(this.id!==undefined) {
-  //     const arr = await updatePosts.getDetailPost(this.id);
-  //     this.list = arr[0]
-  //     this.title = this.list.title;
-  //     this.content = this.list.content;
-  //   }
-  // },
+  async created() {
+    this.id = this.$route.params.id;
+    console.log(this.id)
+    // if(this.id!==undefined) {
+    //   const arr = await updateUserInfo.updateUserInfo(this.id)
+    //   this.list = arr[0]
+    //   this.id = this.list.id;
+    //   this.name = this.list.name;
+    // }
+  },
   methods: {
     passwordValid(){
       if(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,16}$/.test(this.signup.password)){
@@ -175,45 +174,50 @@ export default {
         this.passwordCheckFlag= false;
       }
     },
-    isSuccess:function(){
-      if(this.signup.id == null || this.signup.password == null
-          || this.signup.name == null || this.signup.gender === '성별' || this.signup.phone == null){
+    toMyPage(){
+      this.$router.push({path:'/views/MyPage'})
+    },
+    isSuccess:function() {
+      if (this.signup.id == null || this.signup.password == null
+          || this.signup.name == null || this.signup.gender === '성별' || this.signup.phone == null) {
         alert('입력이 되지 않은 곳이 있습니다!')
         return
       }
-      if(!this.passwordValidFlag || !this.passwordCheckFlag){
+      if (!this.passwordValidFlag || !this.passwordCheckFlag) {
         alert('비밀번호를 확인해주세요!')
         return
       }
-      alert('회원가입 성공!')
-      // id:null,
-      //     password: null,
-      //     name: null,
-      //     gender: '성별',
-      //     phone: null,
+      else {
+        alert('회원가입 성공!')
+        // this.data = {
+        //   id: this.signup.id,
+        //   password: this.signup.password,
+        //   name: this.signup.name,
+        //   gender: this.signup.gender,
+        //   phone: this.signup.phone
+        // }
+        // join.createUser(this.data)
+        // this.toMyPage();
+        // console.log(this.data);
+        // return;
+      }
       this.data = {
         id: this.signup.id,
         password: this.signup.password,
         name: this.signup.name,
         gender: this.signup.gender,
-        phone: this.signup.phone,
-        // mail: this.join.mail,
-        // login: this.join.login,
-        // challenge: this.join.challenge,
-        // weight: this.join.weight,
-        // preference: this.join.preference
+        phone: this.signup.phone
       }
       join.createUser(this.data)
-
+      // this.toMyPage();
+      console.log(this.data);
     },
     select_tag:function(event){
       let click = document.getElementById(event.currentTarget.id);
       click.classList.toggle("active");
     }
-
-
   }
-};
+}
 </script>
 
 <style scoped>
