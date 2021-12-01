@@ -36,14 +36,22 @@ router.post('/', async (req, res) => {
 
 router.post('/:id', async (req, res) => {
     const post = await loadPostsCollections();
-    post.update(
-        {_id: mongodb.ObjectID(req.params.id)},
-        {$set:{
-            title: req.body.data.title,
-                content: req.body.data.content,
-                tag: req.body.data.tag}}
-    );
-
+        post.update(
+            {_id: mongodb.ObjectID(req.params.id)},
+            {
+                $set: {
+                    title: req.body.data.title,
+                    content: req.body.data.content,
+                    tag: req.body.data.tag,
+                    detailTag: req.body.data.detailTag,
+                    postNum: req.body.data.postNum,
+                    likedCount : req.body.data.likedCount,
+                    likedUsers: req.body.data.likedUsers,
+                    createdUser: req.body.data.createdUser,
+                    comments: req.body.data.comments,
+                }
+            }
+        );
     res.status(201).send();
 });
 
@@ -63,3 +71,4 @@ async function loadPostsCollections() {
 }
 
 module.exports = router;
+
