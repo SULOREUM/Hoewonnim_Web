@@ -1,6 +1,6 @@
 import axios from "axios";
-
-const url = 'https://localhost:3000/api/users';
+// 마이페이지 - 회원정보수정
+const url = 'http://localhost:3000/api/users/';
 
     // await users.insertOne({
     //     name: req.body.data.name,

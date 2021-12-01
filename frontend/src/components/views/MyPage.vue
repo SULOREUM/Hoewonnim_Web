@@ -7,7 +7,7 @@
         </div>
         <div class="user_name"><span><strong>{{ name }}</strong><router-link
             to="/views/MyPageUserInfo">  내 정보</router-link><br/></span>
-          <span>{{ state }} / {{ sex }} / {{ age }}</span></div>
+          <span>{{ state }} / {{ gender }} / {{ age }}</span></div>
         <div class="user_like">
           <table class="userInfoTable">
             <colgroup>
@@ -96,24 +96,23 @@
 </template>
 
 <script>
-
 import $ from "jquery";
-import updatePosts from "@/services/updatePosts";
+import getUserInfo from "../../services/users/getUserInfo";
 
-const testData = [
-  {
-    "idx": 3,
-    "subject": "안녕하세요"
-  },
-  {
-    "idx": 1,
-    "subject": "반가워요"
-  }
-]
+// const testData = [
+//   {
+//     "idx": 3,
+//     "subject": "안녕하세요"
+//   },
+//   {
+//     "idx": 1,
+//     "subject": "반가워요"
+//   }
+// ]
 
-const testData_userinfo = [
-  "운동", "헬스", "필테"
-]
+// const testData_userinfo = [
+//   "운동", "헬스", "필테"
+// ]
 
 export default {
   name: "MyPage",
@@ -140,10 +139,17 @@ export default {
   },
   data() {
     return {
-      name: '조시연',
-      age: '23',
-      state: '관리자',
-      sex: '여',
+      // name: '조시연',
+      // age: '23',
+      // state: '관리자',
+      // sex: '여',
+      // list: '', // 글 데이터 가져오기
+      // likedList: [],
+      // userinfo: '',
+      name: '',
+      age: '',
+      state: '',
+      sex: '',
       list: '', // 글 데이터 가져오기
       likedList: [],
       userinfo: '',
@@ -156,15 +162,20 @@ export default {
     }
   },
   async created() {
-    this.list = testData
-    this.userinfo = testData_userinfo
-    this.userName = 'chosiyeon'
-    try {
-      this.Post = await updatePosts.getPosts();
-      this.posts = Object.values(this.Post).filter(posts => posts.createdUser === this.userName)
-      this.likedList = Object.values(this.Post).filter(posts => posts.likedUsers.length >0 && posts.likedUsers.includes(this.userName))
-    } catch (err) {
-      this.error = err.message;
+    // this.list = testData
+    // this.userinfo = testData_userinfo
+    // this.userName = 'chosiyeon'
+    // try {
+    //   this.Post = await updatePosts.getPosts();
+    //   this.posts = Object.values(this.Post).filter(posts => posts.createdUser === this.userName)
+    //   this.likedList = Object.values(this.Post).filter(posts => posts.likedUsers.length >0 && posts.likedUsers.includes(this.userName))
+    // } catch (err) {
+    //   this.error = err.message;
+    // }
+    try{
+      this.name = await getUserInfo.getUser();
+    }catch (err){
+      this.error = console.log(err);
     }
   }
 }
