@@ -12,13 +12,10 @@ class join {
 
     // If a user sign-up, register as a member
     static createUser(data) {
-        return axios.post(url, data)
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        return axios.post(url, {
+            data
+
+        });
     }
 }
 
