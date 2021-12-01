@@ -78,17 +78,16 @@
                 <th>제목</th>
               </tr>
 
-              <tr v-for="(row, idx) in likedList" :key="idx">
+
+              <tr v-for="(post, idx) in likedList" :key="idx">
                 <td class="txt_middle">{{ likedList.length - idx }}</td>
-                <td class="txt_left"><a href="javascript:;">{{ row.title }}</a></td>
+                <td class="txt_left"><a href="javascript:;"><router-link :to="{ name: 'DetailBoardPage', params: { id: post._id }}">{{ post.title }}</router-link></a></td>
               </tr>
               <tr v-if="likedList.length == 0">
                 <td colspan="2">좋아요 한 글이 없습니다.</td>
               </tr>
             </table>
           </div>
-          <!--          <div class="square_left2"></div>-->
-          <!--          <div class="square_right2"></div>-->
         </div>
       </div>
     </div>
@@ -97,7 +96,9 @@
 
 <script>
 import $ from "jquery";
-import updatePosts from "../../services/updatePosts";
+import updatePosts from "@/services/updatePosts";
+import getUserInfo from "@/services/users/getUserInfo";
+
 
 const testData = [
   {
@@ -165,6 +166,7 @@ export default {
     this.list = testData
     this.userinfo = testData_userinfo
     this.userName = 'chosiyeon'
+    getUserInfo.getUser()
     try {
       this.Post = await updatePosts.getPosts();
       this.posts = Object.values(this.Post).filter(posts => posts.createdUser === this.userName)
