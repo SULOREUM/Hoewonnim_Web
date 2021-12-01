@@ -131,22 +131,33 @@
 </template>
 
 <script>
+import signup from "@/services/users/signup";
 export default {
-  name: "join",
   data() {
     return {
       signup:{
-        id:null,
-        password: null,
-        name: null,
-        gender: '성별',
-        phone: null,
+        id:'',
+        password: '',
+        name: '',
+        gender: '',
+        phone: '',
       },
       passwordValidFlag: true,
       passwordCheck: '',
       passwordCheckFlag: true
     }
   },
+  // 이 부분에 마이페이지 ㄱㄱ
+  // async created() {
+  //   this.id = this.$route.params.id;
+  //   console.log(this.id)
+  //   if(this.id!==undefined) {
+  //     const arr = await updatePosts.getDetailPost(this.id);
+  //     this.list = arr[0]
+  //     this.title = this.list.title;
+  //     this.content = this.list.content;
+  //   }
+  // },
   methods: {
     passwordValid(){
       if(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,16}$/.test(this.signup.password)){
@@ -164,7 +175,7 @@ export default {
         this.passwordCheckFlag= false;
       }
     },
-    isSuccess(){
+    isSuccess:function(){
       if(this.signup.id == null || this.signup.password == null
           || this.signup.name == null || this.signup.gender === '성별' || this.signup.phone == null){
         alert('입력이 되지 않은 곳이 있습니다!')
@@ -175,11 +186,31 @@ export default {
         return
       }
       alert('회원가입 성공!')
+      // id:null,
+      //     password: null,
+      //     name: null,
+      //     gender: '성별',
+      //     phone: null,
+      this.data = {
+        id: this.signup.id,
+        password: this.signup.password,
+        name: this.signup.name,
+        gender: this.signup.gender,
+        phone: this.signup.phone,
+        // mail: this.signup.mail,
+        // login: this.signup.login,
+        // challenge: this.signup.challenge,
+        // weight: this.signup.weight,
+        // preference: this.signup.preference
+      }
+      join.createUser(this.data)
+
     },
     select_tag:function(event){
       let click = document.getElementById(event.currentTarget.id);
       click.classList.toggle("active");
     }
+
 
   }
 };

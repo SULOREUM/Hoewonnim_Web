@@ -71,3 +71,4 @@ async function loadPostsCollections() {
 }
 
 module.exports = router;
+

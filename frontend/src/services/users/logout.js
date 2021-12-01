@@ -1,6 +1,6 @@
 // import axios from "axios";
 
-const url = 'https://localhost:3000/api/users';
+const url = 'http://localhost:3000/api/users/';
 
 class join {
 
