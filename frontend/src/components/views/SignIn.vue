@@ -4,11 +4,11 @@
       <router-link style="color: black" to="/">Hoewonnim</router-link>
     </div>
     <div>
-      <form @submit="onsubmit">
+
         <input type="text" placeholder="아이디를 입력하세요" v-model="uid"><br>
         <input type="password" placeholder="비밀번호를 입력하세요" v-model="password"><br>
-        <button type="submit" class="login_button">로그인</button>
-      </form>
+        <button type="submit" class="login_button" @click="onSubmit">로그인</button>
+
     </div>
     <div class="g-signin2" data-onsuccess="onSignIn"> </div> <!--구글 로그인-->
 
@@ -28,6 +28,9 @@
 </template>
 
 <script>
+
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   name: "Signin",
   data(){
@@ -40,29 +43,30 @@ export default {
     }
   },
   methods: {
-    async onsubmit(){
-      if(this.id ==='')
+    ...mapActions(['login']),
+    async onSubmit() {
+      if (this.id === '')
         alert('아이디를 입력하세요.');
-      else if(this.password === '')
+      else if (this.password === '')
         alert('비밀번호를 입력하세요.')
       try {
-        // let loginResult = await this.login({uid: this.uid, password: this.password})
-        // if (loginResult) this.goToPages() // 로그인 실패시 loginResult === false 이므로 goToPages 메소드는 실행되지 않는다.
+        let loginResult = await this.login({id: this.id, password: this.password})
+        if (loginResult) this.goToPages()
       } catch (err) {
         console.error(err)
       }
     },
-    goToPages(){
-      this.$router.push({path:'/views/boards/List'})
+    goToPages() {
+      this.$router.push({path: '/views/boards/List'})
     },
-    kakaoLoginLink(){
+    kakaoLoginLink() {
       const params = {
         redirectUri: 'http://localhost:8080/auth',
       };
       window.Kakao.Auth.authorize(params);
       console.log('카카오 인증 코드');
     },
-    signout(){
+    signout() {
       const authInst = window.gapi.auth2.getAuthInstance();
       authInst.signOut().then(() => {
         console.log('User Signed Out')
@@ -70,8 +74,8 @@ export default {
     },
 
     //구글 custom 버튼
-    googleLoginBtn(){
-      window.gapi.signin2.render('my-signin2',{
+    googleLoginBtn() {
+      window.gapi.signin2.render('my-signin2', {
         scope: 'profile email',
         width: 240,
         height: 50,
@@ -80,11 +84,11 @@ export default {
         onsuccess: this.onSuccess,
         onfailure: this.onFailure,
       });
-      setTimeout(function (){
+      setTimeout(function () {
         document.querySelector('.abcRioButton').click();
       }, 1500)
     },
-    async onsuccess(googleUser){
+    async onsuccess(googleUser) {
       const user_join_type = "g"
       const googleEmail = googleUser.getBasicProfile().pu
       console.log(googleEmail)
@@ -93,19 +97,24 @@ export default {
       console.log('email: ' + profile.getEmail());
       const res = await fetch('https://localhost:8080/sign_up', {
         method: "POST",
-        headers: { "Content-Type": "application/json", },
+        headers: {"Content-Type": "application/json",},
         body: JSON.stringify({
           email: `${googleEmail}`,
           user_join_type: user_join_type
         }),
       })
       const data = await res.json();
-      this.checkSnSLogin(data, googleEmail,user_join_type);
+      this.checkSnSLogin(data, googleEmail, user_join_type);
     },
     onFailure(error) {
       console.log(error);
     },
-  },
+    computed: {
+      ...mapGetters({
+        errorState: 'getErrorState'
+      })
+    }
+  }
 };
 </script>
 

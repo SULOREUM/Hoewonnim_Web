@@ -54,21 +54,21 @@
           <!-- BIRTH_YY -->
           <div id="bir_yy">
             <span class="box">
-              <input type="text" id="yy" class="int" maxlength="4" placeholder="년(4자)">
+              <input v-model="year" type="text" id="yy" class="int" maxlength="4" placeholder="년(4자)">
             </span>
           </div>
 
           <!-- BIRTH_MM -->
           <div id="bir_mm">
             <span class="box">
-              <input type="text" id="mm" class="int" maxlength="2" placeholder="월">
+              <input v-model="month" type="text" id="mm" class="int" maxlength="2" placeholder="월">
             </span>
           </div>
 
           <!-- BIRTH_DD -->
           <div id="bir_dd">
             <span class="box">
-              <input type="text" id="dd" class="int" maxlength="2" placeholder="일">
+              <input v-model="day" type="text" id="dd" class="int" maxlength="2" placeholder="일">
             </span>
           </div>
 
@@ -116,13 +116,10 @@
         <span class="error_next_box"></span>
       </div>
 
-
       <!-- JOIN BTN-->
       <div class="btn_area">
         <input type="submit" id="btnJoin" @click="isSuccess" value="가입하기">
       </div>
-
-
 
     </div>
     <!-- content-->
@@ -141,6 +138,10 @@ export default {
       name: null,
       gender: '성별',
       phone: null,
+      year: null,
+      month: null,
+      day: null,
+      birth: null,
 
       passwordValidFlag: true,
       passwordCheck: '',
@@ -184,7 +185,8 @@ export default {
           password: this.password,
           name: this.name,
           gender: this.gender,
-          phone: this.phone
+          phone: this.phone,
+          birth: this.year +'-'+ this.month +'-'+ this.day,
         }
         console.log(this.data)
 
