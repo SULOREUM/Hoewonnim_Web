@@ -1,11 +1,11 @@
 export const planetChartData = {
     type: "bar",
     data: {
-        labels: ["1", "2","3"],
+        labels: ["1", "2","3","4","5"],
         datasets: [
             {
                 label: "wight",
-                data: [45, 50],
+                data: [45, 50,48,45],
                 backgroundColor: "rgba(54,73,93,.5)",
                 borderColor: "#36495d",
                 borderWidth: 2
@@ -13,22 +13,14 @@ export const planetChartData = {
         ]
     },
     options: {
-        responsive: true,
-        lineTension: 1,
+        responsive: false,
         scales: {
-            xAxes: [
-                {
-                    ticks: {
-                    },
-                    gridLines:{
-                    }
-                }
-            ],
             yAxes: [
                 {
                     ticks: {
                         beginAtZero: true,
-                        padding: 25
+                        stepSize:15,
+                        padding: 20
                     }
                 }
             ]
