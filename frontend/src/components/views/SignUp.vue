@@ -93,7 +93,7 @@
       <div>
         <h3 class="join_title"><label for="email">본인확인 이메일<span class="optional">(선택)</span></label></h3>
         <span class="box int_email">
-                        <input type="text" id="email" class="int" maxlength="100" placeholder="선택입력">
+                        <input type="text" v-model="mail" id="email" class="int" maxlength="100" placeholder="선택입력">
                     </span>
         <span class="error_next_box">이메일 주소를 다시 확인해주세요.</span>
       </div>
@@ -144,6 +144,7 @@ export default {
       month:'',
       day:'',
       tag:'',
+      mail:'',
 
       passwordValidFlag: true,
       passwordCheck: '',
@@ -192,8 +193,9 @@ export default {
           name: this.name,
           sex: this.sex,
           phone: this.phone,
-          birth: this.year + this.month + this.day,
-          interest: this.tag
+          birth: this.year +'-'+ this.month +'-'+ this.day,
+          interest: this.tag,
+          mail:this.mail
         }
         join.createUser(this.data)
         this.toMyPage();

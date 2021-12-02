@@ -25,17 +25,17 @@ router.post('/', async (req, res) => {
         id: req.body.id,
         password: req.body.data.password,
         name: req.body.data.name,
-        // age: req.body.data.age,
-        // state: req.body.data.data.state,
+        age: req.body.data.age,
+        state: req.body.data.data.state,
         sex: req.body.data.sex,
-        // profile_image: req.body.data.profile_image,
-        // birth: req.body.data.birth,
+        profile_image: req.body.data.profile_image,
+        birth: req.body.data.birth,
         phone: req.body.data.phone,
-        // mail: req.body.data.mail,
-        // interest: req.body.data.interest,
-        // challenge: req.body.data.challenge,
-        // weight: req.body.data.weight,
-        // liked_post: req.body.data.liked_post
+        mail: req.body.data.mail,
+        interest: req.body.data.interest,
+        challenge: req.body.data.challenge,
+        weight: req.body.data.weight,
+        liked_post: req.body.data.liked_post
     });
     res.status(202).send();
 });
