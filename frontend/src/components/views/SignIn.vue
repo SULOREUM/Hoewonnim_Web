@@ -51,7 +51,7 @@ export default {
   border-radius: 15px;
 }
 
-.loginForm h2{
+.loginForm a{
   text-align: center;
   margin: 30px;
 }
@@ -113,7 +113,9 @@ export default {
   text-align: center;
   font-size: 0.9em;
 }
-
+.bottomText a{
+  margin: 10px;
+}
 .logo{
   width: 10%;
   position: center;
