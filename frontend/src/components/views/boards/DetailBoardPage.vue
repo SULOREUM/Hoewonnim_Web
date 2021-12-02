@@ -76,14 +76,14 @@ export default {
       this.fnList()
     },
     Like:function (){
-      if(this.list.likedUsers.includes('chosiyeon')){
+      if(this.list.likedUsers.includes('suloreum')){
         alert("이미 좋아요한 글")
         return ;
       }
       else{
         let likedUser = this.list.likedUsers
 
-        likedUser.push('chosiyeon')
+        likedUser.push('suloreum')
         this.updatedData = {
           title: this.list.title,
           content: this.list.content,

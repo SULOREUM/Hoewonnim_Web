@@ -30,8 +30,14 @@
               <p>🔥 도전</p>
             </div>
           </div>
-          <div class="square_left"></div>
-          <div class="square_right"></div>
+          <div class="square_left">
+            <p class="challenge">{{challengeList[0]}}</p>
+            <p class="date">{{challengeList[1]}}</p>
+          </div>
+          <div class="square_right">
+            <p class="challenge">{{challengeList[2]}}</p>
+            <p class="date">{{challengeList[3]}}</p>
+          </div>
         </div>
         <div class="myInfo">
           <div class="title2">
@@ -58,14 +64,22 @@
                 <th>no.</th>
                 <th>제목</th>
               </tr>
-              <tr v-for="(post, idx) in posts" :key="idx">
-                <td class="txt_middle">{{ posts.length - idx }}</td>
+              <tr v-for="(post, idx) in paginatedPostData" :key="idx">
+                <td class="txt_middle">{{ (posts.length - (pageNum * pageSize)) - idx }}</td>
                 <td class="txt_left"><a href="javascript:;"><router-link :to="{ name: 'DetailBoardPage', params: { id: post._id }}">{{ post.title }}</router-link></a></td>
               </tr>
-              <tr v-if="list.length == 0">
+              <tr v-if="paginatedPostData.length == 0">
                 <td colspan="2">작성한 글이 없습니다.</td>
               </tr>
             </table>
+            <div class="btn-cover">
+              <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
+                ◀
+              </button>
+              <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn">
+                ▶
+              </button>
+            </div>
           </div>
           <div class="post_right">
             <table class="tableList">
@@ -77,14 +91,22 @@
                 <th>no.</th>
                 <th>제목</th>
               </tr>
-              <tr v-for="(post, idx) in likedList" :key="idx">
-                <td class="txt_middle">{{ likedList.length - idx }}</td>
+              <tr v-for="(post, idx) in paginatedLikedData" :key="idx">
+                <td class="txt_middle">{{ likedList.length - (LikedPageNum * pageSize) - idx }}</td>
                 <td class="txt_left"><a href="javascript:;"><router-link :to="{ name: 'DetailBoardPage', params: { id: post._id }}">{{ post.title }}</router-link></a></td>
               </tr>
               <tr v-if="likedList.length == 0">
                 <td colspan="2">좋아요 한 글이 없습니다.</td>
               </tr>
             </table>
+            <div class="btn-cover">
+              <button :disabled="LikedPageNum === 0" @click="prevLikedPage" class="page-btn">
+                ◀
+              </button>
+              <button :disabled="LikedPageNum >= pageLikedCount - 1" @click="nextLikedPage" class="page-btn">
+                ▶
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -129,6 +151,8 @@ export default {
       list: '', // 글 데이터 가져오기
       likedList: [],
       user_interest: [],
+      challenge:{},
+      challengeList:[],
       ///
       Post:[],
       posts: [],
@@ -137,7 +161,11 @@ export default {
       userName: '',
       //
       Users:[],
-      user: {}
+      user: {},
+      //
+      pageSize:5,
+      pageNum:0,
+      LikedPageNum:0
     }
   },
   async created() {
@@ -152,8 +180,16 @@ export default {
       this.sex = this.user[0].sex
       this.age = this.user[0].age
       this.user_interest = this.user[0].interest
+      this.challenge = this.user[0].challenge
     }catch (err){
       this.error = console.log(err);
+    }
+
+    console.log(this.user)
+
+    for (let variable in this.challenge){
+      this.challengeList.push(variable)
+      this.challengeList.push(this.challenge[variable])
     }
 
     // name id로 수정해야함
@@ -164,7 +200,47 @@ export default {
     } catch (err) {
       this.error = err.message;
     }
-
+  },
+  computed:{
+    pageCount () {
+      let listLeng = this.posts.length,
+          listSize = this.pageSize,
+          page = Math.floor(listLeng / listSize);
+      if (listLeng % listSize > 0) page += 1;
+      return page;
+    }
+    ,paginatedPostData () {
+      const start = this.pageNum * this.pageSize,
+          end = start + this.pageSize;
+      return this.posts.slice(start, end);
+    }
+    ,
+    pageLikedCount () {
+      let listLeng = this.likedList.length,
+          listSize = this.pageSize,
+          page = Math.floor(listLeng / listSize);
+      if (listLeng % listSize > 0) page += 1;
+      return page;
+    }
+    ,paginatedLikedData () {
+      const start = this.LikedPageNum * this.pageSize,
+          end = start + this.pageSize;
+      return this.likedList.slice(start, end);
+    }
+  },
+  methods:{
+  nextPage () {
+    this.pageNum += 1;
+  }
+  ,prevPage () {
+    this.pageNum -= 1;
+  }
+  ,nextLikedPage () {
+      this.LikedPageNum += 1;
+    }
+    ,prevLikedPage () {
+      this.LikedPageNum -= 1;
+    }
   }
 }
 </script>
@@ -357,19 +433,30 @@ export default {
 /* my challenge */
 
 .square_left {
+  display: flex;
+  justify-content: space-between;
   width:48%;
   height: 73%;
   float: left;
-  margin-top: 2%;
+  margin-top: 1%;
   background-color: #2c3e50;
 }
-
 .square_right {
+  display: flex;
+  justify-content: space-between;
   width:48%;
   height: 73%;
   float: right;
-  margin-top: 2%;
+  margin-top: 1%;
   background-color: #2c3e50;
+}
+.challenge{
+  color: white;
+  margin-left: 10px;
+}
+.date{
+  color: white;
+  margin-right: 10px;
 }
 
 /* my record */
@@ -378,7 +465,7 @@ export default {
   width:48%;
   height: 83%;
   float: left;
-  margin-top: 2%;
+  margin-top: 1%;
   background-color: #2c3e50;
 }
 
@@ -386,7 +473,7 @@ export default {
   width:48%;
   height: 83%;
   float: right;
-  margin-top: 2%;
+  margin-top: 1%;
   background-color: #2c3e50;
 }
 
@@ -433,6 +520,31 @@ export default {
 .tableList td.txt_middle {
   text-align: center;
   font-size: 0.8em;
+}
+.btn-cover{
+  display: flex;
+  justify-content: center;
+}
+.btn-cover button{
+  border: 1px solid rgba(96, 117, 235, 0.28);
+  background-color: rgba(202, 223, 224, 0.3);
+  color: #222222;
+  padding: 3px 5px;
+  border-radius: .5em;
+  box-shadow: 0 1px 0 1px rgba(0, 0, 0, .04);
+  margin-left: 10px;
+  margin-top: 10px;
+
+  text-align-last: center;
+  text-align: center;
+  font-size: 0.5em;
+
+  cursor: pointer;
+}
+
+.btn-cover button:disabled{
+  color: white;
+  border: white;
 }
 
 /*  */
