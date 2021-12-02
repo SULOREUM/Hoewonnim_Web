@@ -22,19 +22,19 @@
               </tr>
               <tr>
                 <th class="line"> 닉네임</th>
-                <td class="line"> 술오름</td>
+                <td class="line"> {{name}}</td>
               </tr>
               <tr>
                 <th class="line"> 생년월일</th>
-                <td class="line"> 2018-01-01 </td>
+                <td class="line">  {{birth}}</td>
               </tr>
               <tr>
                 <th class="line"> 성별</th>
-                <td class="line">  여</td>
+                <td class="line">  {{sex}}</td>
               </tr>
               <tr>
                 <th class="line"> 챌린지</th>
-                <td class="line"> 다이어트</td>
+                <td class="line"> {{challenge}}</td>
               </tr>
             </table>
           </div>
@@ -50,11 +50,11 @@
                 </colgroup>
                 <tr>
                   <th class="line"> 이메일</th>
-                  <td class="line">  suloreum@naver.com</td>
+                  <td class="line">  {{email}}</td>
                 </tr>
                 <tr>
                   <th class="line"> 전화번호</th>
-                  <td class="line"> 010-1234-5678 </td>
+                  <td class="line"> {{phone}} </td>
                 </tr>
               </table>
             </div>
@@ -70,9 +70,37 @@
 
 <script>
 import $ from "jquery";
+import getUserInfo from "@/services/users/getUserInfo";
 
 export default {
   name: "userInfo",
+  data() {
+    return {
+      User: [],
+      name: '',
+      birth: '',
+      sex: '',
+      challenge: '',
+      email: '',
+      phone: '',
+      id: 'suloreum'
+    }
+  },
+  async created() {
+
+    try{
+      this.Users = await getUserInfo.getUsers()
+      this.user = Object.values(this.Users).filter(users => users.id === this.id)
+      this.name = this.user[0].name
+      this.birth = this.user[0].birth
+      this.sex = this.user[0].sex
+      this.challenge = Object.keys(this.user[0].challenge).toString()
+      this.email = this.user[0].mail
+      this.phone = this.user[0].phone
+    }catch (err){
+      this.error = console.log(err);
+    }
+  },
   mounted() {
     $(document).ready(function(){
       changeColor();
