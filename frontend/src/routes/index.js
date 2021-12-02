@@ -15,6 +15,8 @@ import Photo from "../components/views/boards/Photo";
 import Write from "../components/views/boards/Write";
 import DetailBoardPage from "../components/views/boards/DetailBoardPage"
 
+import Name from "../components/views/boards/UserInfo/Name"
+
 Vue.use(Router); // use vue router
 
 const routes = [
@@ -82,6 +84,11 @@ const routes = [
         path:'/views/boards/List/:id',
         name: 'DetailBoardPage',
         component: DetailBoardPage
+    },
+    {
+        path: '/views/boards/UserInfo/Name',
+        name: 'Name',
+        component: Name
     }
 
 ]
