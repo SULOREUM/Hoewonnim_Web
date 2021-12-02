@@ -175,6 +175,7 @@ export default {
     try{
       this.Users = await getUserInfo.getUsers()
       this.user = Object.values(this.Users).filter(users => users.id === this.id)
+      console.log(this.user)
       this.name = this.user[0].name
       this.state = this.user[0].state
       this.sex = this.user[0].sex
