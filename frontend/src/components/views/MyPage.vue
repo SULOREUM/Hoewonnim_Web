@@ -45,7 +45,9 @@
               <p>🔥 기록</p>
             </div>
           </div>
-          <div class="square_left2"></div>
+          <div class="square_left2">
+            <canvas  id="planet-chart"></canvas>
+          </div>
           <div class="square_right2"></div>
         </div>
         <div class="myActivity">
@@ -118,10 +120,15 @@
 import $ from "jquery";
 import updatePosts from "@/services/updatePosts";
 import getUserInfo from "@/services/users/getUserInfo";
+import Chart from 'chart.js'
+import Data from './boards/data'
 
 export default {
   name: "MyPage",
   mounted() {
+    const ctx = document.getElementById('planet-chart');
+    new Chart(ctx,this.chartData);
+
     $(document).ready(function () {
       var currentPosition = parseInt($(".side_container").css("top"));
       $(window).scroll(function () {
@@ -144,6 +151,7 @@ export default {
   },
   data() {
     return {
+      chartData : Data,
       name: '',
       age: '',
       state: '',
@@ -462,11 +470,19 @@ export default {
 /* my record */
 
 .square_left2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   width:48%;
   height: 83%;
   float: left;
   margin-top: 1%;
   background-color: #2c3e50;
+}
+
+.square_left2 canvas{
+  background-color: white;
 }
 
 .square_right2 {
