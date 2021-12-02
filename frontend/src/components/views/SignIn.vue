@@ -144,7 +144,9 @@ export default {
   text-align: center;
   font-size: 0.9em;
 }
-
+.bottomText a{
+  margin: 10px;
+}
 .logo{
   width: 10%;
   position: center;
