@@ -5,12 +5,12 @@
         <router-link style="color: black" to="/">Hoewonnim</router-link>
       </h3>
       <div class="idForm">
-        <input type="text" class="id" placeholder="ID">
+        <input v-model="id" type="text" class="id" placeholder="ID">
       </div>
       <div class="passForm">
-        <input type="password" class="pw" placeholder="PW">
+        <input v-model="password" type="password" class="pw" placeholder="PW">
       </div>
-      <button type="button" class="btn" onclick="button()">LOG IN</button>
+      <button type="submit" class="btn" @click="submit">LOG IN</button>
       <div class="bottomText">
         회원이 아니신가요? <router-link style="color: #6075eb" to="/views/Signup">sign up</router-link>
       </div>
@@ -19,16 +19,36 @@
 </template>
 
 <script>
+import {mapState, mapActions} from "vuex"
+import axios from "axios"
 
 export default {
   name: "Signin",
   data(){
     return{
-      msg: 'Welcome to Your Vue.js App',
+      id:'',
+      password:''
     }
   },
+  computed:{
+    ...mapState(["isLogin", "isLoginError"])
+  },
   methods: {
-
+    ...mapActions(["login"]),
+    submit(){
+      console.log(this.id);
+      console.log(this.password);
+      axios
+        .get('http://localhost:3000/api/users')
+        .then(res => {
+        console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+        .then(function (){
+        })
+    }
   }
 };
 </script>
