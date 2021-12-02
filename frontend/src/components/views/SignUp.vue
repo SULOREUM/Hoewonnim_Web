@@ -76,11 +76,11 @@
         <span class="error_next_box"></span>
       </div>
 
-      <!-- GENDER -->
+      <!-- SEX -->
       <div>
-        <h3 class="join_title"><label for="gender">성별</label></h3>
-        <span class="box gender_code">
-          <select id="gender" class="sel" v-model="gender">
+        <h3 class="join_title"><label for="sex">성별</label></h3>
+        <span class="box sex_code">
+          <select id="sex" class="sel" v-model="sex">
             <option>성별</option>
             <option value="M">남자</option>
             <option value="F">여자</option>
@@ -131,15 +131,20 @@
 import join from "@/services/users/join";
 
 export default {
+  name: "SignUp",
   data() {
     return {
-      signup:{
-        id:'',
-        password: '',
-        name: '',
-        gender: '',
-        phone: '',
-      },
+      id:'',
+      password: '',
+      name: '',
+      sex: '',
+      phone: '',
+      birth:'',
+      year:'',
+      month:'',
+      day:'',
+      tag:'',
+
       passwordValidFlag: true,
       passwordCheck: '',
       passwordCheckFlag: true
@@ -148,12 +153,6 @@ export default {
   async created() {
     this.id = this.$route.params.id;
     console.log(this.id)
-    // if(this.id!==undefined) {
-    //   const arr = await updateUserInfo.updateUserInfo(this.id)
-    //   this.list = arr[0]
-    //   this.id = this.list.id;
-    //   this.name = this.list.name;
-    // }
   },
   methods: {
     fnList() {
@@ -177,8 +176,8 @@ export default {
       this.$router.push({path: '/views/MyPage'})
     },
     isSuccess: function () {
-      if (this.signup.id == null || this.signup.password == null
-          || this.signup.name == null || this.signup.gender === '성별' || this.signup.phone == null) {
+      if (this.id == null || this.password == null
+          || this.name == null || this.sex === '성별' || this.phone == null) {
         alert('입력이 되지 않은 곳이 있습니다!')
         return
       }
@@ -187,32 +186,25 @@ export default {
         return
       } else {
         alert('회원가입 성공!')
-        // this.data = {
-        //   id: this.signup.id,
-        //   password: this.signup.password,
-        //   name: this.signup.name,
-        //   gender: this.signup.gender,
-        //   phone: this.signup.phone
-        // }
-        // join.createUser(this.data)
-        // this.toMyPage();
-        // console.log(this.data);
-        // return;
+        this.data = {
+          id: this.id,
+          password: this.password,
+          name: this.name,
+          sex: this.sex,
+          phone: this.phone,
+          birth: this.year + this.month + this.day,
+          interest: this.tag
+        }
+        join.createUser(this.data)
+        this.toMyPage();
+        console.log(this.data);
+        return;
       }
-      this.data = {
-        id: this.signup.id,
-        password: this.signup.password,
-        name: this.signup.name,
-        gender: this.signup.gender,
-        phone: this.signup.phone
-      }
-      join.createUser(this.data);
-      // this.toMyPage();
-      console.log(this.data);
     },
     select_tag: function (event) {
       let click = document.getElementById(event.currentTarget.id);
       click.classList.toggle("active");
+      this.tag = event.currentTarget.id;
     }
   }
 }
