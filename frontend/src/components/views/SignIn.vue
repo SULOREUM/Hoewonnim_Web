@@ -1,9 +1,9 @@
 <template>
   <div class="all">
     <div class="loginForm">
-      <h3 class="logo">
+      <a class="logo">
         <router-link style="color: black" to="/">Hoewonnim</router-link>
-      </h3>
+      </a>
       <div class="idForm">
         <input v-model="id" type="text" class="id" placeholder="ID">
       </div>
@@ -14,6 +14,7 @@
       <div class="bottomText">
         회원이 아니신가요? <router-link style="color: #6075eb" to="/views/Signup">sign up</router-link>
       </div>
+      <button @click="postTest">테스트</button>
     </div>
   </div>
 </template>
@@ -48,6 +49,16 @@ export default {
         })
         .then(function (){
         })
+    },
+    postTest(){
+      // axios
+      //   .post('http://localhost:3000/api/users', {id:"suloreum"})
+      //   .then(res => {
+      //     console.log(res)
+      //   })
+      //   .catch(err =>{
+      //     console.log(err)
+      //   })
     }
   }
 };
@@ -71,7 +82,7 @@ export default {
   border-radius: 15px;
 }
 
-.loginForm h2{
+.loginForm a{
   text-align: center;
   margin: 30px;
 }
