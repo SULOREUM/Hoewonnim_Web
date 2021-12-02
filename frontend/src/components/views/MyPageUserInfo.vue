@@ -21,20 +21,20 @@
                 <td class="line">  </td>
               </tr>
               <tr>
-                <th class="line"> 닉네임</th>
-                <td class="line"> 술오름</td>
+                <th class="line" @click="nameChange()"> 닉네임</th>
+                <td class="line" @click="nameChange()"> {{name}}</td>
               </tr>
               <tr>
                 <th class="line"> 생년월일</th>
-                <td class="line"> 2018-01-01 </td>
+                <td class="line">  {{birth}}</td>
               </tr>
               <tr>
                 <th class="line"> 성별</th>
-                <td class="line">  여</td>
+                <td class="line">  {{sex}}</td>
               </tr>
               <tr>
-                <th class="line"> 챌린지</th>
-                <td class="line"> 다이어트</td>
+                <th> 챌린지</th>
+                <td> {{challenge}}</td>
               </tr>
             </table>
           </div>
@@ -50,18 +50,19 @@
                 </colgroup>
                 <tr>
                   <th class="line"> 이메일</th>
-                  <td class="line">  suloreum@naver.com</td>
+                  <td class="line">  {{email}}</td>
                 </tr>
                 <tr>
-                  <th class="line"> 전화번호</th>
-                  <td class="line"> 010-1234-5678 </td>
+                  <th> 전화번호</th>
+                  <td> {{phone}} </td>
                 </tr>
               </table>
             </div>
           </div>
         </div>
-        <div class="etc_info">
-
+        <div>
+          <div class="etc_info_left"></div>
+          <div class="etc_info_right"></div>
         </div>
       </div>
     </div>
@@ -69,10 +70,42 @@
 </template>
 
 <script>
+
 import $ from "jquery";
+import getUserInfo from "@/services/users/getUserInfo";
 
 export default {
   name: "userInfo",
+  data() {
+    return {
+      User: [],
+      name: '',
+      birth: '',
+      sex: '',
+      challenge: '',
+      email: '',
+      phone: '',
+      id: 'suloreum',
+      tr: '',
+      td: '',
+      idx: '',
+      cont: ''
+    }
+  },
+  async created() {
+    try{
+      this.Users = await getUserInfo.getUsers()
+      this.user = Object.values(this.Users).filter(users => users.id === this.id)
+      this.name = this.user[0].name
+      this.birth = this.user[0].birth
+      this.sex = this.user[0].sex
+      this.challenge = Object.keys(this.user[0].challenge).toString()
+      this.email = this.user[0].mail
+      this.phone = this.user[0].phone
+    }catch (err){
+      this.error = console.log(err);
+    }
+  },
   mounted() {
     $(document).ready(function(){
       changeColor();
@@ -99,9 +132,16 @@ export default {
     }
     function clickTr(){
       $("#table tr").click(function(){
-        // var text = $(this).text();
-        // alert(text);
+        this.tr = $(this);
+        this.td = this.tr.children();
+        this.idx = this.td.eq(0).text()
+        this.cont = this.td.eq(1).text()
       });
+    }
+  },
+  methods: {
+    nameChange: function() {
+      this.$router.push({name: 'Name'})
     }
   }
 }
@@ -197,14 +237,45 @@ export default {
   border: 1px solid lightgray;
 }
 
-.etc_info {
+/*.etc_info {*/
+/*  position: relative;*/
+/*  margin-top: 10px;*/
+/*  width: 50%;*/
+/*  padding-top: 30%;*/
+/*  border-radius: 16px;*/
+/*  border: 1px solid lightgray;*/
+/*  float: top;*/
+/*  float: left;*/
+/*}*/
+
+.etc_info_left {
   position: relative;
   margin-top: 10px;
-  width: 100%;
+  width: 49%;
   padding-top: 30%;
   border-radius: 16px;
   border: 1px solid lightgray;
+  float: left;
 }
+
+.etc_info_right {
+  position: relative;
+  margin-top: 10px;
+  width: 49%;
+  padding-top: 30%;
+  border-radius: 16px;
+  border: 1px solid lightgray;
+  float: right;
+}
+
+/*.info_revise {*/
+/*  position: relative;*/
+/*  margin-top: 10px;*/
+/*  width: 100%;*/
+/*  padding-top: 5%;*/
+/*  border-radius: 16px;*/
+/*  border: 1px solid lightgray;*/
+/*}*/
 
 @media all and (min-width: 768px) and (max-width: 1023px) {
   .container {
