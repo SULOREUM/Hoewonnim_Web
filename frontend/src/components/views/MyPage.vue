@@ -484,6 +484,8 @@ export default {
 
 .square_left2 canvas{
   background-color: white;
+  width: 100%;
+  height: 96%;
 }
 
 .square_right2 {
