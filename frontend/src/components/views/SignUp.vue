@@ -9,7 +9,7 @@
       <div>
         <h3 class="join_title"><label for="id">아이디</label></h3>
         <span class="box int_id">
-          <input v-model="signup.id" type="text" id="id" class="int" maxlength="20">
+          <input v-model="id" type="text" id="id" class="int" maxlength="20">
         </span>
         <span class="error_next_box"></span>
       </div>
@@ -18,7 +18,7 @@
       <div>
         <h3 class="join_title"><label for="pswd1">비밀번호</label></h3>
         <span class="box int_pass">
-                        <input v-model="signup.password" type="password" id="pswd1" class="int" maxlength="20" @blur="passwordValid">
+                        <input v-model="password" type="password" id="pswd1" class="int" maxlength="20" @blur="passwordValid">
                         <span id="alertTxt">사용불가</span>
                         <img src="@/assets/lock.png" id="pswd1_img1" class="pswdImg">
                     </span>
@@ -41,7 +41,7 @@
       <div>
         <h3 class="join_title"><label for="name">이름</label></h3>
         <span class="box int_name">
-                        <input v-model="signup.name" type="text" id="name" class="int" maxlength="20">
+                        <input v-model="name" type="text" id="name" class="int" maxlength="20">
         </span>
         <span class="error_next_box"></span>
       </div>
@@ -54,21 +54,21 @@
           <!-- BIRTH_YY -->
           <div id="bir_yy">
             <span class="box">
-              <input type="text" id="yy" class="int" maxlength="4" placeholder="년(4자)">
+              <input v-model="year" type="text" id="yy" class="int" maxlength="4" placeholder="년(4자)">
             </span>
           </div>
 
           <!-- BIRTH_MM -->
           <div id="bir_mm">
             <span class="box">
-              <input type="text" id="mm" class="int" maxlength="2" placeholder="월">
+              <input v-model="month" type="text" id="mm" class="int" maxlength="2" placeholder="월">
             </span>
           </div>
 
           <!-- BIRTH_DD -->
           <div id="bir_dd">
             <span class="box">
-              <input type="text" id="dd" class="int" maxlength="2" placeholder="일">
+              <input v-model="day" type="text" id="dd" class="int" maxlength="2" placeholder="일">
             </span>
           </div>
 
@@ -80,7 +80,7 @@
       <div>
         <h3 class="join_title"><label for="gender">성별</label></h3>
         <span class="box gender_code">
-          <select id="gender" class="sel" v-model="signup.gender">
+          <select id="gender" class="sel" v-model="gender">
             <option>성별</option>
             <option value="M">남자</option>
             <option value="F">여자</option>
@@ -102,7 +102,7 @@
       <div>
         <h3 class="join_title"><label for="mobile">휴대전화</label></h3>
         <span class="box int_mobile">
-                        <input v-model="signup.phone" type="tel" id="mobile" class="int" maxlength="11" pattern="[+]{1}[0-9]{11,14}" placeholder="'-'을 제외한 휴대폰번호를 입력해 주세요">
+                        <input v-model="phone" type="tel" id="mobile" class="int" maxlength="11" pattern="[+]{1}[0-9]{11,14}" placeholder="'-'을 제외한 휴대폰번호를 입력해 주세요">
                     </span>
         <span class="error_next_box"></span>
       </div>
@@ -116,13 +116,10 @@
         <span class="error_next_box"></span>
       </div>
 
-
       <!-- JOIN BTN-->
       <div class="btn_area">
         <input type="submit" id="btnJoin" @click="isSuccess" value="가입하기">
       </div>
-
-
 
     </div>
     <!-- content-->
@@ -132,6 +129,7 @@
 
 <script>
 import join from "@/services/users/join";
+
 export default {
   data() {
     return {
@@ -158,26 +156,27 @@ export default {
     // }
   },
   methods: {
-    passwordValid(){
-      if(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,16}$/.test(this.signup.password)){
+    fnList() {
+      this.$router.push({path: '/views/boards/List'})
+    },
+    passwordValid() {
+      if (/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,16}$/.test(this.password)) {
         this.passwordValidFlag = true;
-      }
-      else{
+      } else {
         this.passwordValidFlag = false;
       }
     },
-    passwordCheckValid(){
-      if(this.signup.password ==this.passwordCheck){
+    passwordCheckValid() {
+      if (this.password == this.passwordCheck) {
         this.passwordCheckFlag = true;
-      }
-      else{
-        this.passwordCheckFlag= false;
+      } else {
+        this.passwordCheckFlag = false;
       }
     },
-    toMyPage(){
-      this.$router.push({path:'/views/MyPage'})
+    toMyPage() {
+      this.$router.push({path: '/views/MyPage'})
     },
-    isSuccess:function() {
+    isSuccess: function () {
       if (this.signup.id == null || this.signup.password == null
           || this.signup.name == null || this.signup.gender === '성별' || this.signup.phone == null) {
         alert('입력이 되지 않은 곳이 있습니다!')
@@ -186,8 +185,7 @@ export default {
       if (!this.passwordValidFlag || !this.passwordCheckFlag) {
         alert('비밀번호를 확인해주세요!')
         return
-      }
-      else {
+      } else {
         alert('회원가입 성공!')
         // this.data = {
         //   id: this.signup.id,
@@ -208,11 +206,11 @@ export default {
         gender: this.signup.gender,
         phone: this.signup.phone
       }
-      join.createUser(this.data)
+      join.createUser(this.data);
       // this.toMyPage();
       console.log(this.data);
     },
-    select_tag:function(event){
+    select_tag: function (event) {
       let click = document.getElementById(event.currentTarget.id);
       click.classList.toggle("active");
     }
