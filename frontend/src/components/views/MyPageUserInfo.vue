@@ -25,12 +25,12 @@
                 <td class="line" @click="nameChange()"> {{name}}</td>
               </tr>
               <tr>
-                <th class="line"> 생년월일</th>
-                <td class="line">  {{birth}}</td>
+                <th class="line" @click="birthChange()"> 생년월일</th>
+                <td class="line" @click="birthChange()">  {{birth}}</td>
               </tr>
               <tr>
-                <th class="line"> 성별</th>
-                <td class="line">  {{sex}}</td>
+                <th class="line" @click="sexChange()"> 성별</th>
+                <td class="line" @click="sexChange()">  {{sex}}</td>
               </tr>
               <tr>
                 <th> 챌린지</th>
@@ -49,20 +49,16 @@
                   <col style="width:10%">
                 </colgroup>
                 <tr>
-                  <th class="line"> 이메일</th>
-                  <td class="line">  {{email}}</td>
+                  <th class="line" @click="mailChange()"> 이메일</th>
+                  <td class="line" @click="mailChange()">  {{email}}</td>
                 </tr>
                 <tr>
-                  <th> 전화번호</th>
-                  <td> {{phone}} </td>
+                  <th @click="phoneChange()"> 전화번호</th>
+                  <td @click="phoneChange()"> {{phone}} </td>
                 </tr>
               </table>
             </div>
           </div>
-        </div>
-        <div>
-          <div class="etc_info_left"></div>
-          <div class="etc_info_right"></div>
         </div>
       </div>
     </div>
@@ -142,6 +138,18 @@ export default {
   methods: {
     nameChange: function() {
       this.$router.push({name: 'Name'})
+    },
+    birthChange: function() {
+      this.$router.push({name: 'Birth'})
+    },
+    sexChange: function() {
+      this.$router.push({name: 'Sex'})
+    },
+    mailChange: function() {
+      this.$router.push({name: 'Email'})
+    },
+    phoneChange: function() {
+      this.$router.push({name: 'Phone'})
     }
   }
 }
@@ -248,25 +256,25 @@ export default {
 /*  float: left;*/
 /*}*/
 
-.etc_info_left {
-  position: relative;
-  margin-top: 10px;
-  width: 49%;
-  padding-top: 30%;
-  border-radius: 16px;
-  border: 1px solid lightgray;
-  float: left;
-}
+/*.etc_info_left {*/
+/*  position: relative;*/
+/*  margin-top: 10px;*/
+/*  width: 49%;*/
+/*  padding-top: 30%;*/
+/*  border-radius: 16px;*/
+/*  border: 1px solid lightgray;*/
+/*  float: left;*/
+/*}*/
 
-.etc_info_right {
-  position: relative;
-  margin-top: 10px;
-  width: 49%;
-  padding-top: 30%;
-  border-radius: 16px;
-  border: 1px solid lightgray;
-  float: right;
-}
+/*.etc_info_right {*/
+/*  position: relative;*/
+/*  margin-top: 10px;*/
+/*  width: 49%;*/
+/*  padding-top: 30%;*/
+/*  border-radius: 16px;*/
+/*  border: 1px solid lightgray;*/
+/*  float: right;*/
+/*}*/
 
 /*.info_revise {*/
 /*  position: relative;*/

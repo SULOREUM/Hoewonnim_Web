@@ -18,5 +18,13 @@ class updateUsers {
             data
         });
     }
+
+    //update User
+    static UpdateUser(data,id){
+        console.log(data)
+        return axios.post(`${url}${id}`,{
+            data
+        });
+    }
 }
 export default updateUsers;
