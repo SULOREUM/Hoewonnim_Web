@@ -41,6 +41,9 @@
         </div>
         <div class="myInfo">
           <div class="title2">
+            <div class="add_button">
+              <input class="add_button" type="button" @click="handle_toggle" value="+">
+            </div>
             <div class="title_inside">
               <p>🔥 기록</p>
             </div>
@@ -112,6 +115,11 @@
           </div>
         </div>
       </div>
+    <div class="modal" v-show="is_show">
+      <h2>당신의 기록을 추가해주세요</h2>
+      <input type="text" v-model="insert_weight">
+      <input type="button" @click="insert" value="당장추가해">
+    </div>
     </div>
   </div>
 </template>
@@ -120,6 +128,7 @@
 import $ from "jquery";
 import updatePosts from "@/services/updatePosts";
 import getUserInfo from "@/services/users/getUserInfo";
+import updateUser from "@/services/updateUsers";
 import Chart from 'chart.js'
 
 export default {
@@ -148,6 +157,8 @@ export default {
   },
   data() {
     return {
+      user_id: 'suloreum',
+
       name: '',
       age: '',
       state: '',
@@ -155,43 +166,50 @@ export default {
       list: '', // 글 데이터 가져오기
       likedList: [],
       user_interest: [],
-      challenge:{},
-      challengeList:[],
-      weight:'',
+      challenge: {},
+      challengeList: [],
+      weight: '',
       ///
-      Post:[],
+      Post: [],
       posts: [],
       error: '',
       text: '',
       userName: '',
       //
-      Users:[],
+      Users: [],
       user: {},
       //
-      pageSize:5,
-      pageNum:0,
-      LikedPageNum:0,
+      pageSize: 5,
+      pageNum: 0,
+      LikedPageNum: 0,
+
+      is_show : false,
+      insert_weight : null
     }
   },
   async created() {
 
-    this.id = 'suloreum'
-    this.userName = 'chosiyeon'
-
     try{
       this.Users = await getUserInfo.getUsers()
-      this.user = Object.values(this.Users).filter(users => users.id === this.id)
+      this.user = Object.values(this.Users).filter(users => users.id === this.user_id)
+      this.id = this.user[0].id
+      this.object_id = this.user[0]._id
       this.name = this.user[0].name
+      this.password = this.user[0].password
+      this.age = this.user[0].age
       this.state = this.user[0].state
       this.sex = this.user[0].sex
-      this.age = this.user[0].age
-      this.user_interest = this.user[0].interest
+      this.profile_image = this.user[0].profile_image
+      this.birth = this.user[0].birth
+      this.phone = this.user[0].phone
+      this.mail = this.user[0].mail
+      this.newMail = this.user[0].mail
+      this.interest = this.user[0].interest
       this.challenge = this.user[0].challenge
       this.weight = this.user[0].weight
+      this.liked_post = this.user[0].liked_post
 
       this.createChart('chart1');
-      console.log(Object.values(this.weight))
-
 
     }catch (err){
       this.error = console.log(err);
@@ -250,6 +268,42 @@ export default {
     }
     ,prevLikedPage () {
       this.LikedPageNum -= 1;
+    },
+    handle_toggle(){
+      this.is_show = !this.is_show;
+    },
+    insert(){
+
+    if(this.insert_weight == null){
+      this.is_show = !this.is_show
+    }
+    else {
+      let weightList = this.weight
+      weightList.push(this.insert_weight)
+
+      this.update_user_data = {
+        id: this.id,
+        name: this.name,
+        password: this.password,
+        age: this.age,
+        state: this.state,
+        sex: this.sex,
+        profile_image: this.profile_image,
+        birth: this.birth,
+        phone: this.phone,
+        mail: this.newMail,
+        interest: this.interest,
+        challenge: this.challenge,
+        weight: weightList,
+        liked_post: this.liked_post
+      }
+
+      updateUser.UpdateUser(this.update_user_data, this.object_id)
+      this.weight.push()
+
+      this.is_show = !this.is_show
+      this.createChart('chart1');
+    }
     },
     createChart(charId){
       const ctx = document.getElementById(charId)
@@ -445,17 +499,6 @@ export default {
   color: black;
   border-radius: 10px;
 }
-
-.title_inside {
-  display: table;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin: auto;
-}
-
 .title2 {
   position: relative;
   width: 15%;
@@ -470,7 +513,34 @@ export default {
   margin-top: 2%;
   border-radius: 10px;
 }
-
+.title_inside {
+  display: table;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: auto;
+}
+.add_button{
+  /*position: fixed;*/
+  /*right: 10%;*/
+  display: table;
+  width: 58%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 400%;
+  margin: auto;
+}
+.add_button input{
+  background-color: white;
+  color:#2c3e50;
+  font-size: 2em;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+}
 
 /* my challenge */
 
@@ -597,6 +667,18 @@ export default {
 .btn-cover button:disabled{
   color: white;
   border: white;
+}
+ /* modal */
+
+.modal{
+  background-color: #ffffff;
+  border: rgba(202, 223, 224, 1) 5px solid;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width:500px;
+  height:200px;
 }
 
 /*  */
