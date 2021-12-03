@@ -29,8 +29,8 @@
                 <td class="line" @click="birthChange()">  {{birth}}</td>
               </tr>
               <tr>
-                <th class="line"> 성별</th>
-                <td class="line">  {{sex}}</td>
+                <th class="line" @click="sexChange()"> 성별</th>
+                <td class="line" @click="sexChange()">  {{sex}}</td>
               </tr>
               <tr>
                 <th> 챌린지</th>
@@ -49,12 +49,12 @@
                   <col style="width:10%">
                 </colgroup>
                 <tr>
-                  <th class="line"> 이메일</th>
-                  <td class="line">  {{email}}</td>
+                  <th class="line" @click="mailChange()"> 이메일</th>
+                  <td class="line" @click="mailChange()">  {{email}}</td>
                 </tr>
                 <tr>
-                  <th> 전화번호</th>
-                  <td> {{phone}} </td>
+                  <th @click="phoneChange()"> 전화번호</th>
+                  <td @click="phoneChange()"> {{phone}} </td>
                 </tr>
               </table>
             </div>
@@ -145,6 +145,15 @@ export default {
     },
     birthChange: function() {
       this.$router.push({name: 'Birth'})
+    },
+    sexChange: function() {
+      this.$router.push({name: 'Sex'})
+    },
+    mailChange: function() {
+      this.$router.push({name: 'Email'})
+    },
+    phoneChange: function() {
+      this.$router.push({name: 'Phone'})
     }
   }
 }
