@@ -117,8 +117,11 @@
       </div>
     <div class="modal" v-show="is_show">
       <h2>당신의 기록을 추가해주세요</h2>
-      <input type="text" v-model="insert_weight">
-      <input type="button" @click="insert" value="당장추가해">
+      <div><input type="text" v-model="insert_weight"></div>
+      <div style="margin-top: 10px">
+        <input type="button" @click="insert" value="당장추가해">
+        <input type="button" @click="handle_toggle" value="취소">
+      </div>
     </div>
     </div>
   </div>
