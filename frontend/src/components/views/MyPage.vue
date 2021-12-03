@@ -205,8 +205,8 @@ export default {
     // name id로 수정해야함
     try {
       this.Post = await updatePosts.getPosts();
-      this.posts = Object.values(this.Post).filter(posts => posts.createdUser === this.name)
-      this.likedList = Object.values(this.Post).filter(posts => posts.likedUsers.length >0 && posts.likedUsers.includes(this.name))
+      this.posts = Object.values(this.Post).filter(posts => posts.createdUser === this.id)
+      this.likedList = Object.values(this.Post).filter(posts => posts.likedUsers.length >0 && posts.likedUsers.includes(this.id))
     } catch (err) {
       this.error = err.message;
     }
