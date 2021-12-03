@@ -25,8 +25,8 @@
                 <td class="line" @click="nameChange()"> {{name}}</td>
               </tr>
               <tr>
-                <th class="line"> 생년월일</th>
-                <td class="line">  {{birth}}</td>
+                <th class="line" @click="birthChange()"> 생년월일</th>
+                <td class="line" @click="birthChange()">  {{birth}}</td>
               </tr>
               <tr>
                 <th class="line"> 성별</th>
@@ -142,6 +142,9 @@ export default {
   methods: {
     nameChange: function() {
       this.$router.push({name: 'Name'})
+    },
+    birthChange: function() {
+      this.$router.push({name: 'Birth'})
     }
   }
 }
