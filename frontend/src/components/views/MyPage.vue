@@ -46,7 +46,7 @@
             </div>
           </div>
           <div class="square_left2">
-            <canvas  id="planet-chart"></canvas>
+            <canvas  id="chart1"></canvas>
           </div>
           <div class="square_right2"></div>
         </div>
@@ -121,13 +121,10 @@ import $ from "jquery";
 import updatePosts from "@/services/updatePosts";
 import getUserInfo from "@/services/users/getUserInfo";
 import Chart from 'chart.js'
-import Data from './boards/data'
 
 export default {
   name: "MyPage",
   mounted() {
-    const ctx = document.getElementById('planet-chart');
-    new Chart(ctx,this.chartData);
 
     $(document).ready(function () {
       var currentPosition = parseInt($(".side_container").css("top"));
@@ -151,7 +148,6 @@ export default {
   },
   data() {
     return {
-      chartData : Data,
       name: '',
       age: '',
       state: '',
@@ -161,6 +157,7 @@ export default {
       user_interest: [],
       challenge:{},
       challengeList:[],
+      weight:'',
       ///
       Post:[],
       posts: [],
@@ -173,28 +170,32 @@ export default {
       //
       pageSize:5,
       pageNum:0,
-      LikedPageNum:0
+      LikedPageNum:0,
     }
   },
   async created() {
+
     this.id = 'suloreum'
     this.userName = 'chosiyeon'
 
     try{
       this.Users = await getUserInfo.getUsers()
       this.user = Object.values(this.Users).filter(users => users.id === this.id)
-      console.log(this.user)
       this.name = this.user[0].name
       this.state = this.user[0].state
       this.sex = this.user[0].sex
       this.age = this.user[0].age
       this.user_interest = this.user[0].interest
       this.challenge = this.user[0].challenge
+      this.weight = this.user[0].weight
+
+      this.createChart('chart1');
+      console.log(Object.values(this.weight))
+
+
     }catch (err){
       this.error = console.log(err);
     }
-
-    console.log(this.user)
 
     for (let variable in this.challenge){
       this.challengeList.push(variable)
@@ -249,6 +250,38 @@ export default {
     }
     ,prevLikedPage () {
       this.LikedPageNum -= 1;
+    },
+    createChart(charId){
+      const ctx = document.getElementById(charId)
+      new Chart(ctx,{
+        type:"line",
+        data:{
+          labels: ["1", "2","3","4","5"],
+          datasets: [
+            {
+              label: "wight",
+              data: Object.values(this.weight),
+              backgroundColor: "rgba(54,73,93,.5)",
+              borderColor: "#36495d",
+              borderWidth: 2
+            }
+          ]
+        },
+        options:{
+          responsive: false,
+          scales: {
+            yAxes: [
+              {
+                ticks: {
+                  beginAtZero: true,
+                  stepSize:15,
+                  padding: 20
+                }
+              }
+            ]
+          }
+        },
+      });
     }
   }
 }
