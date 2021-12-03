@@ -17,6 +17,9 @@ import DetailBoardPage from "../components/views/boards/DetailBoardPage"
 
 import Name from "../components/views/boards/UserInfo/Name"
 import Birth from "../components/views/boards/UserInfo/Birth"
+import Sex from "../components/views/boards/UserInfo/Sex"
+import Email from "../components/views/boards/UserInfo/Email"
+import Phone from "../components/views/boards/UserInfo/Phone"
 
 Vue.use(Router); // use vue router
 
@@ -95,6 +98,21 @@ const routes = [
         path: '/views/boards/UserInfo/Birth',
         name: 'Birth',
         component: Birth
+    },
+    {
+        path: '/views/boards/UserInfo/Sex',
+        name: 'Sex',
+        component: Sex
+    },
+    {
+        path: '/views/boards/UserInfo/Email',
+        name: 'Email',
+        component: Email
+    },
+    {
+        path: '/views/boards/UserInfo/Phone',
+        name: 'Phone',
+        component: Phone
     }
 
 ]
