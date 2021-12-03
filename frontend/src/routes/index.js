@@ -16,6 +16,7 @@ import Write from "../components/views/boards/Write";
 import DetailBoardPage from "../components/views/boards/DetailBoardPage"
 
 import Name from "../components/views/boards/UserInfo/Name"
+import Birth from "../components/views/boards/UserInfo/Birth"
 
 Vue.use(Router); // use vue router
 
@@ -89,6 +90,11 @@ const routes = [
         path: '/views/boards/UserInfo/Name',
         name: 'Name',
         component: Name
+    },
+    {
+        path: '/views/boards/UserInfo/Birth',
+        name: 'Birth',
+        component: Birth
     }
 
 ]
