@@ -53,8 +53,8 @@
                   <td class="line" @click="mailChange()">  {{email}}</td>
                 </tr>
                 <tr>
-                  <th> 전화번호</th>
-                  <td> {{phone}} </td>
+                  <th @click="phoneChange()"> 전화번호</th>
+                  <td @click="phoneChange()"> {{phone}} </td>
                 </tr>
               </table>
             </div>
@@ -151,6 +151,9 @@ export default {
     },
     mailChange: function() {
       this.$router.push({name: 'Email'})
+    },
+    phoneChange: function() {
+      this.$router.push({name: 'Phone'})
     }
   }
 }
