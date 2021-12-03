@@ -60,10 +60,6 @@
             </div>
           </div>
         </div>
-        <div>
-          <div class="etc_info_left"></div>
-          <div class="etc_info_right"></div>
-        </div>
       </div>
     </div>
   </div>
@@ -260,25 +256,25 @@ export default {
 /*  float: left;*/
 /*}*/
 
-.etc_info_left {
-  position: relative;
-  margin-top: 10px;
-  width: 49%;
-  padding-top: 30%;
-  border-radius: 16px;
-  border: 1px solid lightgray;
-  float: left;
-}
+/*.etc_info_left {*/
+/*  position: relative;*/
+/*  margin-top: 10px;*/
+/*  width: 49%;*/
+/*  padding-top: 30%;*/
+/*  border-radius: 16px;*/
+/*  border: 1px solid lightgray;*/
+/*  float: left;*/
+/*}*/
 
-.etc_info_right {
-  position: relative;
-  margin-top: 10px;
-  width: 49%;
-  padding-top: 30%;
-  border-radius: 16px;
-  border: 1px solid lightgray;
-  float: right;
-}
+/*.etc_info_right {*/
+/*  position: relative;*/
+/*  margin-top: 10px;*/
+/*  width: 49%;*/
+/*  padding-top: 30%;*/
+/*  border-radius: 16px;*/
+/*  border: 1px solid lightgray;*/
+/*  float: right;*/
+/*}*/
 
 /*.info_revise {*/
 /*  position: relative;*/
