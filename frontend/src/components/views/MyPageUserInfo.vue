@@ -49,8 +49,8 @@
                   <col style="width:10%">
                 </colgroup>
                 <tr>
-                  <th class="line"> 이메일</th>
-                  <td class="line">  {{email}}</td>
+                  <th class="line" @click="mailChange()"> 이메일</th>
+                  <td class="line" @click="mailChange()">  {{email}}</td>
                 </tr>
                 <tr>
                   <th> 전화번호</th>
@@ -148,6 +148,9 @@ export default {
     },
     sexChange: function() {
       this.$router.push({name: 'Sex'})
+    },
+    mailChange: function() {
+      this.$router.push({name: 'Email'})
     }
   }
 }
