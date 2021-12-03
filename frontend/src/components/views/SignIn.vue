@@ -10,18 +10,20 @@
       <div class="passForm">
         <input v-model="password" type="password" class="pw" placeholder="PW">
       </div>
-      <button type="submit" class="btn" @click="submit">LOG IN</button>
+      <button type="submit" class="btn" @click="login({id, password})">LOG IN</button>
       <div class="bottomText">
         회원이 아니신가요? <router-link style="color: #6075eb" to="/views/Signup">sign up</router-link>
       </div>
-      <button @click="postTest">테스트</button>
+<!--      <div>-->
+<!--        <h1>{{userInfo.name}} 님 환영합니다.</h1>-->
+<!--      </div>-->
+
     </div>
   </div>
 </template>
 
 <script>
 import {mapState, mapActions} from "vuex"
-import axios from "axios"
 
 export default {
   name: "Signin",
@@ -32,34 +34,25 @@ export default {
     }
   },
   computed:{
-    ...mapState(["isLogin", "isLoginError"])
+    ...mapState(["isLogin", "isLoginError", "userInfo"])
   },
   methods: {
     ...mapActions(["login"]),
     submit(){
       console.log(this.id);
       console.log(this.password);
-      axios
-        .get('http://localhost:3000/api/users')
-        .then(res => {
-        console.log(res)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-        .then(function (){
-        })
-    },
-    postTest(){
+
       // axios
-      //   .post('http://localhost:3000/api/users', {id:"suloreum"})
+      //   .get('http://localhost:3000/api/users')
       //   .then(res => {
-      //     console.log(res)
+      //   console.log(res)
       //   })
-      //   .catch(err =>{
+      //   .catch(err => {
       //     console.log(err)
       //   })
-    }
+      //   .then(function (){
+      //   })
+    },
   }
 };
 </script>

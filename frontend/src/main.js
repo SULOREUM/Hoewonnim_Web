@@ -4,8 +4,7 @@ import router from './routes/index.js';
 import jQuery from 'jquery'
 import GAuth from 'vue-google-oauth2'
 import GSignInButton from 'vue-google-signin-button-directive'
-import store from './vuex/store'
-
+import store from '../src/services/users/store'
 
 //fort-awesome
 import { library } from '@fortawesome/fontawesome-svg-core'
