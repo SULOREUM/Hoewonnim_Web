@@ -29,8 +29,8 @@
                 <td class="line" @click="birthChange()">  {{birth}}</td>
               </tr>
               <tr>
-                <th class="line"> 성별</th>
-                <td class="line">  {{sex}}</td>
+                <th class="line" @click="sexChange()"> 성별</th>
+                <td class="line" @click="sexChange()">  {{sex}}</td>
               </tr>
               <tr>
                 <th> 챌린지</th>
@@ -145,6 +145,9 @@ export default {
     },
     birthChange: function() {
       this.$router.push({name: 'Birth'})
+    },
+    sexChange: function() {
+      this.$router.push({name: 'Sex'})
     }
   }
 }

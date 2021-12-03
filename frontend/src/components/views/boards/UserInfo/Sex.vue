@@ -6,14 +6,18 @@
           사용자 정보 수정
         </div>
         <div class="sub_title">
-          생년월일을 수정하실 수 있습니다.
+          성별을 수정하실 수 있습니다.
         </div>
-        <div class="birth_revise">
-          <div class="birth_revise_content">
-            <div class="birth_area">
-              <input class="birth" v-model="year" type="text" maxlength="4" placeholder="년(4자)"/>
-              <input class="birth" v-model="month" type="text"  maxlength="2" placeholder="월"/>
-              <input class="birth" v-model="day"  type="text"  maxlength="2" placeholder="일"/>
+        <div class="sex_revise">
+          <div class="sex_revise_content">
+            <div class="sex_area">
+              <select class = "sex" id="sex">
+                <option>성별</option>
+                <option value="Male"  v-if="sex === 'Female'">남자</option>
+                <option value="Female" v-if="sex === 'Male'">여자</option>
+                <option value="Male" v-if="sex === 'Male'" selected >남자</option>
+                <option value="Female" v-if="sex === 'Female'" selected>여자</option>
+              </select>
             </div>
             <div class="btn_area">
               <button class="ok_btn" @click="ok">확인</button>
@@ -31,16 +35,10 @@ import getUserInfo from "@/services/users/getUserInfo";
 import updateUser from "@/services/updateUsers";
 
 export default {
-  name: "Birth",
+  name: "Sex",
   data() {
     return {
-      year: '',
-      month: '',
-      day: '',
-      birthArr: [],
-      monthCheck: false,
-      dayCheck: true,
-      newBirth: '',
+      newSex: '',
       user_id: 'suloreum',
 
       User: [],
@@ -63,7 +61,8 @@ export default {
 
       update_user_data: {}
     }
-  },async created() {
+  },
+  async created() {
     try{
       this.Users = await getUserInfo.getUsers()
       this.user = Object.values(this.Users).filter(users => users.id === this.user_id)
@@ -82,46 +81,33 @@ export default {
       this.challenge = this.user[0].challenge
       this.weight = this.user[0].weight
       this.liked_post = this.user[0].liked_post
-
-      this.birthArr = this.birth.split('-')
-      this.year = this.birthArr[0]
-      this.month = this.birthArr[1]
-      this.day = this.birthArr[2]
     }catch (err){
       this.error = console.log(err);
     }
   },
   methods: {
-    ok: function () {
-      // month check
-      if (this.month >= 1 && this.month <= 12) {
-        this.monthCheck = true
-      } else {
-        alert("올바른 값을 입력하세요! ( 01 ~ 12 )")
-      }
+    ok: function() {
+      var target = document.getElementById("sex");
+      this.newSex = target.options[target.selectedIndex].value
 
-      // day check
-      if (this.day >= 1 && this.day <= 31) {
-        this.dayCheck = true
-      } else {
-        alert("올바른 값을 입력하세요! ( 01 ~ 31 )")
+      if (this.sex === this.newSex) {
+        alert("바뀐게 없어용")
       }
-
-      if (this.monthCheck && this.dayCheck) {
-        this.newBirth = this.year + '-' + this.month + '-' + this.day
+      else {
+        alert("바뀜")
         this.updateUser()
       }
     },
-    updateUser: function () {
+    updateUser: function() {
       this.update_user_data = {
         id: this.id,
         name: this.name,
         password: this.password,
         age: this.age,
         state: this.state,
-        sex: this.sex,
+        sex: this.newSex,
         profile_image: this.profile_image,
-        birth: this.newBirth,
+        birth: this.birth,
         phone: this.phone,
         mail: this.mail,
         interest: this.interest,
@@ -129,6 +115,8 @@ export default {
         weight: this.weight,
         liked_post: this.liked_post
       }
+
+      console.log(this.update_user_data)
 
       updateUser.UpdateUser(this.update_user_data, this.object_id)
     }
@@ -171,21 +159,21 @@ export default {
   font-family: 'Gothic A1', sans-serif;
 }
 
-.birth_revise {
+.sex_revise {
   position: relative;
-  width: 500px;
+  width:500px;
   margin-top: 20px;
   border-radius: 16px;
   border: 1px solid lightgray;
 }
 
-.birth_revise:before {
+.sex_revise:before {
   content: "";
   display: block;
-  padding-top: 60%;
+  padding-top: 40%;
 }
 
-.birth_revise_content {
+.sex_revise_content {
   position: absolute;
   top: 0;
   right: 0;
@@ -193,9 +181,9 @@ export default {
   left: 0;
 }
 
-.birth_area {
+.sex_area {
   width: 100%;
-  height: 65%;
+  height: 55%;
 }
 
 .btn_area {
@@ -205,7 +193,7 @@ export default {
 }
 
 /* input */
-.birth {
+.sex {
   width: 70%;
   height: 50px;
   margin-top: 20px;
@@ -214,7 +202,6 @@ export default {
   border-radius: 2px;
   border: 1px solid lightgray;
 }
-
 .cancle_btn {
   width: 25%;
   height: 40px;
@@ -225,7 +212,6 @@ export default {
   border: 0;
   cursor: pointer;
   border-radius: 2px;
-  margin-top: 3%;
 }
 
 .ok_btn {
@@ -237,7 +223,6 @@ export default {
   border: 0;
   cursor: pointer;
   border-radius: 2px;
-  margin-top: 3%;
 }
 
 @media all and (min-width: 768px) and (max-width: 1023px) {
@@ -261,7 +246,7 @@ export default {
     margin-left: 10%;
   }
 
-  .birth_revise {
+  .sex_revise {
     width: 400px
   }
 }
