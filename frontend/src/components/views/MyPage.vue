@@ -30,16 +30,27 @@
               <p>🔥 도전</p>
             </div>
           </div>
-          <div class="square_left"></div>
-          <div class="square_right"></div>
+          <div class="square_left">
+            <p class="challenge">{{challengeList[0]}}</p>
+            <p class="date">{{challengeList[1]}}</p>
+          </div>
+          <div class="square_right">
+            <p class="challenge">{{challengeList[2]}}</p>
+            <p class="date">{{challengeList[3]}}</p>
+          </div>
         </div>
         <div class="myInfo">
           <div class="title2">
+            <div class="add_button">
+              <input class="add_button" type="button" @click="handle_toggle" value="+">
+            </div>
             <div class="title_inside">
               <p>🔥 기록</p>
             </div>
           </div>
-          <div class="square_left2"></div>
+          <div class="square_left2">
+            <canvas  id="chart1"></canvas>
+          </div>
           <div class="square_right2"></div>
         </div>
         <div class="myActivity">
@@ -58,14 +69,22 @@
                 <th>no.</th>
                 <th>제목</th>
               </tr>
-              <tr v-for="(post, idx) in posts" :key="idx">
-                <td class="txt_middle">{{ posts.length - idx }}</td>
+              <tr v-for="(post, idx) in paginatedPostData" :key="idx">
+                <td class="txt_middle">{{ (posts.length - (pageNum * pageSize)) - idx }}</td>
                 <td class="txt_left"><a href="javascript:;"><router-link :to="{ name: 'DetailBoardPage', params: { id: post._id }}">{{ post.title }}</router-link></a></td>
               </tr>
-              <tr v-if="list.length == 0">
+              <tr v-if="paginatedPostData.length == 0">
                 <td colspan="2">작성한 글이 없습니다.</td>
               </tr>
             </table>
+            <div class="btn-cover">
+              <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
+                ◀
+              </button>
+              <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn">
+                ▶
+              </button>
+            </div>
           </div>
           <div class="post_right">
             <table class="tableList">
@@ -77,17 +96,33 @@
                 <th>no.</th>
                 <th>제목</th>
               </tr>
-              <tr v-for="(post, idx) in likedList" :key="idx">
-                <td class="txt_middle">{{ likedList.length - idx }}</td>
+              <tr v-for="(post, idx) in paginatedLikedData" :key="idx">
+                <td class="txt_middle">{{ likedList.length - (LikedPageNum * pageSize) - idx }}</td>
                 <td class="txt_left"><a href="javascript:;"><router-link :to="{ name: 'DetailBoardPage', params: { id: post._id }}">{{ post.title }}</router-link></a></td>
               </tr>
               <tr v-if="likedList.length == 0">
                 <td colspan="2">좋아요 한 글이 없습니다.</td>
               </tr>
             </table>
+            <div class="btn-cover">
+              <button :disabled="LikedPageNum === 0" @click="prevLikedPage" class="page-btn">
+                ◀
+              </button>
+              <button :disabled="LikedPageNum >= pageLikedCount - 1" @click="nextLikedPage" class="page-btn">
+                ▶
+              </button>
+            </div>
           </div>
         </div>
       </div>
+    <div class="modal" v-show="is_show">
+      <h2>당신의 기록을 추가해주세요</h2>
+      <div><input type="text" v-model="insert_weight"></div>
+      <div style="margin-top: 10px">
+        <input type="button" @click="insert" value="당장추가해">
+        <input type="button" @click="handle_toggle" value="취소">
+      </div>
+    </div>
     </div>
   </div>
 </template>
@@ -96,10 +131,13 @@
 import $ from "jquery";
 import updatePosts from "@/services/updatePosts";
 import getUserInfo from "@/services/users/getUserInfo";
+import updateUser from "@/services/updateUsers";
+import Chart from 'chart.js'
 
 export default {
   name: "MyPage",
   mounted() {
+
     $(document).ready(function () {
       var currentPosition = parseInt($(".side_container").css("top"));
       $(window).scroll(function () {
@@ -122,6 +160,8 @@ export default {
   },
   data() {
     return {
+      user_id: 'suloreum',
+
       name: '',
       age: '',
       state: '',
@@ -129,42 +169,177 @@ export default {
       list: '', // 글 데이터 가져오기
       likedList: [],
       user_interest: [],
+      challenge: {},
+      challengeList: [],
+      weight: '',
       ///
-      Post:[],
+      Post: [],
       posts: [],
       error: '',
       text: '',
       userName: '',
       //
-      Users:[],
-      user: {}
+      Users: [],
+      user: {},
+      //
+      pageSize: 5,
+      pageNum: 0,
+      LikedPageNum: 0,
+
+      is_show : false,
+      insert_weight : null
     }
   },
   async created() {
-    this.id = 'suloreum'
-    this.userName = 'chosiyeon'
 
     try{
       this.Users = await getUserInfo.getUsers()
-      this.user = Object.values(this.Users).filter(users => users.id === this.id)
+      this.user = Object.values(this.Users).filter(users => users.id === this.user_id)
+      this.id = this.user[0].id
+      this.object_id = this.user[0]._id
       this.name = this.user[0].name
+      this.password = this.user[0].password
+      this.age = this.user[0].age
       this.state = this.user[0].state
       this.sex = this.user[0].sex
-      this.age = this.user[0].age
-      this.user_interest = this.user[0].interest
+      this.profile_image = this.user[0].profile_image
+      this.birth = this.user[0].birth
+      this.phone = this.user[0].phone
+      this.mail = this.user[0].mail
+      this.newMail = this.user[0].mail
+      this.interest = this.user[0].interest
+      this.challenge = this.user[0].challenge
+      this.weight = this.user[0].weight
+      this.liked_post = this.user[0].liked_post
+
+      this.createChart('chart1');
+
     }catch (err){
       this.error = console.log(err);
+    }
+
+    for (let variable in this.challenge){
+      this.challengeList.push(variable)
+      this.challengeList.push(this.challenge[variable])
     }
 
     // name id로 수정해야함
     try {
       this.Post = await updatePosts.getPosts();
-      this.posts = Object.values(this.Post).filter(posts => posts.createdUser === this.name)
-      this.likedList = Object.values(this.Post).filter(posts => posts.likedUsers.length >0 && posts.likedUsers.includes(this.name))
+      this.posts = Object.values(this.Post).filter(posts => posts.createdUser === this.id)
+      this.likedList = Object.values(this.Post).filter(posts => posts.likedUsers.length >0 && posts.likedUsers.includes(this.id))
     } catch (err) {
       this.error = err.message;
     }
+  },
+  computed:{
+    pageCount () {
+      let listLeng = this.posts.length,
+          listSize = this.pageSize,
+          page = Math.floor(listLeng / listSize);
+      if (listLeng % listSize > 0) page += 1;
+      return page;
+    }
+    ,paginatedPostData () {
+      const start = this.pageNum * this.pageSize,
+          end = start + this.pageSize;
+      return this.posts.slice(start, end);
+    }
+    ,
+    pageLikedCount () {
+      let listLeng = this.likedList.length,
+          listSize = this.pageSize,
+          page = Math.floor(listLeng / listSize);
+      if (listLeng % listSize > 0) page += 1;
+      return page;
+    }
+    ,paginatedLikedData () {
+      const start = this.LikedPageNum * this.pageSize,
+          end = start + this.pageSize;
+      return this.likedList.slice(start, end);
+    }
+  },
+  methods:{
+  nextPage () {
+    this.pageNum += 1;
+  }
+  ,prevPage () {
+    this.pageNum -= 1;
+  }
+  ,nextLikedPage () {
+      this.LikedPageNum += 1;
+    }
+    ,prevLikedPage () {
+      this.LikedPageNum -= 1;
+    },
+    handle_toggle(){
+      this.is_show = !this.is_show;
+    },
+    insert(){
 
+    if(this.insert_weight == null){
+      this.is_show = !this.is_show
+    }
+    else {
+      let weightList = this.weight
+      weightList.push(this.insert_weight)
+
+      this.update_user_data = {
+        id: this.id,
+        name: this.name,
+        password: this.password,
+        age: this.age,
+        state: this.state,
+        sex: this.sex,
+        profile_image: this.profile_image,
+        birth: this.birth,
+        phone: this.phone,
+        mail: this.newMail,
+        interest: this.interest,
+        challenge: this.challenge,
+        weight: weightList,
+        liked_post: this.liked_post
+      }
+
+      updateUser.UpdateUser(this.update_user_data, this.object_id)
+      this.weight.push()
+
+      this.is_show = !this.is_show
+      this.createChart('chart1');
+    }
+    },
+    createChart(charId){
+      const ctx = document.getElementById(charId)
+      new Chart(ctx,{
+        type:"line",
+        data:{
+          labels: ["1", "2","3","4","5"],
+          datasets: [
+            {
+              label: "wight",
+              data: Object.values(this.weight),
+              backgroundColor: "rgba(54,73,93,.5)",
+              borderColor: "#36495d",
+              borderWidth: 2
+            }
+          ]
+        },
+        options:{
+          responsive: false,
+          scales: {
+            yAxes: [
+              {
+                ticks: {
+                  beginAtZero: true,
+                  stepSize:15,
+                  padding: 20
+                }
+              }
+            ]
+          }
+        },
+      });
+    }
   }
 }
 </script>
@@ -327,17 +502,6 @@ export default {
   color: black;
   border-radius: 10px;
 }
-
-.title_inside {
-  display: table;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin: auto;
-}
-
 .title2 {
   position: relative;
   width: 15%;
@@ -352,41 +516,89 @@ export default {
   margin-top: 2%;
   border-radius: 10px;
 }
-
+.title_inside {
+  display: table;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: auto;
+}
+.add_button{
+  /*position: fixed;*/
+  /*right: 10%;*/
+  display: table;
+  width: 58%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 400%;
+  margin: auto;
+}
+.add_button input{
+  background-color: white;
+  color:#2c3e50;
+  font-size: 2em;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+}
 
 /* my challenge */
 
 .square_left {
+  display: flex;
+  justify-content: space-between;
   width:48%;
   height: 73%;
   float: left;
-  margin-top: 2%;
+  margin-top: 1%;
   background-color: #2c3e50;
 }
-
 .square_right {
+  display: flex;
+  justify-content: space-between;
   width:48%;
   height: 73%;
   float: right;
-  margin-top: 2%;
+  margin-top: 1%;
   background-color: #2c3e50;
+}
+.challenge{
+  color: white;
+  margin-left: 10px;
+}
+.date{
+  color: white;
+  margin-right: 10px;
 }
 
 /* my record */
 
 .square_left2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   width:48%;
   height: 83%;
   float: left;
-  margin-top: 2%;
+  margin-top: 1%;
   background-color: #2c3e50;
+}
+
+.square_left2 canvas{
+  background-color: white;
+  width: 100%;
+  height: 96%;
 }
 
 .square_right2 {
   width:48%;
   height: 83%;
   float: right;
-  margin-top: 2%;
+  margin-top: 1%;
   background-color: #2c3e50;
 }
 
@@ -433,6 +645,43 @@ export default {
 .tableList td.txt_middle {
   text-align: center;
   font-size: 0.8em;
+}
+.btn-cover{
+  display: flex;
+  justify-content: center;
+}
+.btn-cover button{
+  border: 1px solid rgba(96, 117, 235, 0.28);
+  background-color: rgba(202, 223, 224, 0.3);
+  color: #222222;
+  padding: 3px 5px;
+  border-radius: .5em;
+  box-shadow: 0 1px 0 1px rgba(0, 0, 0, .04);
+  margin-left: 10px;
+  margin-top: 10px;
+
+  text-align-last: center;
+  text-align: center;
+  font-size: 0.5em;
+
+  cursor: pointer;
+}
+
+.btn-cover button:disabled{
+  color: white;
+  border: white;
+}
+ /* modal */
+
+.modal{
+  background-color: #ffffff;
+  border: rgba(202, 223, 224, 1) 5px solid;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width:500px;
+  height:200px;
 }
 
 /*  */

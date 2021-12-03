@@ -6,17 +6,14 @@
           사용자 정보 수정
         </div>
         <div class="sub_title">
-          닉네임을 수정하실 수 있습니다.
+          이메일을 수정하실 수 있습니다.
         </div>
-        <div class="name_revise">
-          <div class="name_revise_content">
-            <div class="name_area">
-              <input class="username" type="text" placeholder="성"/>
-              <input class="username2" type="text" v-on:input="typing" v-bind:value="name" placeholder="이름">
+        <div class="email_revise">
+          <div class="email_revise_content">
+            <div class="email_area">
+              <input type="text" maxlength="100" class="mail" v-on:input="typing" v-model="newMail">
             </div>
             <div class="btn_area">
-<!--              <input :disabled ="this.newname === this.name" class="ok_btn" type="submit" value="확인" @click="Save"/>-->
-<!--              <input class="cancle_btn" type="submit" value="취소"/>-->
               <button class="ok_btn" @click="ok">확인</button>
               <button class="cancle_btn">취소</button>
             </div>
@@ -27,17 +24,15 @@
   </div>
 </template>
 
-
 <script>
 import getUserInfo from "@/services/users/getUserInfo";
 import updateUser from "@/services/updateUsers";
 
 export default {
-name: "Name",
+  name: "Email",
   data() {
     return {
-      check: 0,
-      newname: '',
+      newMail: '',
       user_id: 'suloreum',
 
       User: [],
@@ -68,7 +63,6 @@ name: "Name",
       this.id = this.user[0].id
       this.object_id = this.user[0]._id
       this.name = this.user[0].name
-      this.newname = this.user[0].name
       this.password = this.user[0].password
       this.age = this.user[0].age
       this.state = this.user[0].state
@@ -77,6 +71,7 @@ name: "Name",
       this.birth = this.user[0].birth
       this.phone = this.user[0].phone
       this.mail = this.user[0].mail
+      this.newMail = this.user[0].mail
       this.interest = this.user[0].interest
       this.challenge = this.user[0].challenge
       this.weight = this.user[0].weight
@@ -87,10 +82,10 @@ name: "Name",
   },
   methods: {
     typing(e) {
-      this.newname = e.target.value
+      this.newMail = e.target.value
     },
     ok: function() {
-      if (this.name === this.newname) {
+      if (this.mail === this.newMail) {
         alert("바뀐게 없어용")
       }
       else {
@@ -101,7 +96,7 @@ name: "Name",
     updateUser: function() {
       this.update_user_data = {
         id: this.id,
-        name: this.newname,
+        name: this.name,
         password: this.password,
         age: this.age,
         state: this.state,
@@ -109,7 +104,7 @@ name: "Name",
         profile_image: this.profile_image,
         birth: this.birth,
         phone: this.phone,
-        mail: this.mail,
+        mail: this.newMail,
         interest: this.interest,
         challenge: this.challenge,
         weight: this.weight,
@@ -157,7 +152,7 @@ name: "Name",
   font-family: 'Gothic A1', sans-serif;
 }
 
-.name_revise {
+.email_revise {
   position: relative;
   width:500px;
   margin-top: 20px;
@@ -165,13 +160,13 @@ name: "Name",
   border: 1px solid lightgray;
 }
 
-.name_revise:before {
+.email_revise:before {
   content: "";
   display: block;
-  padding-top: 60%;
+  padding-top: 40%;
 }
 
-.name_revise_content {
+.email_revise_content {
   position: absolute;
   top: 0;
   right: 0;
@@ -179,9 +174,9 @@ name: "Name",
   left: 0;
 }
 
-.name_area {
+.email_area {
   width: 100%;
-  height: 65%;
+  height: 55%;
 }
 
 .btn_area {
@@ -191,7 +186,7 @@ name: "Name",
 }
 
 /* input */
-.username {
+.mail {
   width: 70%;
   height: 50px;
   margin-top: 20px;
@@ -200,17 +195,6 @@ name: "Name",
   border-radius: 2px;
   border: 1px solid lightgray;
 }
-
-.username2 {
-  width: 70%;
-  height: 50px;
-  margin-top: 20px;
-  margin-right: 25%;
-  float: right;
-  border-radius: 2px;
-  border: 1px solid lightgray;
-}
-
 .cancle_btn {
   width: 25%;
   height: 40px;
@@ -255,7 +239,7 @@ name: "Name",
     margin-left: 10%;
   }
 
-  .name_revise {
+  .email_revise {
     width: 400px
   }
 }
