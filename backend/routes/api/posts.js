@@ -12,7 +12,6 @@ router.get('/', async (req, res) => {
 router.get('/:id', async function(req, res){
     // const find_id = parseInt(req.params.id, 10);
     const find_id = mongodb.ObjectID(req.params.id);
-    const posts = await loadPostsCollections();
     res.send(await posts.find({_id:find_id}).toArray());
 });
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = 'http://localhost:3000/api/users/';
+const url = 'http://localhost:3000/api/SignUp';
 
 class join {
 
@@ -14,7 +14,6 @@ class join {
     static createUser(data) {
         return axios.post(url, {
             data
-
         });
     }
 }
