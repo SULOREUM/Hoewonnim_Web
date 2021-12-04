@@ -67,15 +67,17 @@ export default new Vuex.Store({
                                 id: response.data[0].id,
                                 password: response.data[0].password,
                                 name: response.data[0].name,
-                                // age: req.body.data.age,
-                                // state: req.body.data.data.state,
-                                // sex: req.body.sex,
-                                // profile_image: req.body.data.profile_image,
-                                // birth: req.body.data.birth,
-                                // phone: req.body.phone,
-                                // mail: req.body.data.mail,
-                                // interest: req.body.data.interest,
-                                // name: response.data.name
+                                age: response.data[0].age,
+                                state: response.data[0].state,
+                                sex: response.data[0].sex,
+                                profile_image: response.data[0].profile_image,
+                                birth: response.data[0].birth,
+                                phone: response.data[0].phone,
+                                mail: response.data[0].mail,
+                                user_interest: response.data[0].interest,
+                                challenge: response.data[0].challenge,
+                                weight: response.data[0].weight,
+                                liked_post: response.data[0].liked_post,
                             }
                             commit('loginSuccess', userInfo)
                             console.log(response)
