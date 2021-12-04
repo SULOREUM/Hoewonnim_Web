@@ -22,19 +22,19 @@
               </tr>
               <tr>
                 <th class="line" @click="nameChange()"> 닉네임</th>
-                <td class="line" @click="nameChange()"> {{name}}</td>
+                <td class="line" @click="nameChange()"> {{userInfo.name}}</td>
               </tr>
               <tr>
                 <th class="line" @click="birthChange()"> 생년월일</th>
-                <td class="line" @click="birthChange()">  {{birth}}</td>
+                <td class="line" @click="birthChange()">  {{userInfo.birth}}</td>
               </tr>
               <tr>
                 <th class="line" @click="sexChange()"> 성별</th>
-                <td class="line" @click="sexChange()">  {{sex}}</td>
+                <td class="line" @click="sexChange()">  {{userInfo.sex}}</td>
               </tr>
               <tr>
                 <th> 챌린지</th>
-                <td> {{challenge}}</td>
+                <td> {{userInfo.challenge}}</td>
               </tr>
             </table>
           </div>
@@ -50,11 +50,11 @@
                 </colgroup>
                 <tr>
                   <th class="line" @click="mailChange()"> 이메일</th>
-                  <td class="line" @click="mailChange()">  {{email}}</td>
+                  <td class="line" @click="mailChange()">  {{userInfo.mail}}</td>
                 </tr>
                 <tr>
                   <th @click="phoneChange()"> 전화번호</th>
-                  <td @click="phoneChange()"> {{phone}} </td>
+                  <td @click="phoneChange()"> {{userInfo.phone}} </td>
                 </tr>
               </table>
             </div>
@@ -69,9 +69,14 @@
 
 import $ from "jquery";
 import getUserInfo from "@/services/users/getUserInfo";
+import {mapState} from 'vuex'
+
 
 export default {
   name: "userInfo",
+  computed:{
+    ...mapState(["userInfo"])
+  },
   data() {
     return {
       User: [],

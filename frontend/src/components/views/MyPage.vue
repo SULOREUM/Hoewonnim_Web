@@ -5,16 +5,16 @@
         <div class="user_image">
           <div class="user_image_inside"><img src="../../assets/user.png"/></div>
         </div>
-        <div class="user_name"><span><strong>{{ name }}</strong><router-link
+        <div class="user_name"><span><strong>{{ userInfo.name }}</strong><router-link
             to="/views/MyPageUserInfo">  내 정보</router-link><br/></span>
-          <span>{{ state }} / {{ sex }} / {{ age }}</span></div>
+          <span>{{ userInfo.state }} / {{ userInfo.sex }} / {{ userInfo.age }}</span></div>
         <div class="user_like">
           <table class="userInfoTable">
             <colgroup>
               <col style="width:50%">
               <col style="width:50%">
             </colgroup>
-            <tr v-for="data in user_interest" :key="data">
+            <tr v-for="data in userInfo.user_interest" :key="data">
               <td class="txt_middle">{{ data }}</td>
 <!--              <td class="txt_middle">{{ data }}</td>-->
             </tr>
@@ -133,7 +133,7 @@ import updatePosts from "@/services/updatePosts";
 import getUserInfo from "@/services/users/getUserInfo";
 import updateUser from "@/services/updateUsers";
 import Chart from 'chart.js'
-
+import {mapState} from 'vuex'
 export default {
   name: "MyPage",
   mounted() {
@@ -257,7 +257,8 @@ export default {
       const start = this.LikedPageNum * this.pageSize,
           end = start + this.pageSize;
       return this.likedList.slice(start, end);
-    }
+    },
+    ...mapState(["userInfo"])
   },
   methods:{
   nextPage () {

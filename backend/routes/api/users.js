@@ -25,19 +25,19 @@ router.post('/', async (req, res) => {
     const users = await loadUsersCollections();
     await users.insertOne({
         id: req.body.id,
-        password: req.body.password,
-        name: req.body.name,
-        // age: req.body.data.age,
-        // state: req.body.data.data.state,
-        sex: req.body.sex,
-        // profile_image: req.body.data.profile_image,
-        // birth: req.body.data.birth,
-        phone: req.body.phone,
-        // mail: req.body.data.mail,
-        // interest: req.body.data.interest,
-        // challenge: req.body.data.challenge,
-        // weight: req.body.data.weight,
-        // liked_post: req.body.data.liked_post
+        password: req.body.data.password,
+        name: req.body.data.name,
+        age: req.body.data.age,
+        state: req.body.data.data.state,
+        sex: req.body.data.sex,
+        profile_image: req.body.data.profile_image,
+        birth: req.body.data.birth,
+        phone: req.body.data.phone,
+        mail: req.body.data.mail,
+        interest: req.body.data.interest,
+        challenge: req.body.data.challenge,
+        weight: req.body.data.weight,
+        liked_post: req.body.data.liked_post
 
 
         // postman post 용 -> 나중에 지울게영
@@ -112,7 +112,7 @@ router.post('/:id', async (req, res) => {
             }
         }
     );
-    res.status(200).send();
+    res.status(202).send();
 });
 
 // Delete User

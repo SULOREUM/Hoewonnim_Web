@@ -13,6 +13,16 @@ var UserSchema = new mongoose.Schema({
     password: String, // 비밀번호
     name: String, // 이름
     id: String, // 아이디
+    age: Number,
+    state: String,
+    sex: String,
+    list: String, // 글 데이터 가져오기
+    likedList: Array,
+    user_interest: Array,
+    challenge: Object,
+    challengeList: Array,
+    weight: Array,
+    birth: String,
 });
 var Users = mongoose.model('users', UserSchema);
 
@@ -50,15 +60,6 @@ app.post('/api/SignIn', (req, res) => {
         else return res.status(404).json({ message: '유저 없음!' });
     })
 });
-
-// Find User
-// app.get('/api/Find', (req, res) => {
-//     Users.findOne({ id: req.body.id, password: req.body.password }, (err, user) => {
-//         if (err) return res.status(500).json({ message: '에러!' });
-//         else if (user) return res.status(200).json({  });
-//         else return res.status(404).json({ message: '유저 없음!' });
-//     });
-// });
 
 // // Handle production
 // if(process.env.NODE_ENV === 'production') {
