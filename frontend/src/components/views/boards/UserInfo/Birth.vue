@@ -27,11 +27,15 @@
 </template>
 
 <script>
-import getUserInfo from "@/services/users/getUserInfo";
+// import getUserInfo from "@/services/users/getUserInfo";
 import updateUser from "@/services/updateUsers";
+import {mapState} from 'vuex';
 
 export default {
   name: "Birth",
+  computed:{
+    ...mapState(["userInfo"])
+  },
   data() {
     return {
       year: '',
@@ -64,32 +68,14 @@ export default {
       update_user_data: {}
     }
   },async created() {
-    try{
-      this.Users = await getUserInfo.getUsers()
-      this.user = Object.values(this.Users).filter(users => users.id === this.user_id)
-      this.id = this.user[0].id
-      this.object_id = this.user[0]._id
-      this.name = this.user[0].name
-      this.password = this.user[0].password
-      this.age = this.user[0].age
-      this.state = this.user[0].state
-      this.sex = this.user[0].sex
-      this.profile_image = this.user[0].profile_image
-      this.birth = this.user[0].birth
-      this.phone = this.user[0].phone
-      this.mail = this.user[0].mail
-      this.interest = this.user[0].interest
-      this.challenge = this.user[0].challenge
-      this.weight = this.user[0].weight
-      this.liked_post = this.user[0].liked_post
 
-      this.birthArr = this.birth.split('-')
-      this.year = this.birthArr[0]
-      this.month = this.birthArr[1]
-      this.day = this.birthArr[2]
-    }catch (err){
-      this.error = console.log(err);
-    }
+    this.User = this.$store.state.userInfo
+    this.object_id = this.$store.state.userInfo.object_id
+
+    this.birthArr = this.$store.state.userInfo.birth.split('-')
+    this.year = this.birthArr[0]
+    this.month = this.birthArr[1]
+    this.day = this.birthArr[2]
   },
   methods: {
     ok: function () {
@@ -113,24 +99,13 @@ export default {
       }
     },
     updateUser: function () {
-      this.update_user_data = {
-        id: this.id,
-        name: this.name,
-        password: this.password,
-        age: this.age,
-        state: this.state,
-        sex: this.sex,
-        profile_image: this.profile_image,
-        birth: this.newBirth,
-        phone: this.phone,
-        mail: this.mail,
-        interest: this.interest,
-        challenge: this.challenge,
-        weight: this.weight,
-        liked_post: this.liked_post
-      }
+      this.$store.commit('changeBirth', this.newBirth)
+      this.User.birth = this.newBirth
+      console.log(this.User)
 
-      updateUser.UpdateUser(this.update_user_data, this.object_id)
+      console.log(this.User.object_id)
+
+      updateUser.UpdateUser(this.User, this.User.object_id)
     }
   }
 }
