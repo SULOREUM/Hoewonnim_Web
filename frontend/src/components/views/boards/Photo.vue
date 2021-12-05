@@ -18,7 +18,7 @@
       <div v-for="(row, idx) in photos" :key="idx">
         <div class="block">
           <img v-bind:src= row.img >
-          <a href="javascript:;">{{row.subject}}</a>
+          <a href="javascript:;">{{row.title}}</a>
         </div>
       </div>
 
@@ -51,8 +51,6 @@ export default {
       ,list:'' //리스트 데이터
       ,pageNum : 0
       ,pageSize : 15
-      ,Photo:[]
-      ,imageURL:[]
       ,photos:[]
     }
   },async created(){
@@ -62,7 +60,7 @@ export default {
     for(let i in this.list){
       this.photos.push({
         img : 'data:image/jpeg;base64,'+`${this.list[i].img}`,
-        subject : this.list[i].subject
+        title : this.list[i].title
       })
 
     }
@@ -101,14 +99,8 @@ export default {
     paginatedData () {
       const start = this.pageNum * this.pageSize,
           end = start + this.pageSize;
-      return this.list.slice(start, end);
+      return this.photos.slice(start, end);
     },
-    // convertSrc(s){
-    //   function hexToBase64(str) {
-    //     return btoa(String.fromCharCode.apply(null, str.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" ")));
-    //   }
-    //   return 'data:image/jpeg;base64' + hexToBase64(s);
-    // }
   }
 }
 </script>
