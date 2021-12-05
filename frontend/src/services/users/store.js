@@ -39,6 +39,10 @@ export default new Vuex.Store({
         loginError(state){
             state.isLogin = false
             state.isLoginError = true
+        },
+        // 생년월일 변
+        changeBirth(state, payload){
+            state.userInfo.birth = payload
         }
     },
     actions:{ //로그인 시도
@@ -65,6 +69,7 @@ export default new Vuex.Store({
                         .then(response =>{
                             let userInfo = {
                                 id: response.data[0].id,
+                                object_id: response.data[0]._id,
                                 password: response.data[0].password,
                                 name: response.data[0].name,
                                 age: response.data[0].age,
@@ -74,7 +79,7 @@ export default new Vuex.Store({
                                 birth: response.data[0].birth,
                                 phone: response.data[0].phone,
                                 mail: response.data[0].mail,
-                                user_interest: response.data[0].interest,
+                                interest: response.data[0].interest,
                                 challenge: response.data[0].challenge,
                                 weight: response.data[0].weight,
                                 liked_post: response.data[0].liked_post,
