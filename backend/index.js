@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 var mongoose = require('mongoose');
+
 //mongoose 연결할 때 포트 연결
 mongoose.connect(`mongodb+srv://adminSuloreum:qwer1234@hoewonnimcluster.6jzln.mongodb.net/Hoewonnim`).then(() => {
     app.listen(3000, () => console.log('listening to port 3000'));
@@ -32,13 +33,12 @@ app.use(cors());
 
 const users = require('./routes/api/users')
 const posts = require('./routes/api/posts');
-const boards = require('./routes/api/boards');
+const photos = require('./routes/api/photos');
 const mongodb = require("mongodb");
-
 
 app.use('/api/users', users);
 app.use('/api/posts', posts);
-app.use('/api/boards',boards);
+app.use('/api/photos',photos);
 
 // SignUp 처리
 app.post('/api/SignUp', (req, res) => {

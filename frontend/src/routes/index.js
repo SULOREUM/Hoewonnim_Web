@@ -14,6 +14,7 @@ import Promotion from "../components/views/boards/Promotion";
 import Photo from "../components/views/boards/Photo";
 import Write from "../components/views/boards/Write";
 import DetailBoardPage from "../components/views/boards/DetailBoardPage"
+import UploadPhoto from "../components/views/boards/UploadPhoto";
 
 import Name from "../components/views/boards/UserInfo/Name"
 import Birth from "../components/views/boards/UserInfo/Birth"
@@ -71,7 +72,7 @@ const routes = [
     },
     {
         path:'/views/boards/Photo',
-        name: Photo,
+        name: 'Photo',
         component: Photo
     },
     {
@@ -88,6 +89,11 @@ const routes = [
         path:'/views/boards/:prev/:id',
         name: 'DetailBoardPage',
         component: DetailBoardPage
+    },
+    {
+        path:'/views/boards/:prev/Upload/:id?',
+        name: 'UploadPhoto',
+        component: UploadPhoto
     },
     {
         path: '/views/boards/UserInfo/Name',
