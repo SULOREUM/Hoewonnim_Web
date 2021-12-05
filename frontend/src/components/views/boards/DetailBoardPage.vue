@@ -58,17 +58,21 @@ export default {
     const arr = await updatePosts.getDetailPost(id);
     this.list = arr[0]
     this.comments = arr[0].comments;
+    this.Board = arr[0].Board;
+
+    console.log(this.Board)
   },
   data: function() {
     return {
       list: {}
       ,updatedData: {}
       ,comments:[]
+      ,Board :''
     };
   },
   methods: {
     fnList(){
-      this.$router.push({path:'/views/boards/List'})
+      this.$router.push({name:this.Board})
     },
     Del: function () {
       alert("삭제완료");

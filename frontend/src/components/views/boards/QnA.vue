@@ -8,7 +8,6 @@
       <div class="sub-item" id="diet" v-on:click="showTag($event)"><span>#식단</span></div>
     </div>
 
-
     <div class="list">
       <table class="tbList">
         <colgroup>
@@ -25,11 +24,11 @@
           <th>날짜</th>
         </tr>
 
-        <tr v-for="(row, idx) in paginatedData" :key="idx">
-          <td>{{row.idx}}</td>
-          <td class="txt_center"><a href="javascript:;">{{row.subject}}</a></td>
-          <td>{{row.id}}</td>
-          <td>{{row.regdate.substring(0,10)}}</td>
+        <tr v-for="(item,idx) in paginatedData" :key="item.id">
+          <td>{{paginatedData.length - idx}}</td>
+          <td class="txt_center"><router-link :to="{ name: 'DetailBoardPage', params: { prev:item.Board,id: item._id }}">{{item.title}}</router-link></td>
+          <td>{{item.createdUser}}</td>
+          <td>{{item.createdAt.substring(0,10)}}</td>
         </tr>
         <tr v-if="items.length == 0">
           <td colspan="4">데이터가 없습니다.</td>
@@ -50,7 +49,7 @@
 
     <div class="top-menu">
       <div class="wt-button">
-        <router-link to="/views/boards/Write"><input type="button" value="글쓰기"></router-link>
+        <router-link :to="{name:'Write', params:{prev:'QnA'}}"><input type="button" value="글쓰기"></router-link>
       </div>
 
       <div class="search">
@@ -67,8 +66,7 @@
 
 <script>
 
-
-import TestData from './test.json'
+import updatePosts from "@/services/updatePosts";
 
 export default {
 
@@ -77,12 +75,23 @@ export default {
       body:'' //리스트 페이지 데이터전송
       ,board_code:'news' //게시판코드
       ,items:''
+      ,Items:[]
       ,pageNum : 0
       ,pageSize : 16
+      ,error: ''
+      ,text: ''
+      ,len:0
+      ,tag:'all'
     }
   }
-  ,created(){
-    this.items = TestData
+  ,async created(){
+    try{
+      this.Items = await updatePosts.getPosts();
+      this.items = Object.values(this.Items).filter(item => item.Board === 'QnA')
+
+    }catch(err){
+      this.error = err.message;
+    }
   }
   , methods:{
     searchKey:function(){
@@ -97,6 +106,7 @@ export default {
       })
 
       click.classList.add("active");
+      this.tag = event.currentTarget.id;
     }
     ,nextPage () {
       this.pageNum += 1;
@@ -114,9 +124,15 @@ export default {
       return page;
     },
     paginatedData () {
+      let arr;
+      if(this.tag === 'all' | ''){
+        arr = this.items;
+      }else{
+        arr = Object.values(this.items).filter(item => item.tag === this.tag)
+      }
       const start = this.pageNum * this.pageSize,
           end = start + this.pageSize;
-      return this.items.slice(start, end);
+      return arr.slice(start, end);
     }
   }
 }

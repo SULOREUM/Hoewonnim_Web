@@ -61,12 +61,12 @@ const routes = [
     },
     {
         path:'/views/boards/QnA',
-        name: QnA,
+        name: 'QnA',
         component: QnA
     },
     {
         path:'/views/boards/Promotion',
-        name: Promotion,
+        name: 'Promotion',
         component: Promotion
     },
     {
@@ -75,7 +75,7 @@ const routes = [
         component: Photo
     },
     {
-        path:'/views/boards/Write/:id?',
+        path:'/views/boards/:prev/Write/:id?',
         name: 'Write',
         component: Write
     },
@@ -85,7 +85,7 @@ const routes = [
         component: List
     },
     {
-        path:'/views/boards/List/:id',
+        path:'/views/boards/:prev/:id',
         name: 'DetailBoardPage',
         component: DetailBoardPage
     },
