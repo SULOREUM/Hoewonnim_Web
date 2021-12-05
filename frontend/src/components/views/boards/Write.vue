@@ -29,7 +29,7 @@
     </div>
 
     <div class="btnWrap">
-      <router-link to="/views/boards/List"><input type="button" value="목록" class="btn"></router-link>
+      <input type="button" value="목록" class="btn" @click=fnList>
       <input v-if="this.id === undefined" type="button" value="등록" class="btnAdd btn" @click = Add >
       <input v-if="this.id !== undefined" type="button" value="수정" class="btnAdd btn" @click = Update >
     </div>
@@ -62,8 +62,6 @@ export default {
     this.id = this.$route.params.id;
     this. Board = this.$route.params.prev;
 
-    console.log(this.id)
-    console.log(this.Board)
     if(this.id!==undefined) {
       const arr = await updatePosts.getDetailPost(this.id);
       this.list = arr[0]
