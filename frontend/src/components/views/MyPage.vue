@@ -3,20 +3,20 @@
     <div class="side_container">
       <div class="side_container_inside">
         <div class="user_image">
-          <div class="user_image_inside"><img src="../../assets/user.png"/></div>
+          <div class="user_image_inside"><img v-bind:src=this.profile @click="photo_edit"/></div>
         </div>
-        <div class="user_name"><span><strong>{{ userInfo.name }}</strong><router-link
+        <div class="user_name"><span><strong>{{ name }}</strong><router-link
             to="/views/MyPageUserInfo">  내 정보</router-link><br/></span>
-          <span>{{ userInfo.state }} / {{ userInfo.sex }} / {{ userInfo.age }}</span></div>
+          <span>{{ state }} / {{ sex }} / {{ age }}</span></div>
         <div class="user_like">
           <table class="userInfoTable">
             <colgroup>
               <col style="width:50%">
               <col style="width:50%">
             </colgroup>
-            <tr v-for="data in userInfo.interest" :key="data">
+            <tr v-for="data in interest" :key="data">
               <td class="txt_middle">{{ data }}</td>
-<!--              <td class="txt_middle">{{ data }}</td>-->
+              <!--              <td class="txt_middle">{{ data }}</td>-->
             </tr>
           </table>
         </div>
@@ -115,14 +115,24 @@
           </div>
         </div>
       </div>
-    <div class="modal" v-show="is_show">
-      <h2>당신의 기록을 추가해주세요</h2>
-      <div><input type="text" v-model="insert_weight"></div>
-      <div style="margin-top: 10px">
-        <input type="button" @click="insert" value="당장추가해">
-        <input type="button" @click="handle_toggle" value="취소">
+      <div class="modal" v-show="is_show">
+        <h2>당신의 기록을 추가해주세요</h2>
+        <div><input type="text" v-model="insert_weight"></div>
+        <div style="margin-top: 10px">
+          <input type="button" @click="insert" value="당장추가해">
+          <input type="button" @click="handle_toggle" value="취소">
+        </div>
       </div>
-    </div>
+
+      <div class="modal" v-show="profile_edit">
+        <h2>프로필 사진을 바꾸시겠습니까</h2>
+        <div><input type="file" @change="onFileSelected"></div>
+        <div style="margin-top: 10px">
+          <input type="button" @click="onUpload" value="당장추가해">
+          <input type="button" @click="photo_edit" value="취소">
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -173,6 +183,7 @@ export default {
       challenge: {},
       challengeList: [],
       weight: '',
+      profile_image:'',
       ///
       Post: [],
       posts: [],
@@ -188,7 +199,10 @@ export default {
       LikedPageNum: 0,
 
       is_show : false,
-      insert_weight : null
+      insert_weight : null,
+      profile_edit:false,
+      selectedFile:null,
+      profile:'',
     }
   },
   async created() {
@@ -214,6 +228,9 @@ export default {
       this.liked_post = this.user[0].liked_post
 
       this.createChart('chart1');
+
+      this.profile = 'data:image/jpeg;base64,'+`${this.profile_image}`
+      console.log(this.profile)
 
     }catch (err){
       this.error = console.log(err);
@@ -262,13 +279,13 @@ export default {
     ...mapState(["userInfo"])
   },
   methods:{
-  nextPage () {
-    this.pageNum += 1;
-  }
-  ,prevPage () {
-    this.pageNum -= 1;
-  }
-  ,nextLikedPage () {
+    nextPage () {
+      this.pageNum += 1;
+    }
+    ,prevPage () {
+      this.pageNum -= 1;
+    }
+    ,nextLikedPage () {
       this.LikedPageNum += 1;
     }
     ,prevLikedPage () {
@@ -277,38 +294,51 @@ export default {
     handle_toggle(){
       this.is_show = !this.is_show;
     },
+    photo_edit(){
+      this.profile_edit =!this.profile_edit;
+    },
+    onFileSelected(event) {
+      this.selectedFile = event.target.files[0]
+    },
+    onUpload(){
+      const fd = new FormData()
+      fd.append('image',this.selectedFile, this.selectedFile.name)
+      updateUser.UpdateUser(fd,this.object_id)
+      this.photo_edit()
+      this.profile_image = 'data:image/jpeg;base64,'+`${this.user[0].profile_image}`
+    },
     insert(){
 
-    if(this.insert_weight == null){
-      this.is_show = !this.is_show
-    }
-    else {
-      let weightList = this.weight
-      weightList.push(this.insert_weight)
-
-      this.update_user_data = {
-        id: this.id,
-        name: this.name,
-        password: this.password,
-        age: this.age,
-        state: this.state,
-        sex: this.sex,
-        profile_image: this.profile_image,
-        birth: this.birth,
-        phone: this.phone,
-        mail: this.newMail,
-        interest: this.interest,
-        challenge: this.challenge,
-        weight: weightList,
-        liked_post: this.liked_post
+      if(this.insert_weight == null){
+        this.is_show = !this.is_show
       }
+      else {
+        let weightList = this.weight
+        weightList.push(this.insert_weight)
 
-      updateUser.UpdateUser(this.update_user_data, this.object_id)
-      this.weight.push()
+        this.update_user_data = {
+          id: this.id,
+          name: this.name,
+          password: this.password,
+          age: this.age,
+          state: this.state,
+          sex: this.sex,
+          profile_image: this.profile_image,
+          birth: this.birth,
+          phone: this.phone,
+          mail: this.newMail,
+          interest: this.interest,
+          challenge: this.challenge,
+          weight: weightList,
+          liked_post: this.liked_post
+        }
 
-      this.is_show = !this.is_show
-      this.createChart('chart1');
-    }
+        updateUser.UpdateUser(this.update_user_data, this.object_id)
+        this.weight.push()
+
+        this.is_show = !this.is_show
+        this.createChart('chart1');
+      }
     },
     createChart(charId){
       const ctx = document.getElementById(charId)
@@ -673,7 +703,7 @@ export default {
   color: white;
   border: white;
 }
- /* modal */
+/* modal */
 
 .modal{
   background-color: #ffffff;

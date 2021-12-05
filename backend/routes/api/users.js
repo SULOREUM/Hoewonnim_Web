@@ -1,7 +1,22 @@
 const express = require('express');
 const mongodb = require('mongodb');
+const multer = require('multer');
+const mongoose = require('mongoose');
 
 const router = express.Router();
+
+const upload = multer({
+    storage:multer.memoryStorage(),
+    limits:{fileSize:5*1024*1024},
+});
+
+const {Schema} = mongoose;
+const ImageSchema = new Schema({
+    img : Buffer
+})
+
+const Image = mongoose.model('profile',ImageSchema);
+
 
 // Get Users
 router.get('/', async (req, res) => {
@@ -21,7 +36,7 @@ router.get('/:id', async function(req, res){
 // 에러 발생하여 주석처리 함.
 
 //SignUp
-router.post('/', async (req, res) => {
+router.post('/',upload.single('image'), async (req, res) => {
     const users = await loadUsersCollections();
     await users.insertOne({
         id: req.body.id,
@@ -89,30 +104,46 @@ router.post('/', async (req, res) => {
 // 입력되지 않은 항목(ex. state, ...)주석처리 안하면
 // TypeError: Cannot read property 'state' of undefined
 // 에러 발생하여 주석처리 함.
-router.post('/:id', async (req, res) => {
+router.post('/:id',upload.single('image'), async (req, res) => {
     const user = await loadUsersCollections();
-    user.updateOne(
-        {_id: mongodb.ObjectID(req.params.id)},
-        {
-            $set: {
-                id: req.body.data.id,
-                password: req.body.data.password,
-                name: req.body.data.name,
-                age: req.body.data.age,
-                state: req.body.data.state,
-                sex: req.body.data.sex,
-                profile_image: req.body.data.profile_image,
-                birth: req.body.data.birth,
-                phone: req.body.data.phone,
-                mail: req.body.data.mail,
-                interest: req.body.data.interest,
-                challenge: req.body.data.challenge,
-                weight: req.body.data.weight,
-                liked_post: req.body.data.liked_post
+    if (req.body.id == undefined){
+        const user = await loadUsersCollections();
+        const img = req.file.buffer;
+        const image = new Image({img});
+        user.updateOne(
+            {_id: mongodb.ObjectID(req.params.id)},
+            {
+                $set: {
+                    profile_image: image.img
+                }
             }
-        }
-    );
+        );
+    }
+    else {
+        user.updateOne(
+            {_id: mongodb.ObjectID(req.params.id)},
+            {
+                $set: {
+                    id: req.body.id,
+                    password: req.body.password,
+                    name: req.body.name,
+                    age: req.body.age,
+                    state: req.body.state,
+                    sex: req.body.sex,
+                    profile_image: req.body.profile_image,
+                    birth: req.body.birth,
+                    phone: req.body.phone,
+                    mail: req.body.mail,
+                    interest: req.body.interest,
+                    challenge: req.body.challenge,
+                    weight: req.body.weight,
+                    liked_post: req.body.liked_post
+                }
+            }
+        );
+    }
     res.status(202).send();
+
 });
 
 // Delete User
