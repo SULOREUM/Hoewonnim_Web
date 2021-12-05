@@ -20,7 +20,7 @@ const Image = mongoose.model('image',ImageSchema);
 // Get Posts
 router.get('/', async (req, res) => {
     const posts = await loadPostsCollections();
-    res.send(await posts.find({}).toArray());
+    res.send(await posts.find({}).sort({createdAt:-1}).toArray());
 });
 
 // Add Posts
@@ -30,7 +30,10 @@ router.post('/', upload.single('image'), async (req, res) => {
         const img = req.file.buffer;
         const image = new Image({img});
         await posts.insertOne({
-            img:image.img
+            img:image.img,
+            title:req.body.title,
+            content:req.body.content,
+            createdAt:new Date()
         })
     }
     catch(e){

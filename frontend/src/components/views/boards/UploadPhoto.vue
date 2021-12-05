@@ -6,14 +6,14 @@
           <col style="width: 15%" />
           <col style="width: 75%" />
         </colgroup>
-<!--        <tr>-->
-<!--          <th>제목</th>-->
-<!--          <td><input type="text" v-model="title" /></td>-->
-<!--        </tr>-->
-<!--        <tr>-->
-<!--          <th>내용</th>-->
-<!--          <td><textarea v-model="content" ref="content"></textarea></td>-->
-<!--        </tr>-->
+        <tr>
+          <th>제목</th>
+          <td><input type="text" v-model="title" /></td>
+        </tr>
+        <tr>
+          <th>내용</th>
+          <td><textarea v-model="content" ref="content"></textarea></td>
+        </tr>
         <tr>
           <th>사진 첨부</th>
           <td><input type="file" @change="onFileSelected"></td>
@@ -35,7 +35,9 @@ import updatePhotos from "../../../services/updatePhotos";
 export default {
   data(){
     return{
-      selectedFile:null
+      selectedFile:null,
+      title:'',
+      content:''
     }
   },
   methods:{
@@ -45,6 +47,8 @@ export default {
     onUpload(){
       const fd = new FormData()
       fd.append('image',this.selectedFile, this.selectedFile.name)
+      fd.append('title',this.title)
+      fd.append('content',this.content)
       updatePhotos.insertPost(fd)
       this.fnList()
     },
