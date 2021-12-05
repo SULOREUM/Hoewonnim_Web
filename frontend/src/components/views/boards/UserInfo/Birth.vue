@@ -45,27 +45,7 @@ export default {
       monthCheck: false,
       dayCheck: true,
       newBirth: '',
-      user_id: 'suloreum',
-
-      User: [],
-      user: '',
-      object_id: '',
-      id: '',
-      name: '',
-      password: '',
-      age: '',
-      state: '',
-      sex: '',
-      profile_image: '',
-      birth: '',
-      phone: '',
-      mail: '',
-      interest: [],
-      challenge: {},
-      weight: '',
-      liked_post: [],
-
-      update_user_data: {}
+      User: []
     }
   },async created() {
 
@@ -101,9 +81,6 @@ export default {
     updateUser: function () {
       this.$store.commit('changeBirth', this.newBirth)
       this.User.birth = this.newBirth
-      console.log(this.User)
-
-      console.log(this.User.object_id)
 
       updateUser.UpdateUser(this.User, this.User.object_id)
     }
