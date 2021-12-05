@@ -14,7 +14,7 @@
               <col style="width:50%">
               <col style="width:50%">
             </colgroup>
-            <tr v-for="data in userInfo.user_interest" :key="data">
+            <tr v-for="data in userInfo.interest" :key="data">
               <td class="txt_middle">{{ data }}</td>
 <!--              <td class="txt_middle">{{ data }}</td>-->
             </tr>
@@ -134,6 +134,7 @@ import getUserInfo from "@/services/users/getUserInfo";
 import updateUser from "@/services/updateUsers";
 import Chart from 'chart.js'
 import {mapState} from 'vuex'
+
 export default {
   name: "MyPage",
   mounted() {
