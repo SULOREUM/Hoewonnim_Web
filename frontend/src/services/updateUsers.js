@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const url = 'http://localhost:3000/api/users/';
-
 class updateUsers {
     // Get Posts
     static getUsers() {
@@ -22,9 +21,9 @@ class updateUsers {
     //update User
     static UpdateUser(data,id){
         console.log(data)
-        return axios.post(`${url}${id}`,{
+        return axios.post(`${url}${id}`,
             data
-        });
+        );
     }
 }
 export default updateUsers;
