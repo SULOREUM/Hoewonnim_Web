@@ -26,7 +26,7 @@
 
         <tr v-for="(item,idx) in paginatedData" :key="item.id">
           <td>{{paginatedData.length - idx}}</td>
-          <td class="txt_center"><router-link :to="{ name: 'DetailBoardPage', params: { id: item._id }}">{{item.title}}</router-link></td>
+          <td class="txt_center"><router-link :to="{ name: 'DetailBoardPage', params: { prev: item.Board,id: item._id }}">{{item.title}}</router-link></td>
           <td>{{item.createdUser}}</td>
           <td>{{item.createdAt.substring(0,10)}}</td>
         </tr>
@@ -49,7 +49,7 @@
 
     <div class="top-menu">
       <div class="wt-button">
-        <router-link to="/views/boards/Write"><input type="button" value="글쓰기"></router-link>
+        <router-link :to="{name:'Write', params:{prev:'List'}}"><input type="button" value="글쓰기"></router-link>
       </div>
 
       <div class="search">
@@ -75,6 +75,7 @@ export default {
       body:'' //리스트 페이지 데이터전송
       ,board_code:'news' //게시판코드
       ,items:''
+      ,Items:[]
       ,pageNum : 0
       ,pageSize : 16
       ,error: ''
@@ -85,7 +86,9 @@ export default {
   }
   ,async created(){
     try{
-      this.items = await updatePosts.getPosts();
+      this.Items = await updatePosts.getPosts();
+      this.items = Object.values(this.Items).filter(item => item.Board === 'List')
+
     }catch(err){
       this.error = err.message;
     }

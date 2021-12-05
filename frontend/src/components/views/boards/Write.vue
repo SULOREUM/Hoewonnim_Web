@@ -54,12 +54,16 @@ export default {
       comments: [],
       data : {},
       list: {},
-      id : undefined
+      id : undefined,
+      Board : undefined
     }
   },
   async created() {
     this.id = this.$route.params.id;
+    this. Board = this.$route.params.prev;
+
     console.log(this.id)
+    console.log(this.Board)
     if(this.id!==undefined) {
       const arr = await updatePosts.getDetailPost(this.id);
       this.list = arr[0]
@@ -84,7 +88,7 @@ export default {
       this.tag = event.currentTarget.id;
     }
     ,fnList(){
-      this.$router.push({path:'/views/boards/List'})
+      this.$router.push({name:this.Board})
     }
     ,Add:function (){
       if(!this.title){
@@ -96,7 +100,7 @@ export default {
         title: this.title,
         content: this.content,
         tag: this.tag,
-        detailTag: this.detailTag,
+        Board: this.Board,
         postNum: this.postNum,
         likedCount : this.likedCount,
         likedUsers: this.likedUsers,
@@ -112,7 +116,7 @@ export default {
         title: this.title,
         content: this.content,
         tag: this.tag,
-        detailTag: this.list.detailTag,
+        Board: this.list.Board,
         postNum: this.list.postNum,
         likedCount : this.list.likedCount,
         likedUsers: this.list.likedUsers,
