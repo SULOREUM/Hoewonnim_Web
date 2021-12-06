@@ -40,9 +40,25 @@ export default new Vuex.Store({
             state.isLogin = false
             state.isLoginError = true
         },
-        // 생년월일 변
+        // 생년월일 수정
         changeBirth(state, payload){
             state.userInfo.birth = payload
+        },
+        // 메일 수정
+        changeMail(state, payload){
+            state.userInfo.mail = payload
+        },
+        // 이름 수정
+        changeName(state, payload){
+            state.userInfo.name = payload
+        },
+        // 번호 수정
+        changePhone(state, payload){
+            state.userInfo.phone = payload
+        },
+        // 성별 수정
+        changeSex(state, payload){
+            state.userInfo.sex = payload
         }
     },
     actions:{ //로그인 시도
