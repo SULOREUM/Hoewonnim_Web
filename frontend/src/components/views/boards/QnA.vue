@@ -33,6 +33,9 @@
         <tr v-if="items.length == 0">
           <td colspan="4">데이터가 없습니다.</td>
         </tr>
+        <tr v-for="n in pageSize-paginatedData.length" :key="n">
+          <td colspan="4" style="height: 18px; border-bottom:none;"></td>
+        </tr>
 
       </table>
       <div class="btn-cover">
@@ -65,8 +68,8 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 
-import updatePosts from "@/services/updatePosts";
 
 export default {
 
@@ -75,23 +78,14 @@ export default {
       body:'' //리스트 페이지 데이터전송
       ,board_code:'news' //게시판코드
       ,items:''
-      ,Items:[]
       ,pageNum : 0
       ,pageSize : 16
-      ,error: ''
-      ,text: ''
       ,len:0
       ,tag:'all'
     }
   }
   ,async created(){
-    try{
-      this.Items = await updatePosts.getPosts();
-      this.items = Object.values(this.Items).filter(item => item.Board === 'QnA')
-
-    }catch(err){
-      this.error = err.message;
-    }
+    this.items = this.$store.getters.QnAPosts
   }
   , methods:{
     searchKey:function(){
@@ -133,7 +127,8 @@ export default {
       const start = this.pageNum * this.pageSize,
           end = start + this.pageSize;
       return arr.slice(start, end);
-    }
+    },
+    ...mapState(["posts"])
   }
 }
 </script>

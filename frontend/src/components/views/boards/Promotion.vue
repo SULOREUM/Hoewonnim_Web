@@ -33,6 +33,9 @@
         <tr v-if="items.length == 0">
           <td colspan="4">데이터가 없습니다.</td>
         </tr>
+        <tr v-for="n in pageSize-paginatedData.length" :key="n">
+          <td colspan="4" style="height: 18px; border-bottom:none;"></td>
+        </tr>
 
       </table>
       <div class="btn-cover">
@@ -66,7 +69,7 @@
 
 <script>
 
-import updatePosts from "@/services/updatePosts";
+import {mapState} from 'vuex'
 
 export default {
 
@@ -85,13 +88,7 @@ export default {
     }
   }
   ,async created(){
-    try{
-      this.Items = await updatePosts.getPosts();
-      this.items = Object.values(this.Items).filter(item => item.Board === 'Promotion')
-
-    }catch(err){
-      this.error = err.message;
-    }
+    this.items = this.$store.getters.PromoPosts
   }
   , methods:{
     searchKey:function(){
@@ -133,7 +130,9 @@ export default {
       const start = this.pageNum * this.pageSize,
           end = start + this.pageSize;
       return arr.slice(start, end);
-    }
+    },
+    ...mapState(["posts"])
+
   }
 }
 </script>

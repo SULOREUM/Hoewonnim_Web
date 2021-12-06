@@ -11,7 +11,9 @@ export default new Vuex.Store({
         // ]
         userInfo: null,
         isLogin: false,
-        isLoginError: false
+        isLoginError: false,
+        posts :null,
+        photos:null
     },
     getters: { //유저 정보 불러오기 -마이페이지
         // allUsersCount: function (state){
@@ -27,6 +29,15 @@ export default new Vuex.Store({
         // percentOfSeoul: (state, getters) =>{
         //  return Math.round(getters.countOfSeoul / getters.allUsersCount * 100)
         // }
+        ListPosts : state =>{
+            return state.posts.filter(post => post.Board === 'List')
+        },
+        QnAPosts: state =>{
+            return state.posts.filter(post => post.Board === 'QnA')
+        },
+        PromoPosts: state =>{
+            return state.posts.filter(post => post.Board === 'Promotion')
+        }
     },
     mutations:{
         // 로그인이 성공했을 때,
@@ -64,6 +75,18 @@ export default new Vuex.Store({
         // 성별 수정
         changeSex(state, payload){
             state.userInfo.sex = payload
+        },
+        updateWeight(state, payload){
+            state.userInfo.weight = payload
+        },
+        updateProfile(state, payload){
+            state.userInfo.profile_image = payload
+        },
+        GetPosts(state,payload){
+            state.posts = payload
+        },
+        GetPhotos(state,payload){
+            state.photos = payload
         }
     },
     actions:{ //로그인 시도
@@ -123,6 +146,21 @@ export default new Vuex.Store({
         },
         logout({commit}){
             commit("logout")
+        },
+        FETCH_POSTS(post){
+            const url = "http://localhost:3000/api/posts/"
+
+            axios.get(url).then(res=>{
+                // console.log(res.data)
+                post.commit('GetPosts',res.data)
+            })
+        },
+        FETCH_PHOTOS(photo){
+            const url = 'http://localhost:3000/api/photos/';
+            axios.get(url).then(res=>{
+                console.log(res)
+                photo.commit('GetPhotos',res.data)
+            })
         }
 
     }
