@@ -31,8 +31,15 @@
             </div>
           </div>
           <div class="square_left">
-            <p class="challenge">{{challengeList[0]}}</p>
-            <p class="date">{{challengeList[1]}}</p>
+            <div class="square_left_title">
+              <p class="challenge">{{challengeList[0]}}</p>
+              <p class="date">{{challengeList[1]}}</p>
+            </div>
+            <div class="bar-wrapper">
+              <div class="progress-bar">
+                <div id="bar"></div>
+              </div>
+            </div>
           </div>
           <div class="square_right">
             <p class="challenge">{{challengeList[2]}}</p>
@@ -139,7 +146,6 @@
 
 <script>
 import $ from "jquery";
-// import updatePosts from "@/services/updatePosts";
 import updateUser from "@/services/updateUsers";
 import Chart from 'chart.js'
 import {mapState} from 'vuex'
@@ -148,6 +154,7 @@ export default {
   name: "MyPage",
   mounted() {
     this.createChart('chart1')
+
     $(document).ready(function () {
       var currentPosition = parseInt($(".side_container").css("top"));
       $(window).scroll(function () {
@@ -167,6 +174,8 @@ export default {
         }
       });
     });
+
+    this.challenge_progress()
   },
   data() {
     return {
@@ -185,7 +194,6 @@ export default {
       profile_image:'',
       ///
       Post: [],
-      posts: [],
       error: '',
       text: '',
       userName: '',
@@ -209,21 +217,19 @@ export default {
   },
   async created() {
     this.User = this.$store.state.userInfo
-    this.profile = 'data:image/jpeg;base64,'+`${this.User.profile_image}`
+    this.profile = 'data:image/jpeg;base64,' + `${this.User.profile_image}`
 
-    for (let variable in this.User.challenge){
+    for (let variable in this.User.challenge) {
       this.challengeList.push(variable)
       this.challengeList.push(this.User.challenge[variable])
     }
 
     try {
-      // this.Post = await updatePosts.getPosts();
       this.posts = this.$store.state.posts.filter(posts => posts.createdUser === this.User.id)
-      this.likedList = this.$store.state.posts.filter(posts => posts.likedUsers.length >0 && posts.likedUsers.includes(this.User.id))
+      this.likedList = this.$store.state.posts.filter(posts => posts.likedUsers.length > 0 && posts.likedUsers.includes(this.User.id))
     } catch (err) {
       this.error = err.message;
     }
-
     this.createChart('chart1')
   },
   computed:{
@@ -288,6 +294,21 @@ export default {
       this.photo_edit()
       this.profile_image = 'data:image/jpeg;base64,'+`${this.User.profile_image}`
     },
+  challenge_progress(){
+    let date = this.challengeList[1].split("-");
+    let today = new Date()
+    let year = today.getFullYear()
+    let month = today.getMonth() +1
+    let day = today.getDate()
+
+    let stDate = new Date(date[0],date[1],date[2])
+    let endDate = new Date(year,month,day)
+    let btMs = stDate.getTime() - endDate.getTime()
+    let btDay = btMs/(1000*60*60*24)
+
+    let bar = document.getElementById('bar')
+    bar.style.width = (100-btDay) + "%"
+  },
     insert(){
 
       if(this.insert_weight == null){
@@ -547,12 +568,17 @@ export default {
 
 .square_left {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+
   width:48%;
   height: 73%;
   float: left;
   margin-top: 1%;
   background-color: #2c3e50;
+}
+.square_left_title{
+  display: flex;
+  justify-content: space-between;
 }
 .square_right {
   display: flex;
@@ -570,6 +596,19 @@ export default {
 .date{
   color: white;
   margin-right: 10px;
+}
+.bar-wrapper{
+  display: flex;
+  justify-content: center;
+}
+.progress-bar{
+  background-color: white;
+  width: 90%;
+  height: 10px;
+}
+#bar{
+  background-color: rgba(173, 255, 47, 0.7);
+  height: 10px;
 }
 
 /* my record */
