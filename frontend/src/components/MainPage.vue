@@ -40,10 +40,6 @@ export default {
         }
       }
     }
-  },
-  async created() {
-    await this.$store.dispatch("FETCH_POSTS")
-    await this.$store.dispatch("FETCH_PHOTOS")
   }
 }
 </script>
