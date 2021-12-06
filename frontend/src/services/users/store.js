@@ -71,6 +71,12 @@ export default new Vuex.Store({
         changeSex(state, payload){
             state.userInfo.sex = payload
         },
+        updateWeight(state, payload){
+            state.userInfo.weight = payload
+        },
+        updateProfile(state, payload){
+            state.userInfo.profile_image = payload
+        },
         GetPosts(state,payload){
             state.posts = payload
         },
