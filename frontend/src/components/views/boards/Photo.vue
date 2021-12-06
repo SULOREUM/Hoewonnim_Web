@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import updatePhotos from "../../../services/updatePhotos";
+import {mapState} from 'vuex'
 
 export default {
   data() { //변수생성
@@ -54,8 +54,7 @@ export default {
       ,photos:[]
     }
   },async created(){
-    this.Photo = await updatePhotos.getPhotos();
-    this.list = Object.values(this.Photo);
+    this.list = this.$store.state.photos
 
     for(let i in this.list){
       this.photos.push({
@@ -101,6 +100,7 @@ export default {
           end = start + this.pageSize;
       return this.photos.slice(start, end);
     },
+    ...mapState(["photos"])
   }
 }
 </script>

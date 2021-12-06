@@ -5,16 +5,16 @@
         <div class="user_image">
           <div class="user_image_inside"><img v-bind:src=this.profile @click="photo_edit"/></div>
         </div>
-        <div class="user_name"><span><strong>{{ userInfo.name }}</strong><router-link
+        <div class="user_name"><span><strong>{{ User.name }}</strong><router-link
             to="/views/MyPageUserInfo">  내 정보</router-link><br/></span>
-          <span>{{ userInfo.state }} / {{ userInfo.sex }} / {{ userInfo.age }}</span></div>
+          <span>{{ User.state }} / {{ User.sex }} / {{ User.age }}</span></div>
         <div class="user_like">
           <table class="userInfoTable">
             <colgroup>
               <col style="width:50%">
               <col style="width:50%">
             </colgroup>
-            <tr v-for="data in userInfo.interest" :key="data">
+            <tr v-for="data in User.interest" :key="data">
               <td class="txt_middle">{{ data }}</td>
               <!--              <td class="txt_middle">{{ data }}</td>-->
             </tr>
@@ -139,8 +139,7 @@
 
 <script>
 import $ from "jquery";
-import updatePosts from "@/services/updatePosts";
-import getUserInfo from "@/services/users/getUserInfo";
+// import updatePosts from "@/services/updatePosts";
 import updateUser from "@/services/updateUsers";
 import Chart from 'chart.js'
 import {mapState} from 'vuex'
@@ -148,7 +147,7 @@ import {mapState} from 'vuex'
 export default {
   name: "MyPage",
   mounted() {
-
+    this.createChart('chart1')
     $(document).ready(function () {
       var currentPosition = parseInt($(".side_container").css("top"));
       $(window).scroll(function () {
@@ -203,52 +202,29 @@ export default {
       profile_edit:false,
       selectedFile:null,
       profile:'',
+
+      //
+      User: []
     }
   },
   async created() {
+    this.User = this.$store.state.userInfo
+    this.profile = 'data:image/jpeg;base64,'+`${this.User.profile_image}`
 
-    try{
-      this.Users = await getUserInfo.getUsers()
-      this.user = Object.values(this.Users).filter(users => users.id === this.user_id)
-      this.id = this.user[0].id
-      this.object_id = this.user[0]._id
-      this.name = this.user[0].name
-      this.password = this.user[0].password
-      this.age = this.user[0].age
-      this.state = this.user[0].state
-      this.sex = this.user[0].sex
-      this.profile_image = this.user[0].profile_image
-      this.birth = this.user[0].birth
-      this.phone = this.user[0].phone
-      this.mail = this.user[0].mail
-      this.newMail = this.user[0].mail
-      this.interest = this.user[0].interest
-      this.challenge = this.user[0].challenge
-      this.weight = this.user[0].weight
-      this.liked_post = this.user[0].liked_post
-
-      this.createChart('chart1');
-
-      this.profile = 'data:image/jpeg;base64,'+`${this.profile_image}`
-      console.log(this.profile)
-
-    }catch (err){
-      this.error = console.log(err);
-    }
-
-    for (let variable in this.challenge){
+    for (let variable in this.User.challenge){
       this.challengeList.push(variable)
-      this.challengeList.push(this.challenge[variable])
+      this.challengeList.push(this.User.challenge[variable])
     }
 
-    // name id로 수정해야함
     try {
-      this.Post = await updatePosts.getPosts();
-      this.posts = Object.values(this.Post).filter(posts => posts.createdUser === this.id)
-      this.likedList = Object.values(this.Post).filter(posts => posts.likedUsers.length >0 && posts.likedUsers.includes(this.id))
+      // this.Post = await updatePosts.getPosts();
+      this.posts = this.$store.state.posts.filter(posts => posts.createdUser === this.User.id)
+      this.likedList = this.$store.state.posts.filter(posts => posts.likedUsers.length >0 && posts.likedUsers.includes(this.User.id))
     } catch (err) {
       this.error = err.message;
     }
+
+    this.createChart('chart1')
   },
   computed:{
     pageCount () {
@@ -303,9 +279,14 @@ export default {
     onUpload(){
       const fd = new FormData()
       fd.append('image',this.selectedFile, this.selectedFile.name)
-      updateUser.UpdateUser(fd,this.object_id)
+
+      // 프로필 이미지 변경시 바로 바뀌는거 적용 x
+      // 로그인 다시 해야 바뀜
+
+      updateUser.UpdateUser(fd,this.User.object_id)
+
       this.photo_edit()
-      this.profile_image = 'data:image/jpeg;base64,'+`${this.user[0].profile_image}`
+      this.profile_image = 'data:image/jpeg;base64,'+`${this.User.profile_image}`
     },
     insert(){
 
@@ -313,28 +294,13 @@ export default {
         this.is_show = !this.is_show
       }
       else {
-        let weightList = this.weight
+        let weightList = this.User.weight
         weightList.push(this.insert_weight)
 
-        this.update_user_data = {
-          id: this.id,
-          name: this.name,
-          password: this.password,
-          age: this.age,
-          state: this.state,
-          sex: this.sex,
-          profile_image: this.profile_image,
-          birth: this.birth,
-          phone: this.phone,
-          mail: this.newMail,
-          interest: this.interest,
-          challenge: this.challenge,
-          weight: weightList,
-          liked_post: this.liked_post
-        }
+        this.$store.commit('updateWeight', weightList)
+        this.User.weight = weightList
 
-        updateUser.UpdateUser(this.update_user_data, this.object_id)
-        this.weight.push()
+        updateUser.UpdateUser(this.User, this.User.object_id)
 
         this.is_show = !this.is_show
         this.createChart('chart1');
@@ -349,7 +315,7 @@ export default {
           datasets: [
             {
               label: "wight",
-              data: Object.values(this.weight),
+              data: Object.values(this.User.weight),
               backgroundColor: "rgba(54,73,93,.5)",
               borderColor: "#36495d",
               borderWidth: 2
