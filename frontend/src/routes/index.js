@@ -27,10 +27,10 @@ Vue.use(Router); // use vue router
 
 const rejectAuthUser = (to, from, next) =>{
     if(store.state.isLogin === true){
-        // 이미 로그인된 유저 막기
-        alert('이미 로그인을 하였습니다.')
-        // MyPage로 보낸다
-        next('/views/MyPage')
+        // 로그아웃하기
+        alert('로그아웃되었습니다.')
+        // // SignIn로 보낸다
+        // next('/views/SignIn')
     } else{
         next()
     }
