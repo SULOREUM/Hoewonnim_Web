@@ -334,7 +334,6 @@ export default {
         }
 
         updateUser.UpdateUser(this.update_user_data, this.object_id)
-        this.weight.push()
 
         this.is_show = !this.is_show
         this.createChart('chart1');

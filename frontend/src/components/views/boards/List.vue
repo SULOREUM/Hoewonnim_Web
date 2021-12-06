@@ -66,7 +66,7 @@
 
 <script>
 
-import updatePosts from "@/services/updatePosts";
+import {mapState} from 'vuex'
 
 export default {
 
@@ -75,23 +75,14 @@ export default {
       body:'' //리스트 페이지 데이터전송
       ,board_code:'news' //게시판코드
       ,items:''
-      ,Items:[]
       ,pageNum : 0
       ,pageSize : 16
-      ,error: ''
-      ,text: ''
-      ,len:0
       ,tag:'all'
     }
   }
   ,async created(){
-    try{
-      this.Items = await updatePosts.getPosts();
-      this.items = Object.values(this.Items).filter(item => item.Board === 'List')
-
-    }catch(err){
-      this.error = err.message;
-    }
+      await this.$store.dispatch("FETCH_POSTS")
+      this.items = this.$store.getters.ListPosts
   }
   , methods:{
     searchKey:function(){
@@ -128,12 +119,13 @@ export default {
       if(this.tag === 'all' | ''){
         arr = this.items;
       }else{
-        arr = Object.values(this.items).filter(item => item.tag === this.tag)
+        arr = this.items.filter(item => item.tag === this.tag)
       }
       const start = this.pageNum * this.pageSize,
           end = start + this.pageSize;
       return arr.slice(start, end);
-    }
+    },
+    ...mapState(["posts"])
   }
 }
 </script>

@@ -66,7 +66,7 @@
 
 <script>
 
-import updatePosts from "@/services/updatePosts";
+import {mapState} from 'vuex'
 
 export default {
 
@@ -85,13 +85,8 @@ export default {
     }
   }
   ,async created(){
-    try{
-      this.Items = await updatePosts.getPosts();
-      this.items = Object.values(this.Items).filter(item => item.Board === 'Promotion')
-
-    }catch(err){
-      this.error = err.message;
-    }
+    await this.$store.dispatch("FETCH_POSTS")
+    this.items = this.$store.getters.PromoPosts
   }
   , methods:{
     searchKey:function(){
@@ -133,7 +128,9 @@ export default {
       const start = this.pageNum * this.pageSize,
           end = start + this.pageSize;
       return arr.slice(start, end);
-    }
+    },
+    ...mapState(["posts"])
+
   }
 }
 </script>
