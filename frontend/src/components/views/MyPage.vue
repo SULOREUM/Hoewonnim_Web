@@ -139,7 +139,7 @@
 
 <script>
 import $ from "jquery";
-import updatePosts from "@/services/updatePosts";
+// import updatePosts from "@/services/updatePosts";
 import updateUser from "@/services/updateUsers";
 import Chart from 'chart.js'
 import {mapState} from 'vuex'
@@ -147,7 +147,7 @@ import {mapState} from 'vuex'
 export default {
   name: "MyPage",
   mounted() {
-
+    this.createChart('chart1')
     $(document).ready(function () {
       var currentPosition = parseInt($(".side_container").css("top"));
       $(window).scroll(function () {
@@ -217,9 +217,9 @@ export default {
     }
 
     try {
-      this.Post = await updatePosts.getPosts();
-      this.posts = Object.values(this.Post).filter(posts => posts.createdUser === this.User.id)
-      this.likedList = Object.values(this.Post).filter(posts => posts.likedUsers.length >0 && posts.likedUsers.includes(this.User.id))
+      // this.Post = await updatePosts.getPosts();
+      this.posts = this.$store.state.posts.filter(posts => posts.createdUser === this.User.id)
+      this.likedList = this.$store.state.posts.filter(posts => posts.likedUsers.length >0 && posts.likedUsers.includes(this.User.id))
     } catch (err) {
       this.error = err.message;
     }
