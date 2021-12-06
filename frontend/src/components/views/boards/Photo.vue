@@ -54,7 +54,6 @@ export default {
       ,photos:[]
     }
   },async created(){
-    await this.$store.dispatch("FETCH_PHOTOS")
     this.list = this.$store.state.photos
 
     for(let i in this.list){
