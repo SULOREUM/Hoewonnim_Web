@@ -29,65 +29,29 @@
 
 
 <script>
-import getUserInfo from "@/services/users/getUserInfo";
 import updateUser from "@/services/updateUsers";
+import {mapState} from "vuex";
 
 export default {
 name: "Name",
+  computed:{
+    ...mapState(["userInfo"])
+  },
   data() {
     return {
-      check: 0,
-      newname: '',
-      user_id: 'suloreum',
-
       User: [],
-      user: '',
-      object_id: '',
-      id: '',
-      name: '',
-      password: '',
-      age: '',
-      state: '',
-      sex: '',
-      profile_image: '',
-      birth: '',
-      phone: '',
-      mail: '',
-      interest: [],
-      challenge: {},
-      weight: '',
-      liked_post: [],
-
-      update_user_data: {}
+      name : '',
+      newName : ''
     }
   },
   async created() {
-    try{
-      this.Users = await getUserInfo.getUsers()
-      this.user = Object.values(this.Users).filter(users => users.id === this.user_id)
-      this.id = this.user[0].id
-      this.object_id = this.user[0]._id
-      this.name = this.user[0].name
-      this.newname = this.user[0].name
-      this.password = this.user[0].password
-      this.age = this.user[0].age
-      this.state = this.user[0].state
-      this.sex = this.user[0].sex
-      this.profile_image = this.user[0].profile_image
-      this.birth = this.user[0].birth
-      this.phone = this.user[0].phone
-      this.mail = this.user[0].mail
-      this.interest = this.user[0].interest
-      this.challenge = this.user[0].challenge
-      this.weight = this.user[0].weight
-      this.liked_post = this.user[0].liked_post
-    }catch (err){
-      this.error = console.log(err);
-    }
+    this.User = this.$store.state.userInfo
+    this.name = this.$store.state.userInfo.name
+    this.newName = this.$store.state.userInfo.name
   },
   methods: {
     typing(e) {
-      this.newname = e.target.value
+      this.newName = e.target.value
     },
     ok: function() {
       if (this.name === this.newname) {
@@ -99,24 +63,10 @@ name: "Name",
       }
     },
     updateUser: function() {
-      this.update_user_data = {
-        id: this.id,
-        name: this.newname,
-        password: this.password,
-        age: this.age,
-        state: this.state,
-        sex: this.sex,
-        profile_image: this.profile_image,
-        birth: this.birth,
-        phone: this.phone,
-        mail: this.mail,
-        interest: this.interest,
-        challenge: this.challenge,
-        weight: this.weight,
-        liked_post: this.liked_post
-      }
+      this.$store.commit('changeName', this.newName)
+      this.User.name = this.newName
 
-      updateUser.UpdateUser(this.update_user_data, this.object_id)
+      updateUser.UpdateUser(this.User, this.User.object_id)
     }
   }
 }
