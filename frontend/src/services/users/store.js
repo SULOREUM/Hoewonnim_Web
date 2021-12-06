@@ -40,9 +40,13 @@ export default new Vuex.Store({
             state.isLogin = false
             state.isLoginError = true
         },
-        // 생년월일 변
+        // 생년월일 수정
         changeBirth(state, payload){
             state.userInfo.birth = payload
+        },
+        // 메일 수정
+        changeMail(state, payload){
+            state.userInfo.mail = payload
         }
     },
     actions:{ //로그인 시도
