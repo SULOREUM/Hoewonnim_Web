@@ -8,7 +8,8 @@
         <a id="qna" href="/views/boards/QnA" v-on:click="clickburger()"> <span>질문게시판</span> </a>
         <a id="promo" href="/views/boards/Promotion" v-on:click="clickburger()"> <span>홍보게시판</span> </a>
         <a id="photo" href="/views/boards/Photo" v-on:click="clickburger()"> <span>자랑게시판</span> </a>
-        <a id="join" href="/views/SignIn" v-on:click="clickburger()"> <span>Sign In</span> </a>
+        <a id="join" href="/views/SignIn" v-on:click="clickburger()" v-if="userInfo==null"> <span>Sign In</span> </a>
+        <a id="logout" href="/views/SignIn" v-on:click="clickburger();logout" v-else> <span>LogOut</span> </a>
         <a id="sign_up" href="/views/SignUp" v-on:click="clickburger()"> <span>Sign Up</span> </a>
         <a id="info" href="/views/MyPage" v-on:click="clickburger()"> <span>MyPage</span> </a>
       </Slide>
@@ -31,10 +32,9 @@
           <router-link to="/views/boards/Photo"><span>자랑</span></router-link>
         </div>
       </div>
-
-
       <div class="signup">
-        <router-link to="/views/SignIn"><span>Sign In</span></router-link>
+        <router-link v-if="userInfo == null" to="/views/SignIn"><span>{{message1}}</span></router-link>
+        <router-link v-else to="/views/SignIn" @click.native="logout"><span>{{message2}}</span></router-link>
         <router-link to="/views/SignUp"><span>Sign Up</span></router-link>
         <router-link to="/views/MyPage"><span>My Page</span></router-link>
       </div>
@@ -44,12 +44,23 @@
 
 <script scopped>
 import {Slide} from 'vue-burger-menu'  ;
+import {mapState, mapActions} from 'vuex'
 
 export default {
   components: {
     Slide // Register your component
   },
+  computed:{
+    ...mapState(["isLogin", "isLoginError", "userInfo"])
+  },
+  data() {
+    return {
+      message1: "SignIn",
+      message2: "LogOut"
+    }
+  },
   methods: {
+    ...mapActions(["logout"]),
     clickMenu: function (event) {
       let clicked = document.getElementById(event.currentTarget.id);
       let menu = document.getElementsByClassName("item");
@@ -66,7 +77,7 @@ export default {
       Array.from(menu).forEach((m) => {
         m.classList.remove("active")
       })
-    }
+    },
   }
 }
 

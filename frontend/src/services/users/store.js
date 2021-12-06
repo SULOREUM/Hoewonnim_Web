@@ -40,6 +40,11 @@ export default new Vuex.Store({
             state.isLogin = false
             state.isLoginError = true
         },
+        logout(state){
+            state.isLogin = false
+            state.isLoginError = true
+            state.userInfo = null
+        },
         // 생년월일 수정
         changeBirth(state, payload){
             state.userInfo.birth = payload
@@ -105,6 +110,7 @@ export default new Vuex.Store({
                             console.log('로그인성공!!!!!!!!')
                             console.log(userInfo)
                             alert(userInfo.name + '님 환영합니다.')
+                            router.push('/views/MyPage')
                         })
                         .catch(()=> {
                             alert('이메일과 비밀번호를 확인하세요.')
@@ -117,7 +123,6 @@ export default new Vuex.Store({
         },
         logout({commit}){
             commit("logout")
-            router.push({name: "home"})
         }
 
     }
