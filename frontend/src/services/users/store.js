@@ -51,6 +51,11 @@ export default new Vuex.Store({
             state.isLogin = false
             state.isLoginError = true
         },
+        logout(state){
+            state.isLogin = false
+            state.isLoginError = true
+            state.userInfo = null
+        },
         // 생년월일 수정
         changeBirth(state, payload){
             state.userInfo.birth = payload
@@ -84,55 +89,20 @@ export default new Vuex.Store({
             state.photos = payload
         }
     },
-    actions:{ //로그인 시도
-        login({commit}, loginObj){
-            console.log(loginObj)
+    actions:{
+        //로그인 시도
+        login({dispatch}, loginObj){
             axios
                 .post('http://localhost:3000/api/SignIn', loginObj)
                 .then(res => {
                     console.log(res)
                     // 성공 시 token: user의 _id 값을 받아온다
                     // 토큰을 헤더에 포함시켜서 유저 정보를 요청
-
                     let token = res.data.token
+                    //토큰을 로컬 스토리지에 저장
                     console.log('token:' + token)
-                    let config = {
-                        headers: {
-                            "access-token": token
-                        }
-                    }
-                    const url = "http://localhost:3000/api/users/" + token
-                    console.log(url)
-                    axios
-                        .get(url, config)
-                        .then(response =>{
-                            let userInfo = {
-                                id: response.data[0].id,
-                                object_id: response.data[0]._id,
-                                password: response.data[0].password,
-                                name: response.data[0].name,
-                                age: response.data[0].age,
-                                state: response.data[0].state,
-                                sex: response.data[0].sex,
-                                profile_image: response.data[0].profile_image,
-                                birth: response.data[0].birth,
-                                phone: response.data[0].phone,
-                                mail: response.data[0].mail,
-                                interest: response.data[0].interest,
-                                challenge: response.data[0].challenge,
-                                weight: response.data[0].weight,
-                                liked_post: response.data[0].liked_post,
-                            }
-                            commit('loginSuccess', userInfo)
-                            console.log(response)
-                            console.log('로그인성공!!!!!!!!')
-                            console.log(userInfo)
-                            alert(userInfo.name + '님 환영합니다.')
-                        })
-                        .catch(()=> {
-                            alert('이메일과 비밀번호를 확인하세요.')
-                        })
-                    console.log(res)
+                    localStorage.setItem("access_token", token)
+                    dispatch("getMemberInfo")
                 })
                 .catch(() =>{
                     alert('이메일과 비밀번호를 확인하세요.')
@@ -140,7 +110,48 @@ export default new Vuex.Store({
         },
         logout({commit}){
             commit("logout")
-            router.push({name: "home"})
+        },
+        getMemberInfo({commit}){
+            let token = localStorage.getItem("access_token")
+            let config = {
+                headers:{
+                    "access-token": token
+                }
+            }
+
+            const url = "http://localhost:3000/api/users/" + token
+            console.log(url)
+            axios
+                .get(url, config)
+                .then(response =>{
+                    let userInfo = {
+                        id: response.data[0].id,
+                        object_id: response.data[0]._id,
+                        password: response.data[0].password,
+                        name: response.data[0].name,
+                        age: response.data[0].age,
+                        state: response.data[0].state,
+                        sex: response.data[0].sex,
+                        profile_image: response.data[0].profile_image,
+                        birth: response.data[0].birth,
+                        phone: response.data[0].phone,
+                        mail: response.data[0].mail,
+                        interest: response.data[0].interest,
+                        challenge: response.data[0].challenge,
+                        weight: response.data[0].weight,
+                        liked_post: response.data[0].liked_post,
+                    }
+                    commit('loginSuccess', userInfo)
+                    console.log(response)
+                    console.log('로그인성공!!!!!!!!')
+                    console.log(userInfo)
+                    alert(userInfo.name + '님 환영합니다.')
+                    router.push('/views/MyPage')
+                })
+                .catch(()=> {
+                    alert('이메일과 비밀번호를 확인하세요.')
+                })
+
         },
         FETCH_POSTS(post){
             const url = "http://localhost:3000/api/posts/"
