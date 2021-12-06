@@ -59,6 +59,12 @@ export default new Vuex.Store({
         // 성별 수정
         changeSex(state, payload){
             state.userInfo.sex = payload
+        },
+        updateWeight(state, payload){
+            state.userInfo.weight = payload
+        },
+        updateProfile(state, payload){
+            state.userInfo.profile_image = payload.img
         }
     },
     actions:{ //로그인 시도
