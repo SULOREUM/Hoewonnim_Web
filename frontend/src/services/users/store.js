@@ -47,6 +47,10 @@ export default new Vuex.Store({
         // 메일 수정
         changeMail(state, payload){
             state.userInfo.mail = payload
+        },
+        // 이름 수정
+        changeName(state, payload){
+            state.userInfo.name = payload
         }
     },
     actions:{ //로그인 시도
