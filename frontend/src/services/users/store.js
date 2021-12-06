@@ -51,6 +51,10 @@ export default new Vuex.Store({
         // 이름 수정
         changeName(state, payload){
             state.userInfo.name = payload
+        },
+        // 번호 수정
+        changePhone(state, payload){
+            state.userInfo.phone = payload
         }
     },
     actions:{ //로그인 시도
