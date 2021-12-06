@@ -301,7 +301,6 @@ export default {
         this.User.weight = weightList
 
         updateUser.UpdateUser(this.User, this.User.object_id)
-        this.User.weight.push()
 
         this.is_show = !this.is_show
         this.createChart('chart1');

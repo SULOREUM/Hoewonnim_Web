@@ -18,6 +18,10 @@
           <th>사진 첨부</th>
           <td><input type="file" @change="onFileSelected"></td>
         </tr>
+        <tr>
+          <th>미리보기</th>
+          <td><img width="200px" ref="uploadItemImage"></td>
+        </tr>
       </table>
     </form>
 
@@ -41,8 +45,14 @@ export default {
     }
   },
   methods:{
-    onFileSelected(event){
+    onFileSelected(event) {
       this.selectedFile = event.target.files[0]
+      let itemImage = this.$refs.uploadItemImage; //img dom 접근
+      itemImage.src = window.URL.createObjectURL(event.target.files[0]);//img src에 blob주소 변환
+      this.itemImageInfo.uploadImages = itemImage.src; //이미지 주소 data 변수에 바인딩해서 나타내게 처리
+      itemImage.onload = () => {
+        window.URL.revokeObjectURL(this.src) //나중에 반드시 해제해주어야 메모리 누수가 안생김.
+      }
     },
     onUpload(){
       const fd = new FormData()
