@@ -55,6 +55,10 @@ export default new Vuex.Store({
         // 번호 수정
         changePhone(state, payload){
             state.userInfo.phone = payload
+        },
+        // 성별 수정
+        changeSex(state, payload){
+            state.userInfo.sex = payload
         }
     },
     actions:{ //로그인 시도
