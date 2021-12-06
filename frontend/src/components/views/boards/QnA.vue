@@ -33,6 +33,9 @@
         <tr v-if="items.length == 0">
           <td colspan="4">데이터가 없습니다.</td>
         </tr>
+        <tr v-for="n in pageSize-paginatedData.length" :key="n">
+          <td colspan="4" style="height: 18px; border-bottom:none;"></td>
+        </tr>
 
       </table>
       <div class="btn-cover">
