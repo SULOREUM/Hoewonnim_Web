@@ -5,16 +5,16 @@
         <div class="user_image">
           <div class="user_image_inside"><img v-bind:src=this.profile @click="photo_edit"/></div>
         </div>
-        <div class="user_name"><span><strong>{{ name }}</strong><router-link
+        <div class="user_name"><span><strong>{{ userInfo.name }}</strong><router-link
             to="/views/MyPageUserInfo">  내 정보</router-link><br/></span>
-          <span>{{ state }} / {{ sex }} / {{ age }}</span></div>
+          <span>{{ userInfo.state }} / {{ userInfo.sex }} / {{ userInfo.age }}</span></div>
         <div class="user_like">
           <table class="userInfoTable">
             <colgroup>
               <col style="width:50%">
               <col style="width:50%">
             </colgroup>
-            <tr v-for="data in interest" :key="data">
+            <tr v-for="data in userInfo.interest" :key="data">
               <td class="txt_middle">{{ data }}</td>
               <!--              <td class="txt_middle">{{ data }}</td>-->
             </tr>
