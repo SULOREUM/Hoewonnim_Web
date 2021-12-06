@@ -82,7 +82,6 @@ export default {
     }
   }
   ,async created(){
-    await this.$store.dispatch("FETCH_POSTS")
     this.items = this.$store.getters.QnAPosts
   }
   , methods:{
