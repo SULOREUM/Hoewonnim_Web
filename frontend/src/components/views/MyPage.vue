@@ -569,7 +569,7 @@ export default {
 .square_left {
   display: flex;
   flex-direction: column;
-
+  justify-content: center;
   width:48%;
   height: 73%;
   float: left;
@@ -578,7 +578,9 @@ export default {
 }
 .square_left_title{
   display: flex;
+  align-items: start;
   justify-content: space-between;
+  margin: 0px 5%;
 }
 .square_right {
   display: flex;
@@ -600,15 +602,17 @@ export default {
 .bar-wrapper{
   display: flex;
   justify-content: center;
+  align-items: center;
+  height: 40%;
 }
 .progress-bar{
   background-color: white;
   width: 90%;
-  height: 10px;
+  height: 40%;
 }
 #bar{
   background-color: rgba(173, 255, 47, 0.7);
-  height: 10px;
+  height: 100%;
 }
 
 /* my record */
