@@ -35,8 +35,8 @@
       <div class="signup">
         <router-link v-if="userInfo == null" to="/views/SignIn"><span>{{message1}}</span></router-link>
         <router-link v-else-if="userInfo != null" to="/views/SignIn" @click.native="logout"><span>{{message2}}</span></router-link>
-        <router-link to="/views/SignUp"><span>Sign Up</span></router-link>
-        <router-link to="/views/MyPage"><span>My Page</span></router-link>
+        <router-link v-if="userInfo == null" to="/views/SignUp"><span>Sign Up</span></router-link>
+        <router-link v-if="userInfo != null" to="/views/MyPage"><span>My Page</span></router-link>
       </div>
     </div>
   </header>
