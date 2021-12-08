@@ -58,10 +58,9 @@
           <div class="square_left2">
             <canvas  id="chart1"></canvas>
           </div>
-          <div class="square_right2"></div>
         </div>
         <div class="myActivity">
-          <div class="title2">
+          <div class="title3">
             <div class="title_inside">
               <p>🔥 활동</p>
             </div>
@@ -332,14 +331,15 @@ export default {
       new Chart(ctx,{
         type:"line",
         data:{
-          labels: ["1", "2","3","4","5"],
+          labels: ["1", "2","3","4","5","6","7","8","9","10"],
           datasets: [
             {
               label: "wight",
-              data: Object.values(this.User.weight),
+              data: Object.values(this.User.weight).slice(-10),
               backgroundColor: "rgba(54,73,93,.5)",
               borderColor: "#36495d",
-              borderWidth: 2
+              borderWidth: 3,
+              tension: 0.2
             }
           ]
         },
@@ -349,9 +349,9 @@ export default {
             yAxes: [
               {
                 ticks: {
-                  beginAtZero: true,
-                  stepSize:15,
-                  padding: 20
+                  beginAtZero: false,
+                  stepSize:5,
+                  min:30
                 }
               }
             ]
@@ -532,7 +532,21 @@ export default {
   background: rgba(202, 223, 224, 1);
   border: 3px solid rgb(204, 223, 224);
   color: black;
-  margin-top: 2%;
+  margin-top: 5%;
+  border-radius: 10px;
+}
+.title3 {
+  position: relative;
+  width: 15%;
+  height: 15%;
+  text-align: center;
+  vertical-align: center;
+  font-size: 0.8em;
+  font-family: 'Gothic A1', sans-serif;
+  background: rgba(202, 223, 224, 1);
+  border: 3px solid rgb(204, 223, 224);
+  color: black;
+  margin-top: 10%;
   border-radius: 10px;
 }
 .title_inside {
@@ -622,8 +636,8 @@ export default {
   justify-content: center;
   align-items: center;
 
-  width:48%;
-  height: 83%;
+  width:100%;
+  height: 100%;
   float: left;
   margin-top: 1%;
   background-color: #2c3e50;
@@ -634,15 +648,6 @@ export default {
   width: 100%;
   height: 96%;
 }
-
-.square_right2 {
-  width:48%;
-  height: 83%;
-  float: right;
-  margin-top: 1%;
-  background-color: #2c3e50;
-}
-
 /* my activity */
 
 .post_left {
