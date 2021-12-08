@@ -77,7 +77,7 @@
               </tr>
               <tr v-for="(post, idx) in paginatedPostData" :key="idx">
                 <td class="txt_middle">{{ (posts.length - (pageNum * pageSize)) - idx }}</td>
-                <td class="txt_left"><a href="javascript:;"><router-link :to="{ name: 'DetailBoardPage', params: { id: post._id }}">{{ post.title }}</router-link></a></td>
+                <td class="txt_left"><router-link :to="{ name: 'DetailBoardPage', params: { prev: post.Board , id: post._id }}">{{ post.title }}</router-link></td>
               </tr>
               <tr v-if="paginatedPostData.length == 0">
                 <td colspan="2">작성한 글이 없습니다.</td>
@@ -104,7 +104,7 @@
               </tr>
               <tr v-for="(post, idx) in paginatedLikedData" :key="idx">
                 <td class="txt_middle">{{ likedList.length - (LikedPageNum * pageSize) - idx }}</td>
-                <td class="txt_left"><a href="javascript:;"><router-link :to="{ name: 'DetailBoardPage', params: { id: post._id }}">{{ post.title }}</router-link></a></td>
+                <td class="txt_left"><router-link :to="{ name: 'DetailBoardPage', params: { prev:post.Board, id: post._id }}">{{ post.title }}</router-link></td>
               </tr>
               <tr v-if="likedList.length == 0">
                 <td colspan="2">좋아요 한 글이 없습니다.</td>
