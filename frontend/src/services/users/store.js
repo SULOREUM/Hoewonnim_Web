@@ -76,6 +76,9 @@ export default new Vuex.Store({
         changeSex(state, payload){
             state.userInfo.sex = payload
         },
+        changePassword(state, payload){
+            state.userInfo.password = payload
+        },
         updateWeight(state, payload){
             state.userInfo.weight = payload
         },
