@@ -15,6 +15,8 @@
                 <option>성별</option>
                 <option value="Male"  v-if="sex === 'Female'">남자</option>
                 <option value="Female" v-if="sex === 'Male'">여자</option>
+                <option value="Male"  v-if="check">남자</option>
+                <option value="Female" v-if="check">여자</option>
                 <option value="Male" v-if="sex === 'Male'" selected >남자</option>
                 <option value="Female" v-if="sex === 'Female'" selected>여자</option>
               </select>
@@ -43,13 +45,16 @@ export default {
     return {
       User: [],
       sex: '',
-      newSex: ''
+      newSex: '',
+      check: false
     }
   },
   async created() {
     this.User = this.$store.state.userInfo
     this.sex = this.$store.state.userInfo.sex
     this.newSex = this.$store.state.userInfo.sex
+
+    this.sexCheck()
   },
   methods: {
     ok: function() {
@@ -62,6 +67,11 @@ export default {
       else {
         alert("바뀜")
         this.updateUser()
+      }
+    },
+    sexCheck: function() {
+      if (this.User.sex !== 'Female' & this.User.sex !== 'Male') {
+        this.check = true
       }
     },
     updateUser: function() {
