@@ -8,11 +8,12 @@
         <div class="sub_title">
           비밀번호를 수정하실 수 있습니다.
         </div>
-        <div class="email_revise">
-          <div class="email_revise_content">
-            <div class="email_area">
-              <input type="text" maxlength="100" class="mail" v-on:input="checking" v-model="checkPassword">
-              <input type="text" maxlength="100" class="mail" v-on:input="typing" v-model="newPassword">
+        <div class="password_revise">
+          <div class="password_revise_content">
+            <div class="password_area">
+              <input type="password" maxlength="100" class="mail" v-on:input="checking" v-model="checkPassword" placeholder="원래 비밀번호를 입력해주세요.">
+              <input type="password" maxlength="100" class="mail" v-on:input="typing" v-model="newPassword" placeholder="새로운 비밀번호를 입력해주세요.">
+              <input type="password" maxlength="100" class="mail" v-on:input="typing2" v-model="newPassword2" placeholder="새로운 비밀번호를 다시 한번 입력해주세요.">
             </div>
             <div class="btn_area">
               <button class="ok_btn" @click="ok">확인</button>
@@ -39,6 +40,7 @@ export default {
       User: [],
       password: '',
       newPassword: '',
+      newPassword2: '',
       checkPassword: ''
     }
   },
@@ -50,16 +52,29 @@ export default {
     typing(e) {
       this.newPassword = e.target.value
     },
+    typing2(e) {
+      this.newPassword2 = e.target.value
+    },
     checking(e) {
-      this.newPassword = e.target.value
+      this.checkPassword = e.target.value
     },
     ok: function() {
-      if (this.password === this.newPassword) {
-        alert("바뀐게 없어용")
+      if (this.password === this.checkPassword) {
+        if (this.newPassword !== '') {
+          if (this.newPassword === this.newPassword2) {
+            alert("비밀번호가 변경되었습니다!")
+            this.updateUser()
+          }
+          else {
+            alert("새 비밀번호가 일치하지 않습니다.")
+          }
+        }
+        else {
+          alert("새 비밀번호를 입력해주세요!")
+        }
       }
       else {
-        alert("바뀜")
-        this.updateUser()
+        alert("기존 비밀번호를 확인해주세요!")
       }
     },
     updateUser: function() {
@@ -107,7 +122,7 @@ export default {
   font-family: 'Gothic A1', sans-serif;
 }
 
-.email_revise {
+.password_revise {
   position: relative;
   width:500px;
   margin-top: 20px;
@@ -115,13 +130,13 @@ export default {
   border: 1px solid lightgray;
 }
 
-.email_revise:before {
+.password_revise:before {
   content: "";
   display: block;
-  padding-top: 50%;
+  padding-top: 60%;
 }
 
-.email_revise_content {
+.password_revise_content {
   position: absolute;
   top: 0;
   right: 0;
@@ -129,9 +144,9 @@ export default {
   left: 0;
 }
 
-.email_area {
+.password_area {
   width: 100%;
-  height: 55%;
+  height: 65%;
 }
 
 .btn_area {
@@ -191,11 +206,11 @@ export default {
 
   .content {
     width: 80%;
-    margin-left: 10%;
+    margin-left: 5%;
   }
 
-  .email_revise {
-    width: 400px
+  .password_revise {
+    width: 500px
   }
 }
 </style>
