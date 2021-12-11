@@ -17,8 +17,8 @@
                 <col style="width:10%">
               </colgroup>
               <tr>
-                <th class="line"> 사진</th>
-                <td class="line">  </td>
+                <th class="line" @click="passwordChange()"> 비밀번호</th>
+                <td class="line" @click="passwordChange()">  </td>
               </tr>
               <tr>
                 <th class="line" @click="nameChange()"> 닉네임</th>
@@ -155,6 +155,9 @@ export default {
     },
     phoneChange: function() {
       this.$router.push({name: 'Phone'})
+    },
+    passwordChange: function () {
+      this.$router.push({name: 'Password'})
     }
   }
 }
