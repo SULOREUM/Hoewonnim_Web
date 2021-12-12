@@ -15,10 +15,8 @@
               <input class="username2" type="text" v-on:input="typing" v-bind:value="name" placeholder="이름">
             </div>
             <div class="btn_area">
-<!--              <input :disabled ="this.newname === this.name" class="ok_btn" type="submit" value="확인" @click="Save"/>-->
-<!--              <input class="cancle_btn" type="submit" value="취소"/>-->
               <button class="ok_btn" @click="ok">확인</button>
-              <button class="cancle_btn">취소</button>
+              <button class="cancle_btn" @click="cancle">취소</button>
             </div>
           </div>
         </div>
@@ -62,6 +60,9 @@ name: "Name",
         this.updateUser()
       }
     },
+    cancle: function() {
+      this.$router.go(-1)
+    },
     updateUser: function() {
       this.$store.commit('changeName', this.newName)
       this.User.name = this.newName
@@ -81,7 +82,7 @@ name: "Name",
 .content {
   position: relative;
   background-color: white;
-  width: 40%;
+  width: 35%;
   margin-left: 25%;
 }
 
@@ -118,7 +119,7 @@ name: "Name",
 .name_revise:before {
   content: "";
   display: block;
-  padding-top: 60%;
+  padding-top: 50%;
 }
 
 .name_revise_content {
@@ -143,7 +144,7 @@ name: "Name",
 /* input */
 .username {
   width: 70%;
-  height: 50px;
+  height: 30%;
   margin-top: 20px;
   margin-right: 25%;
   float: right;
@@ -153,7 +154,7 @@ name: "Name",
 
 .username2 {
   width: 70%;
-  height: 50px;
+  height: 30%;
   margin-top: 20px;
   margin-right: 25%;
   float: right;
@@ -163,7 +164,7 @@ name: "Name",
 
 .cancle_btn {
   width: 25%;
-  height: 40px;
+  height: 60%;
   float: right;
   margin-right: 20px;
   color: #fff;
@@ -175,7 +176,7 @@ name: "Name",
 
 .ok_btn {
   width: 25%;
-  height: 40px;
+  height: 60%;
   float: right;
   color: #fff;
   background-color: #7994DB;
@@ -202,11 +203,12 @@ name: "Name",
 
   .content {
     width: 80%;
-    margin-left: 10%;
+    margin-left: 3%;
   }
 
   .name_revise {
-    width: 400px
+    width: 400px;
   }
+
 }
 </style>

@@ -17,7 +17,7 @@
             </div>
             <div class="btn_area">
               <button class="ok_btn" @click="ok">확인</button>
-              <button class="cancle_btn">취소</button>
+              <button class="cancle_btn" @click="cancle">취소</button>
             </div>
           </div>
         </div>
@@ -76,6 +76,9 @@ export default {
       else {
         alert("기존 비밀번호를 확인해주세요!")
       }
+    },
+    cancle: function() {
+      this.$router.go(-1)
     },
     updateUser: function() {
       this.$store.commit('changePassword', this.newPassword)
@@ -146,19 +149,18 @@ export default {
 
 .password_area {
   width: 100%;
-  height: 65%;
+  height: 75%;
 }
 
 .btn_area {
   width: 75%;
-  height: 30%;
-  margin-top: 10%;
+  height: 25%;
 }
 
 /* input */
 .mail {
   width: 70%;
-  height: 50px;
+  height: 20%;
   margin-top: 20px;
   margin-right: 25%;
   float: right;
@@ -175,6 +177,7 @@ export default {
   border: 0;
   cursor: pointer;
   border-radius: 2px;
+  margin-top: 10px;
 }
 
 .ok_btn {
@@ -186,6 +189,7 @@ export default {
   border: 0;
   cursor: pointer;
   border-radius: 2px;
+  margin-top: 10px;
 }
 
 @media all and (min-width: 768px) and (max-width: 1023px) {
@@ -206,11 +210,17 @@ export default {
 
   .content {
     width: 80%;
-    margin-left: 5%;
+    margin-left: 3%;
   }
 
   .password_revise {
-    width: 500px
+    width: 400px
+  }
+
+  .password_revise:before {
+    content: "";
+    display: block;
+    padding-top: 65%;
   }
 }
 </style>

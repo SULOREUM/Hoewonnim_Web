@@ -18,23 +18,27 @@
               </colgroup>
               <tr>
                 <th class="line" @click="passwordChange()"> 비밀번호</th>
-                <td class="line" @click="passwordChange()">  </td>
+                <td class="line2" @click="passwordChange()">  비밀번호 변경</td>
+                <td class="line" @click="passwordChange()"><img class="table_img" src="@/assets/right.png"/></td>
               </tr>
               <tr>
                 <th class="line" @click="nameChange()"> 닉네임</th>
-                <td class="line" @click="nameChange()"> {{userInfo.name}}</td>
+                <td class="line" @click="nameChange()"> {{User.name}}</td>
+                <td class="line" @click="passwordChange()"><img class="table_img" src="@/assets/right.png"/></td>
               </tr>
               <tr>
                 <th class="line" @click="birthChange()"> 생년월일</th>
-                <td class="line" @click="birthChange()">  {{userInfo.birth}}</td>
+                <td class="line" @click="birthChange()">  {{User.birth}}</td>
+                <td class="line" @click="passwordChange()"><img class="table_img" src="@/assets/right.png"/></td>
               </tr>
               <tr>
                 <th class="line" @click="sexChange()"> 성별</th>
-                <td class="line" @click="sexChange()">  {{userInfo.sex}}</td>
+                <td class="line" @click="sexChange()">  {{User.sex}}</td>
+                <td class="line" @click="passwordChange()"><img class="table_img" src="@/assets/right.png"/></td>
               </tr>
               <tr>
                 <th> 챌린지</th>
-                <td> {{userInfo.challenge}}</td>
+                <td> {{this.challenge}}</td>
               </tr>
             </table>
           </div>
@@ -50,11 +54,13 @@
                 </colgroup>
                 <tr>
                   <th class="line" @click="mailChange()"> 이메일</th>
-                  <td class="line" @click="mailChange()">  {{userInfo.mail}}</td>
+                  <td class="line" @click="mailChange()">  {{User.mail}}</td>
+                  <td class="line" ><img class="table_img" src="@/assets/right.png"/></td>
                 </tr>
                 <tr>
                   <th @click="phoneChange()"> 전화번호</th>
-                  <td @click="phoneChange()"> {{userInfo.phone}} </td>
+                  <td @click="phoneChange()"> {{User.phone}} </td>
+                  <td class="line" @click="passwordChange()"><img class="table_img" src="@/assets/right.png"/></td>
                 </tr>
               </table>
             </div>
@@ -68,7 +74,6 @@
 <script>
 
 import $ from "jquery";
-import getUserInfo from "@/services/users/getUserInfo";
 import {mapState} from 'vuex'
 
 
@@ -80,32 +85,12 @@ export default {
   data() {
     return {
       User: [],
-      name: '',
-      birth: '',
-      sex: '',
-      challenge: '',
-      email: '',
-      phone: '',
-      id: 'suloreum',
-      tr: '',
-      td: '',
-      idx: '',
-      cont: ''
+      challenge: ''
     }
   },
   async created() {
-    try{
-      this.Users = await getUserInfo.getUsers()
-      this.user = Object.values(this.Users).filter(users => users.id === this.id)
-      this.name = this.user[0].name
-      this.birth = this.user[0].birth
-      this.sex = this.user[0].sex
-      this.challenge = Object.keys(this.user[0].challenge).toString()
-      this.email = this.user[0].mail
-      this.phone = this.user[0].phone
-    }catch (err){
-      this.error = console.log(err);
-    }
+    this.User = this.$store.state.userInfo
+    this.challenge = Object.keys(this.User.challenge).toString()
   },
   mounted() {
     $(document).ready(function(){
@@ -240,7 +225,18 @@ export default {
 
 }
 
+.table_img {
+  max-width: 15%;
+  color: #aaaaaa;
+}
+
 .line {
+  border-bottom: 1px solid lightgray;
+}
+
+.line2 {
+  font-size: 0.8em;
+  color: dimgray;
   border-bottom: 1px solid lightgray;
 }
 
@@ -250,7 +246,7 @@ export default {
   width: 100%;
   padding-top: 25%;
   border-radius: 16px;
-  border: 1px solid lightgray;
+  border: 1px solid #d3d3d3;
 }
 
 /*.etc_info {*/
@@ -311,7 +307,7 @@ export default {
 
   .content {
     width: 80%;
-    margin-left: 10%;
+    margin-left: 4%;
   }
 }
 

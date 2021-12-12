@@ -15,13 +15,15 @@
                 <option>성별</option>
                 <option value="Male"  v-if="sex === 'Female'">남자</option>
                 <option value="Female" v-if="sex === 'Male'">여자</option>
+                <option value="Male"  v-if="check">남자</option>
+                <option value="Female" v-if="check">여자</option>
                 <option value="Male" v-if="sex === 'Male'" selected >남자</option>
                 <option value="Female" v-if="sex === 'Female'" selected>여자</option>
               </select>
             </div>
             <div class="btn_area">
               <button class="ok_btn" @click="ok">확인</button>
-              <button class="cancle_btn">취소</button>
+              <button class="cancle_btn" @click="cancle">취소</button>
             </div>
           </div>
         </div>
@@ -43,13 +45,16 @@ export default {
     return {
       User: [],
       sex: '',
-      newSex: ''
+      newSex: '',
+      check: false
     }
   },
   async created() {
     this.User = this.$store.state.userInfo
     this.sex = this.$store.state.userInfo.sex
     this.newSex = this.$store.state.userInfo.sex
+
+    this.sexCheck()
   },
   methods: {
     ok: function() {
@@ -62,6 +67,14 @@ export default {
       else {
         alert("바뀜")
         this.updateUser()
+      }
+    },
+    cancle: function() {
+      this.$router.go(-1)
+    },
+    sexCheck: function() {
+      if (this.User.sex !== 'Female' & this.User.sex !== 'Male') {
+        this.check = true
       }
     },
     updateUser: function() {
@@ -193,7 +206,7 @@ export default {
 
   .content {
     width: 80%;
-    margin-left: 10%;
+    margin-left: 3%;
   }
 
   .sex_revise {
