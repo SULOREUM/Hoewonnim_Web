@@ -17,7 +17,7 @@
             </div>
             <div class="btn_area">
               <button class="ok_btn" @click="ok">확인</button>
-              <button class="cancle_btn">취소</button>
+              <button class="cancle_btn" @click="cancle">취소</button>
             </div>
           </div>
         </div>
@@ -77,6 +77,9 @@ export default {
         this.newBirth = this.year + '-' + this.month + '-' + this.day
         this.updateUser()
       }
+    },
+    cancle: function() {
+      this.$router.go(-1)
     },
     updateUser: function () {
       this.$store.commit('changeBirth', this.newBirth)
