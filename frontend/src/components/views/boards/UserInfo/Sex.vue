@@ -23,7 +23,7 @@
             </div>
             <div class="btn_area">
               <button class="ok_btn" @click="ok">확인</button>
-              <button class="cancle_btn">취소</button>
+              <button class="cancle_btn" @click="cancle">취소</button>
             </div>
           </div>
         </div>
@@ -68,6 +68,9 @@ export default {
         alert("바뀜")
         this.updateUser()
       }
+    },
+    cancle: function() {
+      this.$router.go(-1)
     },
     sexCheck: function() {
       if (this.User.sex !== 'Female' & this.User.sex !== 'Male') {
