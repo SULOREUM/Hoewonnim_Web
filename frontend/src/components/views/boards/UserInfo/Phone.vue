@@ -15,7 +15,7 @@
             </div>
             <div class="btn_area">
               <button class="ok_btn" @click="ok">확인</button>
-              <button class="cancle_btn">취소</button>
+              <button class="cancle_btn" @click="cancle">취소</button>
             </div>
           </div>
         </div>
@@ -57,6 +57,9 @@ export default {
         alert("바뀜")
         this.updateUser()
       }
+    },
+    cancle: function() {
+      this.$router.go(-1)
     },
     updateUser: function() {
       this.$store.commit('changePhone', this.newPhone)
@@ -187,7 +190,7 @@ export default {
 
   .content {
     width: 80%;
-    margin-left: 10%;
+    margin-left: 3%;
   }
 
   .phone_revise {
