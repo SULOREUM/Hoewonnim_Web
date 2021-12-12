@@ -150,19 +150,18 @@ export default {
 
 .birth_area {
   width: 100%;
-  height: 65%;
+  height: 75%;
 }
 
 .btn_area {
   width: 75%;
-  height: 30%;
-  margin-top: 5%;
+  height: 25%;
 }
 
 /* input */
 .birth {
   width: 70%;
-  height: 50px;
+  height: 20%;
   margin-top: 20px;
   margin-right: 25%;
   float: right;
@@ -172,7 +171,7 @@ export default {
 
 .cancle_btn {
   width: 25%;
-  height: 40px;
+  height: 60%;
   float: right;
   margin-right: 20px;
   color: #fff;
@@ -185,7 +184,7 @@ export default {
 
 .ok_btn {
   width: 25%;
-  height: 40px;
+  height: 60%;
   float: right;
   color: #fff;
   background-color: #7994DB;
@@ -213,11 +212,12 @@ export default {
 
   .content {
     width: 80%;
-    margin-left: 10%;
+    margin-left: 3%;
   }
 
   .birth_revise {
     width: 400px
   }
+
 }
 </style>
