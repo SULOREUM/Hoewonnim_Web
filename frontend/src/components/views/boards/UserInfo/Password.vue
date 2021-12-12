@@ -149,19 +149,18 @@ export default {
 
 .password_area {
   width: 100%;
-  height: 65%;
+  height: 75%;
 }
 
 .btn_area {
   width: 75%;
-  height: 30%;
-  margin-top: 10%;
+  height: 25%;
 }
 
 /* input */
 .mail {
   width: 70%;
-  height: 50px;
+  height: 20%;
   margin-top: 20px;
   margin-right: 25%;
   float: right;
@@ -178,6 +177,7 @@ export default {
   border: 0;
   cursor: pointer;
   border-radius: 2px;
+  margin-top: 10px;
 }
 
 .ok_btn {
@@ -189,6 +189,7 @@ export default {
   border: 0;
   cursor: pointer;
   border-radius: 2px;
+  margin-top: 10px;
 }
 
 @media all and (min-width: 768px) and (max-width: 1023px) {
@@ -209,11 +210,17 @@ export default {
 
   .content {
     width: 80%;
-    margin-left: 5%;
+    margin-left: 3%;
   }
 
   .password_revise {
-    width: 500px
+    width: 400px
+  }
+
+  .password_revise:before {
+    content: "";
+    display: block;
+    padding-top: 65%;
   }
 }
 </style>

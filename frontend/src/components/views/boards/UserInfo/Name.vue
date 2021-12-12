@@ -82,7 +82,7 @@ name: "Name",
 .content {
   position: relative;
   background-color: white;
-  width: 40%;
+  width: 35%;
   margin-left: 25%;
 }
 
@@ -119,7 +119,7 @@ name: "Name",
 .name_revise:before {
   content: "";
   display: block;
-  padding-top: 60%;
+  padding-top: 50%;
 }
 
 .name_revise_content {
@@ -144,7 +144,7 @@ name: "Name",
 /* input */
 .username {
   width: 70%;
-  height: 50px;
+  height: 30%;
   margin-top: 20px;
   margin-right: 25%;
   float: right;
@@ -154,7 +154,7 @@ name: "Name",
 
 .username2 {
   width: 70%;
-  height: 50px;
+  height: 30%;
   margin-top: 20px;
   margin-right: 25%;
   float: right;
@@ -164,7 +164,7 @@ name: "Name",
 
 .cancle_btn {
   width: 25%;
-  height: 40px;
+  height: 60%;
   float: right;
   margin-right: 20px;
   color: #fff;
@@ -176,7 +176,7 @@ name: "Name",
 
 .ok_btn {
   width: 25%;
-  height: 40px;
+  height: 60%;
   float: right;
   color: #fff;
   background-color: #7994DB;
@@ -203,11 +203,12 @@ name: "Name",
 
   .content {
     width: 80%;
-    margin-left: 10%;
+    margin-left: 3%;
   }
 
   .name_revise {
-    width: 400px
+    width: 400px;
   }
+
 }
 </style>

@@ -190,7 +190,7 @@ export default {
 
   .content {
     width: 80%;
-    margin-left: 10%;
+    margin-left: 3%;
   }
 
   .email_revise {
