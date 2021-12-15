@@ -2,9 +2,14 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '../../routes/index'
 import axios from "axios"
+import createPersistedState from 'vuex-persistedstate'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+    plugins: [
+        createPersistedState()
+    ],
     state:{ //저장된 유저 정보
         // allUsers:[
         //     {userId: 'hoza123', password: '123', name: 'dahye', address: 'Seoul'}
@@ -15,20 +20,7 @@ export default new Vuex.Store({
         posts :null,
         photos:null
     },
-    getters: { //유저 정보 불러오기 -마이페이지
-        // allUsersCount: function (state){
-        //  return state.allUsers.length
-        // },
-        // countOfSeoul: state =>{
-        //     let count = 0
-        //     state.allUsers.forEach(user =>{
-        //          if(user.address === 'seoul') count++
-        //     })
-        //  return count
-        // },
-        // percentOfSeoul: (state, getters) =>{
-        //  return Math.round(getters.countOfSeoul / getters.allUsersCount * 100)
-        // }
+    getters: {
         ListPosts : state =>{
             return state.posts.filter(post => post.Board === 'List')
         },
@@ -108,10 +100,12 @@ export default new Vuex.Store({
                     dispatch("getMemberInfo")
                 })
                 .catch(() =>{
-                    alert('이메일과 비밀번호를 확인하세요.')
+                    alert('아이디와 비밀번호를 확인하세요.')
                 })
         },
         logout({commit}){
+            localStorage.removeItem("access_token")
+            location.reload() // reload로 Vuex Store, Axios header 클리어하기
             commit("logout")
         },
         getMemberInfo({commit}){
@@ -148,11 +142,10 @@ export default new Vuex.Store({
                     console.log(response)
                     console.log('로그인성공!!!!!!!!')
                     console.log(userInfo)
-                    alert(userInfo.name + '님 환영합니다.')
                     router.push('/views/MyPage')
                 })
                 .catch(()=> {
-                    alert('이메일과 비밀번호를 확인하세요.')
+                    alert('아이디와 비밀번호를 확인하세요.')
                 })
 
         },
