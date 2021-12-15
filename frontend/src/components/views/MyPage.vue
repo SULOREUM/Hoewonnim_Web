@@ -120,19 +120,24 @@
         </div>
       </div>
       <div class="modal" v-show="is_show">
-        <h2>당신의 기록을 추가해주세요</h2>
-        <div><input type="text" v-model="insert_weight"></div>
-        <div style="margin-top: 10px">
-          <input type="button" @click="insert" value="당장추가해">
-          <input type="button" @click="handle_toggle" value="취소">
-        </div>
+        <h2>기록 추가</h2>
+          <div><input type="text" v-model="insert_weight"></div>
+          <div class="btnWrap" style="margin-top: 10px">
+            <input type="button" @click="insert" value="추가">
+            <input type="button" @click="handle_toggle" value="취소">
+          </div>
       </div>
 
       <div class="modal" v-show="profile_edit">
-        <h2>프로필 사진을 바꾸시겠습니까</h2>
-        <div><input type="file" @change="onFileSelected"></div>
-        <div style="margin-top: 10px">
-          <input type="button" @click="onUpload" value="당장추가해">
+        <h2>프로필 사진 변경</h2>
+        <div class="filebox">
+          <input class="upload-name" value="첨부파일" placeholder="첨부파일">
+          <label for="file">파일찾기</label>
+          <input type="file" id="file" @change="onFileSelected">
+          <img class="preview" width="200px" ref="uploadItemImage" v-bind:src=this.profile>
+        </div>
+        <div class="btnWrap" style="margin-top: 10px">
+          <input type="button" @click="onUpload" value="변경">
           <input type="button" @click="photo_edit" value="취소">
         </div>
       </div>
@@ -170,6 +175,11 @@ export default {
           }
         }
       });
+    });
+
+    $("#file").on('change',function(){
+      var fileName = $("#file").val();
+      $(".upload-name").val(fileName);
     });
 
     this.challenge_progress()
@@ -278,6 +288,12 @@ export default {
     },
     onFileSelected(event) {
       this.selectedFile = event.target.files[0]
+      let itemImage = this.$refs.uploadItemImage;
+      itemImage.src = window.URL.createObjectURL(event.target.files[0]);
+      this.itemImageInfo.uploadImages = itemImage.src;
+      itemImage.onload = () => {
+        window.URL.revokeObjectURL(this.src)
+      }
     },
     onUpload(){
       const fd = new FormData()
@@ -728,11 +744,62 @@ export default {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width:500px;
-  height:200px;
+  width:400px;
+  height:400px;
 }
 
-/*  */
+.filebox input[type="file"] {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+}
+
+.filebox .upload-name {
+  display: inline-block;
+  height: 30px;
+  padding: 0 10px;
+  vertical-align: middle;
+  border: 1px solid #dddddd;
+  width: 60%;
+  color: #999999;
+}
+
+.filebox label {
+  display: inline-block;
+  padding: 5px 10px;
+  color: #fff;
+  vertical-align: middle;
+  background-color: #999999;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.btnWrap{
+  display: flex;
+  justify-content: center;
+}
+.btnWrap input{
+  margin-right: 10px;
+  width: 50px;
+  padding: 3px;
+  border: 1px solid #aaa;
+  background: white;
+  border-radius: .5em;
+  box-shadow: 0 1px 0 1px rgba(0, 0, 0, .04);
+  cursor: pointer;
+}
+.preview{
+  display: block;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 20px auto;
+}
+  /*  */
 
 img {
   width: 100%;
