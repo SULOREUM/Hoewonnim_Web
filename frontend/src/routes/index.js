@@ -23,7 +23,9 @@ import Email from "../components/views/boards/UserInfo/Email"
 import Phone from "../components/views/boards/UserInfo/Phone"
 import Password from "../components/views/boards/UserInfo/Password"
 
+import Challenge from "../components/views/boards/UserInfo/Challenge"
 import store from '../services/users/store'
+
 
 Vue.use(Router); // use vue router
 
@@ -150,6 +152,11 @@ const routes = [
         path: '/views/boards/UserInfo/Password',
         name: 'Password',
         component: Password
+    },
+    {
+        path: '/views/boards/UserInfo/Challenge',
+        name: 'Challenge',
+        component: Challenge
     }
 
 ]
