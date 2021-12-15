@@ -11,12 +11,10 @@
         <div class="user_like">
           <table class="userInfoTable">
             <colgroup>
-              <col style="width:50%">
-              <col style="width:50%">
+              <col style="width:100%">
             </colgroup>
             <tr v-for="data in User.interest" :key="data">
               <td class="txt_middle">{{ data }}</td>
-              <!--              <td class="txt_middle">{{ data }}</td>-->
             </tr>
           </table>
         </div>
