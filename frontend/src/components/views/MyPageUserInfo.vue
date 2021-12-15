@@ -24,21 +24,22 @@
               <tr>
                 <th class="line" @click="nameChange()"> 닉네임</th>
                 <td class="line" @click="nameChange()"> {{User.name}}</td>
-                <td class="line" @click="passwordChange()"><img class="table_img" src="@/assets/right.png"/></td>
+                <td class="line" @click="nameChange()"><img class="table_img" src="@/assets/right.png"/></td>
               </tr>
               <tr>
                 <th class="line" @click="birthChange()"> 생년월일</th>
                 <td class="line" @click="birthChange()">  {{User.birth}}</td>
-                <td class="line" @click="passwordChange()"><img class="table_img" src="@/assets/right.png"/></td>
+                <td class="line" @click="birthChange()"><img class="table_img" src="@/assets/right.png"/></td>
               </tr>
               <tr>
                 <th class="line" @click="sexChange()"> 성별</th>
                 <td class="line" @click="sexChange()">  {{User.sex}}</td>
-                <td class="line" @click="passwordChange()"><img class="table_img" src="@/assets/right.png"/></td>
+                <td class="line" @click="sexChange()"><img class="table_img" src="@/assets/right.png"/></td>
               </tr>
               <tr>
-                <th> 챌린지</th>
-                <td> {{this.challenge}}</td>
+                <th @click="challengeChange()"> 챌린지</th>
+                <td @click="challengeChange()"> {{this.challenge}}</td>
+                <td @click="challengeChange()"><img class="table_img" src="@/assets/right.png"/></td>
               </tr>
             </table>
           </div>
@@ -55,12 +56,12 @@
                 <tr>
                   <th class="line" @click="mailChange()"> 이메일</th>
                   <td class="line" @click="mailChange()">  {{User.mail}}</td>
-                  <td class="line" ><img class="table_img" src="@/assets/right.png"/></td>
+                  <td class="line" @click="mailChange()"><img class="table_img" src="@/assets/right.png"/></td>
                 </tr>
                 <tr>
                   <th @click="phoneChange()"> 전화번호</th>
                   <td @click="phoneChange()"> {{User.phone}} </td>
-                  <td class="line" @click="passwordChange()"><img class="table_img" src="@/assets/right.png"/></td>
+                  <td @click="phoneChange()"><img class="table_img" src="@/assets/right.png"/></td>
                 </tr>
               </table>
             </div>
@@ -143,6 +144,9 @@ export default {
     },
     passwordChange: function () {
       this.$router.push({name: 'Password'})
+    },
+    challengeChange: function() {
+      this.$router.push({name: 'Challenge'})
     }
   }
 }
