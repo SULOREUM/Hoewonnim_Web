@@ -23,6 +23,12 @@ router.get('/', async (req, res) => {
     res.send(await posts.find({}).sort({createdAt:-1}).toArray());
 });
 
+router.get('/:id', async function(req, res){
+    const find_id = mongodb.ObjectID(req.params.id);
+    const posts = await loadPostsCollections();
+    res.send(await posts.find({_id:find_id}).toArray());
+});
+
 // Add Posts
 router.post('/', upload.single('image'), async (req, res) => {
     const posts = await loadPostsCollections();
@@ -40,6 +46,15 @@ router.post('/', upload.single('image'), async (req, res) => {
         return res.status(500);
     }
 });
+
+// Delete Post
+router.delete('/:id', async (req, res) => {
+    const posts = await loadPostsCollections();
+    await posts.deleteOne({_id: new mongodb.ObjectID(req.params.id)});
+    res.status(200).send();
+});
+
+
 
 async function loadPostsCollections() {
     const client = await mongodb.MongoClient.connect('***REMOVED***', {

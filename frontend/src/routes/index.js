@@ -25,6 +25,7 @@ import Password from "../components/views/boards/UserInfo/Password"
 
 import Challenge from "../components/views/boards/UserInfo/Challenge"
 import store from '../services/users/store'
+import DetailPhotoPage from "../components/views/boards/DetailPhotoPage";
 
 
 Vue.use(Router); // use vue router
@@ -117,6 +118,11 @@ const routes = [
         path:'/views/boards/:prev/:id',
         name: 'DetailBoardPage',
         component: DetailBoardPage
+    },
+    {
+        path:'/views/photos/:id',
+        name: 'DetailPhotoPage',
+        component: DetailPhotoPage
     },
     {
         path:'/views/boards/:prev/Upload/:id?',
