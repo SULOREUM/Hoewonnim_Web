@@ -48,27 +48,27 @@
 
       <!-- BIRTH -->
       <div>
-        <h3 class="join_title"><label for="yy">생년월일(선택)</label></h3>
+        <h3 class="join_title"><label for="yy">생년월일</label></h3>
 
         <div id="bir_wrap">
           <!-- BIRTH_YY -->
           <div id="bir_yy">
             <span class="box">
-              <input v-model="year" type="text" id="yy" class="int" maxlength="4" placeholder="년(4자)">
+              <input v-model="year" type="number" id="yy" class="int" maxlength="4" placeholder="년(4자)">
             </span>
           </div>
 
           <!-- BIRTH_MM -->
           <div id="bir_mm">
             <span class="box">
-              <input v-model="month" type="text" id="mm" class="int" maxlength="2" placeholder="월">
+              <input v-model="month" type="number" id="mm" class="int" maxlength="2" placeholder="월">
             </span>
           </div>
 
           <!-- BIRTH_DD -->
           <div id="bir_dd">
             <span class="box">
-              <input v-model="day" type="text" id="dd" class="int" maxlength="2" placeholder="일">
+              <input v-model="day" type="number" id="dd" class="int" maxlength="2" placeholder="일">
             </span>
           </div>
 
@@ -82,8 +82,8 @@
         <span class="box sex_code">
           <select id="sex" class="sel" v-model="sex">
             <option>성별</option>
-            <option value="M">남자</option>
-            <option value="F">여자</option>
+            <option value="Male">남자</option>
+            <option value="Female">여자</option>
           </select>
           </span>
         <span class="error_next_box">필수 정보입니다.</span>
@@ -91,7 +91,7 @@
 
       <!-- EMAIL -->
       <div>
-        <h3 class="join_title"><label for="email">본인확인 이메일<span class="optional">(선택)</span></label></h3>
+        <h3 class="join_title"><label for="email">본인확인 이메일<span class="optional"></span></label></h3>
         <span class="box int_email">
                         <input type="text" v-model="mail" id="email" class="int" maxlength="100" placeholder="선택입력">
                     </span>
@@ -102,7 +102,7 @@
       <div>
         <h3 class="join_title"><label for="mobile">휴대전화</label></h3>
         <span class="box int_mobile">
-                        <input v-model="phone" type="tel" id="mobile" class="int" maxlength="11" pattern="[+]{1}[0-9]{11,14}" placeholder="'-'을 제외한 휴대폰번호를 입력해 주세요">
+                        <input v-model="phone" type="number" id="mobile" class="int" maxlength="11" pattern="[+]{1}[0-9]{11,14}" placeholder="'-'을 제외한 휴대폰번호를 입력해 주세요">
                     </span>
         <span class="error_next_box"></span>
       </div>
@@ -110,9 +110,9 @@
       <!-- 관심 사항 -->
       <div>
         <h3 class="join_title">관심사항</h3>
-        <input type="button" class="button" id="how" v-on:click="select_tag($event)" value="#필테" />
-        <input type="button" class ="button" id="tool" v-on:click="select_tag($event)" value="#운동"/>
-        <input type="button" class ="button" id="diet" v-on:click="select_tag($event)" value="#헬스"/>
+        <input type="button" class="button" id="헬스" v-on:click="select_tag1($event)" value="#헬스" />
+        <input type="button" class ="button" id="다이어트" v-on:click="select_tag2($event)" value="#다이어트"/>
+        <input type="button" class ="button" id="필라테스" v-on:click="select_tag3($event)" value="#필라테스"/>
         <span class="error_next_box"></span>
       </div>
 
@@ -137,18 +137,20 @@ export default {
       id:'',
       password: '',
       name: '',
-      sex: '',
+      sex: '성별',
       phone: '',
       birth:'',
       year:'',
       month:'',
       day:'',
-      tag:'',
+      tag:[],
       mail:'',
-
       passwordValidFlag: true,
       passwordCheck: '',
-      passwordCheckFlag: true
+      passwordCheckFlag: true,
+      clicked1 : 0,
+      clicked2: 0,
+      clicked3: 0,
     }
   },
   async created() {
@@ -167,52 +169,100 @@ export default {
       }
     },
     passwordCheckValid() {
-      if (this.password == this.passwordCheck) {
+      if (this.password === this.passwordCheck) {
         this.passwordCheckFlag = true;
       } else {
         this.passwordCheckFlag = false;
       }
     },
     toMyPage() {
-      this.$router.push({path: '/views/MyPage'})
+      this.$router.push({path: '/'})
     },
-    isSuccess: function () {
-      if (this.id == null || this.password == null
-          || this.name == null || this.sex === '성별' || this.phone == null) {
-        alert('입력이 되지 않은 곳이 있습니다!')
+    isSuccess() {
+      if (this.id === '' || this.password === '' || this.name === ''
+          || this.sex === '성별' || this.mail === '' ||this.phone === ''
+          || this.tag.length === 0) {
+        alert('입력이 되지 않은 곳이 있습니다.')
         return
       }
       if (!this.passwordValidFlag || !this.passwordCheckFlag) {
-        alert('비밀번호를 확인해주세요!')
+        alert('비밀번호를 확인해주세요.')
         return
-      } else {
-        alert('회원가입 성공!')
-        this.data = {
-          id: this.id,
-          password: this.password,
-          name: this.name,
-          sex: this.sex,
-          phone: this.phone,
-          birth: this.year +'-'+ this.month +'-'+ this.day,
-          interest: this.tag,
-          mail:this.mail
-        }
-        join.createUser(this.data)
-        this.toMyPage();
-        console.log(this.data);
-        return;
       }
+      let today = new Date();
+      alert('회원가입 성공')
+      this.data = {
+        id: this.id,
+        password: this.password,
+        name: this.name,
+        sex: this.sex,
+        phone: this.phone,
+        birth: this.year +'-'+ this.month +'-'+ this.day,
+        interest: this.tag,
+        mail:this.mail,
+        age: today.getFullYear() - this.year + 1,
+        state: '회원',
+      }
+      join.createUser(this.data)
+      this.toMyPage();
+      console.log(this.data);
+      return;
     },
-    select_tag: function (event) {
+    // select_tag: function (event) {
+    //   let click = document.getElementById(event.currentTarget.id);
+    //   click.classList.toggle("active");
+    //   // this.tag = event.currentTarget.id;
+    //   if(this.tag.includes(event.currentTarget.id) === false)
+    //     this.tag.push(event.currentTarget.id)
+    //   console.log(this.tag)
+    // },
+    select_tag1 : function (event) {
       let click = document.getElementById(event.currentTarget.id);
       click.classList.toggle("active");
-      this.tag = event.currentTarget.id;
-    }
+      this.clicked1++;
+      if(this.clicked1 % 2 === 1){
+        this.tag.push(event.currentTarget.id)
+      }
+      else {
+        this.tag.pop(event.currentTarget.id)
+      }
+      console.log(this.tag)
+    },
+    select_tag2 : function (event) {
+      let click = document.getElementById(event.currentTarget.id);
+      click.classList.toggle("active");
+      this.clicked2++;
+      if(this.clicked2 % 2 === 1){
+        this.tag.push(event.currentTarget.id)
+      }
+      else {
+        this.tag.pop(event.currentTarget.id)
+      }
+      console.log(this.tag)
+    },
+    select_tag3 : function (event) {
+      let click = document.getElementById(event.currentTarget.id);
+      click.classList.toggle("active");
+      this.clicked3++;
+      if(this.clicked3 % 2 === 1){
+        this.tag.push(event.currentTarget.id)
+      }
+      else {
+        this.tag.pop(event.currentTarget.id)
+      }
+      console.log(this.tag)
+    },
+
   }
 }
 </script>
 
 <style scoped>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
 .tbAdd {
   width: 90%;
@@ -353,7 +403,6 @@ h3 {
   font-size: 15px;
   outline-color: #7994DB;
 }
-
 
 .box.int_id {
   /*padding-right: 110px;*/
