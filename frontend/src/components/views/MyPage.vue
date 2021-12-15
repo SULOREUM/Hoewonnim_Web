@@ -120,16 +120,18 @@
         </div>
       </div>
       <div class="modal" v-show="is_show">
-        <h2>기록 추가</h2>
+        <h3>기록 추가</h3>
+        <div class="record">
           <div><input type="text" v-model="insert_weight"></div>
           <div class="btnWrap" style="margin-top: 10px">
             <input type="button" @click="insert" value="추가">
             <input type="button" @click="handle_toggle" value="취소">
           </div>
+        </div>
       </div>
 
       <div class="modal" v-show="profile_edit">
-        <h2>프로필 사진 변경</h2>
+        <h3>프로필 사진 변경</h3>
         <div class="filebox">
           <input class="upload-name" value="첨부파일" placeholder="첨부파일">
           <label for="file">파일찾기</label>
@@ -798,6 +800,19 @@ export default {
   object-fit: cover;
   border-radius: 50%;
   margin: 20px auto;
+}
+
+.record{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 70%;
+  width: 100%;
+}
+
+.record input[type="text"]{
+  margin-bottom: 20px;
 }
   /*  */
 
