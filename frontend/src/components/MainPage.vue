@@ -150,7 +150,7 @@ export default {
 }
 .titleList{
   display: flex;
-  margin: 2% 0 1% 0;
+  margin: 2% 50px 1% 50px;
 }
 .titleList span{
   width: 30%;
@@ -163,6 +163,7 @@ export default {
 }
 .rankingList{
   display: flex;
+  margin: auto 50px;
 }
 .tableList {
   width: 30%;
