@@ -16,10 +16,10 @@
     <div class="list">
 
       <div v-for="(row, idx) in photos" :key="idx">
-        <div class="block">
+        <router-link :to="{ name: 'DetailPhotoPage', params: {id: row._id}}"><div class="block">
           <img v-bind:src= row.img >
-          <a href="javascript:;">{{row.title}}</a>
-        </div>
+          {{row.title}}
+        </div></router-link>
       </div>
 
     </div>
@@ -59,7 +59,8 @@ export default {
     for(let i in this.list){
       this.photos.push({
         img : 'data:image/jpeg;base64,'+`${this.list[i].img}`,
-        title : this.list[i].title
+        title : this.list[i].title,
+        _id:this.list[i]._id
       })
 
     }
@@ -145,7 +146,7 @@ input:focus{
   text-align: center;
   padding: 30px;
 }
-.list .block a{
+.list a{
   color: black;
 }
 .list .block:hover{

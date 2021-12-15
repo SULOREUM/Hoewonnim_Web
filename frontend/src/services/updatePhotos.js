@@ -18,6 +18,20 @@ class updatePhotos {
             }
         );
     }
+    //Delete Post
+    static deletePost(id) {
+        return axios.delete(`${url}${id}`);
+    }
+
+    //Show Details
+    static getDetailPost(id) {
+        const promise = new Promise(resolve => {
+            console.log(id)
+            const res = axios.get(`${url}${id}`)
+            resolve(res)
+        })
+        return promise.then(res=>res.data)
+    }
 }
 
 export default updatePhotos;
