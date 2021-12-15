@@ -17,13 +17,20 @@ var UserSchema = new mongoose.Schema({
     age: Number,
     state: String,
     sex: String,
-    list: String, // 글 데이터 가져오기
-    likedList: Array,
-    user_interest: Array,
-    challenge: Object,
-    challengeList: Array,
-    weight: Array,
+    // list: String, // 글 데이터 가져오기
+    // likedList: Array,
+    // user_interest: Array,
+    // challenge: Object,
+    // challengeList: Array,
+    // weight: Array,
     birth: String,
+    phone: String,
+    mail: String,
+    interest: Array,
+    challenge: Object,
+    weight: Array,
+    liked_post: Array,
+    profile_image: String
 });
 var Users = mongoose.model('users', UserSchema);
 
