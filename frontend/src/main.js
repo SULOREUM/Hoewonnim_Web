@@ -22,11 +22,11 @@ Vue.config.productionTip = false;
 new Vue({
   router,
   store,
-  beforeCreate() {
-    this.$store.dispatch("getMemberInfo")
-  },
+  // beforeCreate() {
+  //   this.$store.dispatch("getMemberInfo")
+  // },
   render: h => h(App),
 }).$mount('#app');
 
 global.$ = jQuery
-// window.Kakao.init('3cc9c089f9a7a30a40def2b05ea954c8');
+
