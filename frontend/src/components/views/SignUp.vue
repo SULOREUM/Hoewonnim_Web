@@ -18,11 +18,13 @@
       <div>
         <h3 class="join_title"><label for="pswd1">비밀번호</label></h3>
         <span class="box int_pass">
-                        <input v-model="password" type="password" id="pswd1" class="int" maxlength="20" @blur="passwordValid">
+                        <input v-model="password" type="password" id="pswd1" class="int" maxlength="20"
+                               @blur="passwordValid">
                         <span id="alertTxt">사용불가</span>
                         <img src="@/assets/lock.png" id="pswd1_img1" class="pswdImg">
                     </span>
-        <div v-if="!passwordValidFlag"> <h3 class="error_check">비밀번호는 대문자, 소문자, 숫자가 1개 이상 사용되어야 하고<br>8자이상이어야 합니다.</h3></div>
+        <div v-if="!passwordValidFlag"><h3 class="error_check">비밀번호는 대문자, 소문자, 숫자가 1개 이상 사용되어야 하고<br>8자이상이어야 합니다.</h3>
+        </div>
         <span class="error_next_box"></span>
       </div>
 
@@ -30,10 +32,11 @@
       <div>
         <h3 class="join_title"><label for="pswd2">비밀번호 재확인</label></h3>
         <span class="box int_pass_check">
-                        <input v-model="passwordCheck" type="password" id="pswd2" class="int" maxlength="16" @blur="passwordCheckValid">
+                        <input v-model="passwordCheck" type="password" id="pswd2" class="int" maxlength="16"
+                               @blur="passwordCheckValid">
                         <img src="@/assets/lock.png" id="pswd2_img1" class="pswdImg">
                     </span>
-        <div v-if="!passwordCheckFlag"> <h3 class="error_check">비밀번호가 동일하지 않습니다.</h3></div>
+        <div v-if="!passwordCheckFlag"><h3 class="error_check">비밀번호가 동일하지 않습니다.</h3></div>
         <span class="error_next_box"></span>
       </div>
 
@@ -93,8 +96,8 @@
       <div>
         <h3 class="join_title"><label for="email">본인확인 이메일<span class="optional"></span></label></h3>
         <span class="box int_email">
-                        <input type="text" v-model="mail" id="email" class="int" maxlength="100" placeholder="선택입력">
-                    </span>
+          <input type="text" v-model="mail" id="email" class="int" maxlength="100" placeholder="선택입력">
+        </span>
         <span class="error_next_box">이메일 주소를 다시 확인해주세요.</span>
       </div>
 
@@ -102,17 +105,18 @@
       <div>
         <h3 class="join_title"><label for="mobile">휴대전화</label></h3>
         <span class="box int_mobile">
-                        <input v-model="phone" type="number" id="mobile" class="int" maxlength="11" pattern="[+]{1}[0-9]{11,14}" placeholder="'-'을 제외한 휴대폰번호를 입력해 주세요">
-                    </span>
+          <input v-model="phone" type="number" id="mobile" class="int" maxlength="11"
+                 placeholder="'-'을 제외한 휴대폰번호를 입력해 주세요">
+        </span>
         <span class="error_next_box"></span>
       </div>
 
       <!-- 관심 사항 -->
       <div>
         <h3 class="join_title">관심사항</h3>
-        <input type="button" class="button" id="헬스" v-on:click="select_tag1($event)" value="#헬스" />
-        <input type="button" class ="button" id="다이어트" v-on:click="select_tag2($event)" value="#다이어트"/>
-        <input type="button" class ="button" id="필라테스" v-on:click="select_tag3($event)" value="#필라테스"/>
+        <input type="button" class="button" id="헬스" v-on:click="select_tag1($event)" value="#헬스"/>
+        <input type="button" class="button" id="다이어트" v-on:click="select_tag2($event)" value="#다이어트"/>
+        <input type="button" class="button" id="필라테스" v-on:click="select_tag3($event)" value="#필라테스"/>
         <span class="error_next_box"></span>
       </div>
 
@@ -134,21 +138,21 @@ export default {
   name: "SignUp",
   data() {
     return {
-      id:'',
+      id: '',
       password: '',
       name: '',
       sex: '성별',
       phone: '',
-      birth:'',
-      year:'',
-      month:'',
-      day:'',
-      tag:[],
-      mail:'',
+      birth: '',
+      year: '',
+      month: '',
+      day: '',
+      tag: [],
+      mail: '',
       passwordValidFlag: true,
       passwordCheck: '',
       passwordCheckFlag: true,
-      clicked1 : 0,
+      clicked1: 0,
       clicked2: 0,
       clicked3: 0,
     }
@@ -180,7 +184,7 @@ export default {
     },
     isSuccess() {
       if (this.id === '' || this.password === '' || this.name === ''
-          || this.sex === '성별' || this.mail === '' ||this.phone === ''
+          || this.sex === '성별' || this.mail === '' || this.phone === ''
           || this.tag.length === 0) {
         alert('입력이 되지 않은 곳이 있습니다.')
         return
@@ -196,10 +200,10 @@ export default {
         password: this.password,
         name: this.name,
         sex: this.sex,
-        phone: this.phone,
-        birth: this.year +'-'+ this.month +'-'+ this.day,
+        phone: this.phone.substring(0,3) + '-' + this.phone.substring(3, 7) + '-' + this.phone.substring(7),
+        birth: this.year + '-' + this.month + '-' + this.day,
         interest: this.tag,
-        mail:this.mail,
+        mail: this.mail,
         age: today.getFullYear() - this.year + 1,
         state: '회원',
       }
@@ -208,46 +212,35 @@ export default {
       console.log(this.data);
       return;
     },
-    // select_tag: function (event) {
-    //   let click = document.getElementById(event.currentTarget.id);
-    //   click.classList.toggle("active");
-    //   // this.tag = event.currentTarget.id;
-    //   if(this.tag.includes(event.currentTarget.id) === false)
-    //     this.tag.push(event.currentTarget.id)
-    //   console.log(this.tag)
-    // },
-    select_tag1 : function (event) {
+    select_tag1: function (event) {
       let click = document.getElementById(event.currentTarget.id);
       click.classList.toggle("active");
       this.clicked1++;
-      if(this.clicked1 % 2 === 1){
+      if (this.clicked1 % 2 === 1) {
         this.tag.push(event.currentTarget.id)
-      }
-      else {
+      } else {
         this.tag.pop(event.currentTarget.id)
       }
       console.log(this.tag)
     },
-    select_tag2 : function (event) {
+    select_tag2: function (event) {
       let click = document.getElementById(event.currentTarget.id);
       click.classList.toggle("active");
       this.clicked2++;
-      if(this.clicked2 % 2 === 1){
+      if (this.clicked2 % 2 === 1) {
         this.tag.push(event.currentTarget.id)
-      }
-      else {
+      } else {
         this.tag.pop(event.currentTarget.id)
       }
       console.log(this.tag)
     },
-    select_tag3 : function (event) {
+    select_tag3: function (event) {
       let click = document.getElementById(event.currentTarget.id);
       click.classList.toggle("active");
       this.clicked3++;
-      if(this.clicked3 % 2 === 1){
+      if (this.clicked3 % 2 === 1) {
         this.tag.push(event.currentTarget.id)
-      }
-      else {
+      } else {
         this.tag.pop(event.currentTarget.id)
       }
       console.log(this.tag)
@@ -281,7 +274,7 @@ input::-webkit-inner-spin-button {
   padding: 0 10px;
 }
 
-.button{
+.button {
   width: auto;
   margin: auto 10px;
   padding: 5px;
@@ -293,12 +286,12 @@ input::-webkit-inner-spin-button {
   border-radius: 40px;
 }
 
-.button:hover{
+.button:hover {
   background-color: #7994db;
   color: white;
 }
 
-.button.active{
+.button.active {
   background-color: #7994db;
   color: white;
 }
@@ -323,7 +316,7 @@ input::-webkit-inner-spin-button {
   margin: 0 10px;
 }
 
-.btn{
+.btn {
   width: 100px;
   padding: 3px;
   border: 1px solid #aaa;
@@ -333,12 +326,12 @@ input::-webkit-inner-spin-button {
 }
 
 .btnAdd {
-  background:#7994db;
+  background: #7994db;
   color: white;
 }
 
 
-@media(max-width:767px) {
+@media (max-width: 767px) {
 
   .tbAdd {
     font-size: .8em;
@@ -348,7 +341,8 @@ input::-webkit-inner-spin-button {
     text-align: center;
     text-align-last: center;
   }
-  .btn{
+
+  .btn {
     width: 80px;
   }
 }
@@ -366,7 +360,7 @@ content {
   width: 100px;
 }
 
-.error_check{
+.error_check {
   color: #6075eb;
   text-align: left;
   font-size: 12px;
@@ -417,7 +411,7 @@ h3 {
   padding-right: 45px;
 }
 
-.sel{
+.sel {
   outline-color: #7994DB;
 }
 
