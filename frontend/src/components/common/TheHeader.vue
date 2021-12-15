@@ -3,15 +3,15 @@
     <div class="header">
 
       <Slide :closeOnNavigation="true">
-        <a id="logo" href="/" v-on:click="clickburger()"><img src="../../assets/site_logo.png"/></a>
-        <a id="list" href="/views/boards/List" v-on:click="clickburger()"> <span>자유게시판</span> </a>
-        <a id="qna" href="/views/boards/QnA" v-on:click="clickburger()"> <span>질문게시판</span> </a>
-        <a id="promo" href="/views/boards/Promotion" v-on:click="clickburger()"> <span>홍보게시판</span> </a>
-        <a id="photo" href="/views/boards/Photo" v-on:click="clickburger()"> <span>자랑게시판</span> </a>
-        <a id="join" href="/views/SignIn" v-on:click="clickburger()" v-if="userInfo==null"> <span>Sign In</span> </a>
-        <a id="logout" href="/views/SignIn" v-on:click="clickburger();logout" v-else> <span>LogOut</span> </a>
-        <a id="sign_up" href="/views/SignUp" v-on:click="clickburger()"> <span>Sign Up</span> </a>
-        <a id="info" href="/views/MyPage" v-on:click="clickburger()"> <span>MyPage</span> </a>
+        <router-link id="logo" to="/" v-on:click="clickburger()"><span>Hoewonnim</span></router-link>
+        <router-link id="list" to="/views/boards/List" v-on:click="clickburger()"> <span>자유게시판</span> </router-link>
+        <router-link id="qna" to="/views/boards/QnA" v-on:click="clickburger()"> <span>질문게시판</span> </router-link>
+        <router-link id="promo" to="/views/boards/Promotion" v-on:click="clickburger()"> <span>홍보게시판</span> </router-link>
+        <router-link id="photo" to="/views/boards/Photo" v-on:click="clickburger()"> <span>자랑게시판</span> </router-link>
+        <router-link id="join" to="/views/SignIn" v-on:click="clickburger()" v-if="userInfo==null"> <span>Sign In</span> </router-link>
+        <router-link id="logout" to="/views/SignIn" v-on:click="logout" v-if="userInfo != null"> <span>LogOut</span> </router-link>
+        <router-link id="sign_up" to="/views/SignUp" v-on:click="clickburger()" v-if="userInfo==null"> <span>Sign Up</span> </router-link>
+        <router-link id="info" to="/views/MyPage" v-on:click="clickburger()" v-if="userInfo != null"> <span>MyPage</span> </router-link>
       </Slide>
 
       <div class="logo">

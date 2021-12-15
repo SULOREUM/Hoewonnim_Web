@@ -22,8 +22,10 @@ import Sex from "../components/views/boards/UserInfo/Sex"
 import Email from "../components/views/boards/UserInfo/Email"
 import Phone from "../components/views/boards/UserInfo/Phone"
 import Password from "../components/views/boards/UserInfo/Password"
+
 import Challenge from "../components/views/boards/UserInfo/Challenge"
-import store from "@/services/users/store";
+import store from '../services/users/store'
+
 
 Vue.use(Router); // use vue router
 
@@ -31,13 +33,13 @@ const rejectAuthUser = (to, from, next) =>{
     if(store.state.isLogin === true){
         // 로그아웃하기
         alert('로그아웃되었습니다.')
-        // // SignIn로 보낸다
+        // SignIn로 보낸다
         // next('/views/SignIn')
     } else{
         next()
     }
 }
-const onlytAuthUser = (to, from, next) =>{
+const onlyAuthUser = (to, from, next) =>{
     if(store.state.isLogin === false){
         // 아직 로그인이 안된 유저 막기
         alert('로그인이 필요합니다.')
@@ -68,7 +70,7 @@ const routes = [
     {
         path:'/views/MyPage',
         name: MyPage,
-        beforeEnter: onlytAuthUser,
+        beforeEnter: onlyAuthUser,
         component: MyPage
     },
     {
