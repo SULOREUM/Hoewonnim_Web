@@ -27,7 +27,6 @@
 </template>
 
 <script>
-// import getUserInfo from "@/services/users/getUserInfo";
 import updateUser from "@/services/updateUsers";
 import {mapState} from 'vuex';
 
@@ -93,7 +92,6 @@ export default {
 
 <style scoped>
 .container {
-  /*background: rgb(230, 232, 233);*/
   font-size: 1em;
 }
 

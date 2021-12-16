@@ -155,11 +155,8 @@ export default {
 }
 
 .sub-menu .sub-item.active,.sub-menu .sub-item:hover{
-  /*background-color: rgb(18, 66, 110);*/
   border-bottom: 1px solid rgb(18, 66, 110);
   border-top: 1px solid rgb(18, 66, 110);
-
-  /*color: white;*/
 }
 
 select{

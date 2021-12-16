@@ -119,7 +119,6 @@ export default {
 <style scoped>
 
 .container {
-  /*background: rgb(230, 232, 233);*/
   font-size: 1em;
 }
 

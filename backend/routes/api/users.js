@@ -56,57 +56,10 @@ router.post('/',upload.single('image'), async (req, res) => {
         challenge: req.body.data.challenge,
         weight: req.body.data.weight,
         liked_post: req.body.data.liked_post
-
-
-        // postman post 용 -> 나중에 지울게영
-        // id: req.body.id,
-        //     password: req.body.password,
-        //     name: req.body.name,
-        //     age: req.body.age,
-        //     state: req.body.state,
-        //     sex: req.body.sex,
-        //     profile_image: req.body.profile_image,
-        //     birth: req.body.birth,
-        //     phone: req.body.phone,
-        //     mail: req.body.mail,
-        //     interest: req.body.interest,
-        //     challenge: req.body.challenge,
-        //     weight: req.body.weight,
-        //     liked_post: req.body.liked_post
     });
     res.status(202).send();
 });
 
-//SignIn
-// router.post('/', async (req, res) => {
-//     const userl = await loadUsersCollections();
-//     userl.findOne(
-//         {_id: mongodb.ObjectID(req.params.id)},
-//         {
-//             $set: {
-//                 id: req.body.id,
-//                 password: req.body.password,
-//                 name: req.body.name,
-//                 // age: req.body.data.age,
-//                 // state: req.body.data.data.state,
-//                 sex: req.body.sex,
-//                 // profile_image: req.body.data.profile_image,
-//                 // birth: req.body.data.birth,
-//                 phone: req.body.phone,
-//                 // mail: req.body.data.mail,
-//                 // interest: req.body.data.interest,
-//                 // challenge: req.body.data.challenge,
-//                 // weight: req.body.data.weight,
-//                 // liked_post: req.body.data.liked_post
-//             }
-//         }
-//     );
-//     res.status(202).send();
-// });
-
-// 입력되지 않은 항목(ex. state, ...)주석처리 안하면
-// TypeError: Cannot read property 'state' of undefined
-// 에러 발생하여 주석처리 함.
 router.post('/:id',upload.single('image'), async (req, res) => {
     const user = await loadUsersCollections();
     if (req.body.id == undefined){

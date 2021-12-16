@@ -417,9 +417,7 @@ export default {
 
 .side_container {
   max-height: 500px;
-  /*overflow: hidden;*/
   position: relative;
-  /*min-height: 500px;*/
   margin-right: 10px;
   width: 100%;
   height: 0;
@@ -458,7 +456,6 @@ export default {
 .user_name {
   height: 10%;
   color: black;
-  /*rgb(196, 221, 222);*/
 }
 
 .user_name a {

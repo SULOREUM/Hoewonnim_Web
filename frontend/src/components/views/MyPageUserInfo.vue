@@ -163,7 +163,6 @@ export default {
 }
 
 .container {
-  /*background: rgb(230, 232, 233);*/
   font-size: 1em;
 }
 
@@ -257,46 +256,6 @@ export default {
   border-radius: 16px;
   border: 1px solid #d3d3d3;
 }
-
-/*.etc_info {*/
-/*  position: relative;*/
-/*  margin-top: 10px;*/
-/*  width: 50%;*/
-/*  padding-top: 30%;*/
-/*  border-radius: 16px;*/
-/*  border: 1px solid lightgray;*/
-/*  float: top;*/
-/*  float: left;*/
-/*}*/
-
-/*.etc_info_left {*/
-/*  position: relative;*/
-/*  margin-top: 10px;*/
-/*  width: 49%;*/
-/*  padding-top: 30%;*/
-/*  border-radius: 16px;*/
-/*  border: 1px solid lightgray;*/
-/*  float: left;*/
-/*}*/
-
-/*.etc_info_right {*/
-/*  position: relative;*/
-/*  margin-top: 10px;*/
-/*  width: 49%;*/
-/*  padding-top: 30%;*/
-/*  border-radius: 16px;*/
-/*  border: 1px solid lightgray;*/
-/*  float: right;*/
-/*}*/
-
-/*.info_revise {*/
-/*  position: relative;*/
-/*  margin-top: 10px;*/
-/*  width: 100%;*/
-/*  padding-top: 5%;*/
-/*  border-radius: 16px;*/
-/*  border: 1px solid lightgray;*/
-/*}*/
 
 @media all and (min-width: 768px) and (max-width: 1023px) {
   .container {
