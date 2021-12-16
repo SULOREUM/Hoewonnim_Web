@@ -1,6 +1,9 @@
 const express = require('express');
 const mongodb = require('mongodb');
 
+const dotenv = require('dotenv')
+dotenv.config();
+
 const router = express.Router();
 
 // Get Posts
@@ -63,7 +66,7 @@ router.delete('/:id', async (req, res) => {
 });
 
 async function loadPostsCollections() {
-    const client = await mongodb.MongoClient.connect('***REMOVED***', {
+    const client = await mongodb.MongoClient.connect(process.env.MONGO_URL, {
         useNewUrlParser: true
     })
 

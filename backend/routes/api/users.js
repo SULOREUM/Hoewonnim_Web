@@ -3,6 +3,9 @@ const mongodb = require('mongodb');
 const multer = require('multer');
 const mongoose = require('mongoose');
 
+const dotenv = require('dotenv')
+dotenv.config();
+
 const router = express.Router();
 
 const upload = multer({
@@ -154,7 +157,7 @@ router.delete('/:id', async (req, res) => {
 });
 
 async function loadUsersCollections() {
-    const client = await mongodb.MongoClient.connect('***REMOVED***', {
+    const client = await mongodb.MongoClient.connect(process.env.MONGO_URL, {
         useNewUrlParser: true
     })
 

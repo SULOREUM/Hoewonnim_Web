@@ -4,9 +4,12 @@ const cors = require('cors');
 
 var mongoose = require('mongoose');
 
+const dotenv = require('dotenv')
+dotenv.config();
+
 //mongoose 연결할 때 포트 연결
-mongoose.connect(`***REMOVED***`).then(() => {
-    app.listen(3000, () => console.log('listening to port 3000'));
+mongoose.connect(process.env.MONGO_URL).then(() => {
+    app.listen(process.env.PORT, () => console.log('listening to port 3000'));
 }).catch(err => console.log(err));
 
 // User data
