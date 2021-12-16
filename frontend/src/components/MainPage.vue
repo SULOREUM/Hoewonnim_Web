@@ -1,10 +1,10 @@
 <template>
   <div>
     <swiper class="swiper" :options="swiperOption">
-      <swiper-slide><img src="../assets/1.jpg"/></swiper-slide>
-      <swiper-slide><img src="../assets/2.jpg"/></swiper-slide>
-      <swiper-slide><img src="../assets/3.jpeg"/></swiper-slide>
-      <swiper-slide><img src="../assets/3.jpg"/></swiper-slide>
+      <swiper-slide><img src="../assets/slide1.png"/><p>이제 모바일로<br> 회원님을 만나보세요!</p></swiper-slide>
+      <swiper-slide><img src="../assets/slide2.png"/><p>오늘도 회원님에서<br>재밌는</p></swiper-slide>
+      <swiper-slide><img src="../assets/slide3.png"/><p>명예의 전당에<br>도전하세요!</p></swiper-slide>
+      <swiper-slide><img src="../assets/slide4.png"/><p>홍보게시판으로<br>회원님을 늘리세요!<p></p></swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
       <div class="swiper-button-prev" slot="button-prev"></div>
       <div class="swiper-button-next" slot="button-next"></div>
@@ -143,10 +143,21 @@ export default {
 }
 
 .swiper-slide img {
+  position: absolute;
+  margin-left: 20%;
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+}
+.swiper-slide p{
+  position:absolute;
+  bottom: 30%;
+  text-align: left;
+  margin-left: 15%;
+  width: 100%;
+  opacity: 0.8;
+  font-size: 2em;
 }
 .titleList{
   display: flex;
