@@ -38,7 +38,7 @@
               </tr>
               <tr>
                 <th @click="challengeChange()"> 챌린지</th>
-                <td @click="challengeChange()"> {{this.challenge}}</td>
+                <td class="line3" @click="challengeChange()"> 챌린지 변경</td>
                 <td @click="challengeChange()"><img class="table_img" src="@/assets/right.png"/></td>
               </tr>
             </table>
@@ -242,6 +242,11 @@ export default {
   font-size: 0.8em;
   color: dimgray;
   border-bottom: 1px solid lightgray;
+}
+
+.line3 {
+  font-size: 0.8em;
+  color: dimgray;
 }
 
 .contact_info {
