@@ -3,7 +3,7 @@
     <div class="side_container">
       <div class="side_container_inside">
         <div class="user_image">
-          <div class="user_image_inside"><img v-bind:src=this.profile @click="photo_edit"/></div>
+          <div class="user_image_inside"><img v-bind:src=this.profile @click="photo_edit" id="profile_image"/></div>
         </div>
         <div class="user_name"><span><strong>{{ User.name }}</strong><router-link
             to="/views/MyPageUserInfo">  내 정보</router-link><br/></span>
@@ -301,33 +301,53 @@ export default {
       const fd = new FormData()
       fd.append('image',this.selectedFile, this.selectedFile.name)
 
-      // 프로필 이미지 변경시 바로 바뀌는거 적용 x
-      // 로그인 다시 해야 바뀜
+      const changeProfileImage = (inputFile) => {
+        const profileFileReader = new FileReader();
 
-      updateUser.UpdateUser(fd,this.User.object_id)
+        return new Promise((resolve, reject) => {
+          profileFileReader.onerror = () => {
+            profileFileReader.abort();
+            reject();
+          };
+
+          profileFileReader.onload = () => {
+            let profileArr = profileFileReader.result.split(',')
+            resolve(profileArr[1]);
+          };
+          profileFileReader.readAsDataURL(inputFile);
+        });
+      };
+
+      changeProfileImage(this.selectedFile).then(result => {
+        this.profile_image = result
+        this.profile = 'data:image/jpeg;base64,'+`${this.profile_image}`
+        $('#profile_image').attr('src', this.profile);
+        this.$store.commit('updateProfile', this.profile_image)
+        updateUser.UpdateUser(fd,this.User.object_id)
+
+      });
 
       this.photo_edit()
-      this.profile_image = 'data:image/jpeg;base64,'+`${this.User.profile_image}`
     },
-  challenge_progress(){
-    let date = this.challengeList[1].split("-");
-    let today = new Date()
-    let year = today.getFullYear()
-    let month = today.getMonth() +1
-    let day = today.getDate()
+    challenge_progress(){
+      let date = this.challengeList[1].split("-");
+      let today = new Date()
+      let year = today.getFullYear()
+      let month = today.getMonth() +1
+      let day = today.getDate()
 
-    let stDate = new Date(date[0],date[1],date[2])
-    let endDate = new Date(year,month,day)
-    let btMs = stDate.getTime() - endDate.getTime()
-    let btDay = btMs/(1000*60*60*24)
+      let stDate = new Date(date[0],date[1],date[2])
+      let endDate = new Date(year,month,day)
+      let btMs = stDate.getTime() - endDate.getTime()
+      let btDay = btMs/(1000*60*60*24)
 
-    let bar = document.getElementById('bar')
-    if(btDay <= 0){
-      bar.style.width = 100+"%"
-    }else{
-      bar.style.width = (100-btDay) + "%"
-    }
-  },
+      let bar = document.getElementById('bar')
+      if(btDay <= 0){
+        bar.style.width = 100+"%"
+      }else{
+        bar.style.width = (100-btDay) + "%"
+      }
+    },
     insert(){
 
       if(this.insert_weight == null){
