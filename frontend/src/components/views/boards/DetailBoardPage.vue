@@ -18,8 +18,8 @@
         </div>
 
           <div class="btnWrap">
-            <input type="button" value="삭제" class="btn" @click =Del>
-            <router-link :to="{ name: 'Write', params: { id: this.$route.params.id}}"><input type="button" value="수정" class="btn" ></router-link>
+            <input v-if="User.id == list.createdUser" type="button" value="삭제" class="btn" @click =Del>
+            <router-link :to="{ name: 'Write', params: { id: this.$route.params.id}}"><input v-if="User.id == list.createdUser" type="button" value="수정" class="btn" ></router-link>
             <input type="button" value="돌아가기" class="btn" @click =fnList>
           </div>
       </div>
@@ -52,6 +52,7 @@
 
 <script> /* eslint-disable */
 import updatePosts from "@/services/updatePosts";
+import {mapState} from "vuex";
 export default {
   created: async function() {
     const id = this.$route.params.id;
@@ -60,7 +61,7 @@ export default {
     this.comments = arr[0].comments;
     this.Board = arr[0].Board;
 
-    console.log(this.Board)
+    this.User = this.$store.state.userInfo
   },
   data: function() {
     return {
@@ -68,6 +69,7 @@ export default {
       ,updatedData: {}
       ,comments:[]
       ,Board :''
+      ,User:[]
     };
   },
   methods: {
