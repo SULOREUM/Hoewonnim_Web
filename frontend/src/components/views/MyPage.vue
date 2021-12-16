@@ -322,7 +322,7 @@ export default {
     let btDay = btMs/(1000*60*60*24)
 
     let bar = document.getElementById('bar')
-    if(100-btDay <= 0){
+    if(btDay <= 0){
       bar.style.width = 100+"%"
     }else{
       bar.style.width = (100-btDay) + "%"
