@@ -33,9 +33,9 @@ class updatePhotos {
         return promise.then(res=>res.data)
     }
     static UpdatePost(data,id) {
-        return axios.post(`${url}${id}`, {
+        return axios.post(`${url}${id}`,
             data
-        });
+        );
     }
 
 }

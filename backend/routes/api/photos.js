@@ -40,8 +40,8 @@ router.post('/', upload.single('image'), async (req, res) => {
             title:req.body.title,
             content:req.body.content,
             createdUser:req.body.createdUser,
-            likedCount:req.body.likedCount,
-            likedUsers:req.body.likedUsers,
+            likedCount:0,
+            likedUsers:[],
             createdAt:new Date()
         })
     }
@@ -63,8 +63,6 @@ router.post('/:id', async (req, res) => {
         {_id: mongodb.ObjectID(req.params.id)},
         {
             $set: {
-                title: req.body.data.title,
-                content: req.body.data.content,
                 likedCount : req.body.data.likedCount,
                 likedUsers: req.body.data.likedUsers,
             }

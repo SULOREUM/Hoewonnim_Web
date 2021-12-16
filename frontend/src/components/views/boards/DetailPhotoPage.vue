@@ -67,6 +67,7 @@ export default {
       this.fnList()
     },
     Like:function (){
+      console.log(this.list)
       if(this.list.likedUsers.includes(this.User.id)){
         alert("이미 좋아요한 글")
         return ;
@@ -76,8 +77,6 @@ export default {
         likedUser.push(this.User.id)
         console.log(likedUser)
         this.updatedData = {
-          title: this.list.title,
-          content: this.list.content,
           likedCount : this.list.likedCount += 1,
           likedUsers: likedUser,
         }
