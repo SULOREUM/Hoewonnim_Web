@@ -63,8 +63,8 @@ router.post('/:id', async (req, res) => {
         {_id: mongodb.ObjectID(req.params.id)},
         {
             $set: {
-                likedCount : req.body.data.likedCount,
-                likedUsers: req.body.data.likedUsers,
+                likedCount : req.body.likedCount,
+                likedUsers: req.body.likedUsers,
             }
         }
     );
