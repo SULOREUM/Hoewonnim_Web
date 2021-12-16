@@ -41,8 +41,12 @@ export default {
     return{
       selectedFile:null,
       title:'',
-      content:''
+      content:'',
+      User:[]
     }
+  },
+  async created(){
+    this.User = this.$store.state.userInfo
   },
   methods:{
     onFileSelected(event) {
@@ -59,6 +63,9 @@ export default {
       fd.append('image',this.selectedFile, this.selectedFile.name)
       fd.append('title',this.title)
       fd.append('content',this.content)
+      fd.append('createdUser',this.User.id)
+      fd.append('likedCount',0)
+      fd.append('likedUsers',[])
       updatePhotos.insertPost(fd)
       this.fnList()
     },

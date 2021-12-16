@@ -50,17 +50,21 @@ export default {
       postNum: 3,
       likedCount : 0,
       likedUsers: [],
-      createdUser: 'suloreum',
+      createdUser: '',
       comments: [],
       data : {},
       list: {},
       id : undefined,
-      Board : undefined
+      Board : undefined,
+      User:[]
     }
   },
   async created() {
     this.id = this.$route.params.id;
     this. Board = this.$route.params.prev;
+    this.User = this.$store.state.userInfo
+
+    this.createdUser = this.User.id
 
     if(this.id!==undefined) {
       const arr = await updatePosts.getDetailPost(this.id);

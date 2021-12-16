@@ -39,6 +39,9 @@ router.post('/', upload.single('image'), async (req, res) => {
             img:image.img,
             title:req.body.title,
             content:req.body.content,
+            createdUser:req.body.createdUser,
+            likedCount:req.body.likedCount,
+            likedUsers:req.body.likedUsers,
             createdAt:new Date()
         })
     }
@@ -54,7 +57,21 @@ router.delete('/:id', async (req, res) => {
     res.status(200).send();
 });
 
-
+router.post('/:id', async (req, res) => {
+    const post = await loadPostsCollections();
+    post.update(
+        {_id: mongodb.ObjectID(req.params.id)},
+        {
+            $set: {
+                title: req.body.data.title,
+                content: req.body.data.content,
+                likedCount : req.body.data.likedCount,
+                likedUsers: req.body.data.likedUsers,
+            }
+        }
+    );
+    res.status(201).send();
+});
 
 async function loadPostsCollections() {
     const client = await mongodb.MongoClient.connect('***REMOVED***', {

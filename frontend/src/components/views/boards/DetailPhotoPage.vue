@@ -22,6 +22,14 @@
           </div>
       </div>
 
+
+      <div class="LikeBtn">
+        <button @click="Like">
+          <font-awesome-icon icon="fa-solid fa-heart" style="font-size: 1.5em"/>
+          <p>{{list.likedCount}}</p>
+        </button>
+      </div>
+
     </div>
 
   </div>
@@ -34,6 +42,7 @@ import Photo from "./Photo";
 import updatePhotos from "../../../services/updatePhotos";
 export default {
   created: async function() {
+    this.User = this.$store.state.userInfo
     const id = this.$route.params.id;
     let list = this.$store.state.photos;
     this.list = list.filter(photo => photo._id === id)
@@ -41,7 +50,8 @@ export default {
   },
   data: function() {
     return {
-      list: {}
+      list: {},
+      User :[]
     };
   },
   computed:{
@@ -55,6 +65,25 @@ export default {
       alert("삭제완료");
       updatePhotos.deletePost(this.$route.params.id);
       this.fnList()
+    },
+    Like:function (){
+      if(this.list.likedUsers.includes(this.User.id)){
+        alert("이미 좋아요한 글")
+        return ;
+      }
+      else{
+        let likedUser = this.list.likedUsers
+        likedUser.push(this.User.id)
+        console.log(likedUser)
+        this.updatedData = {
+          title: this.list.title,
+          content: this.list.content,
+          likedCount : this.list.likedCount += 1,
+          likedUsers: likedUser,
+        }
+        updatePhotos.UpdatePost(this.updatedData,this.$route.params.id);
+      }
+
     }
   }
 };
@@ -107,6 +136,29 @@ export default {
   box-shadow: 0 1px 0 1px rgba(0, 0, 0, .04);
   cursor: pointer;
 }
+
+.LikeBtn{
+  margin-top: 50px;
+}
+.LikeBtn button{
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  color: #7994DB;
+  border: 1px solid #aaa;
+  border-radius: 50%;
+  box-shadow: 0 1px 0 1px rgba(0, 0, 0, .04);
+  cursor: pointer;
+}
+.LikeBtn button:hover{
+  background-color: #7994DB;
+  color: white;
+}
+
+.LikeBtn button p{
+  margin: 0;
+}
+
 
 
 @media(max-width:767px) {
