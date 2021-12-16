@@ -459,9 +459,7 @@ h3 {
 }
 
 .box.int_id {
-  /*padding-right: 110px;*/
   outline-color: #7994DB;
-  /*width: 70%;*/
 }
 
 .box.int_pass {
