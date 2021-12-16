@@ -77,6 +77,9 @@ export default new Vuex.Store({
         updateProfile(state, payload){
             state.userInfo.profile_image = payload
         },
+        updateChallenge(state, payload){
+            state.userInfo.challengeList = payload
+        },
         GetPosts(state,payload){
             state.posts = payload
         },
