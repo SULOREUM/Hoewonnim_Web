@@ -8,9 +8,24 @@
       <!-- ID -->
       <div>
         <h3 class="join_title"><label for="id">아이디</label></h3>
-        <span class="box int_id">
-          <input v-model="id" type="text" id="id" class="int" maxlength="20">
-        </span>
+        <table>
+          <tr>
+            <td style="width: 100%;white-space: nowrap;">
+              <span class="box int_id">
+                <input v-model="id" type="text" id="id" class="int" maxlength="20">
+              </span>
+            </td>
+            <td style="width: 100%;white-space: nowrap;">
+              <button class="check_id" @click="idCheckValid()">중복검사</button>
+            </td>
+          </tr>
+        </table>
+        <div v-if="!idCheckFlag">
+          <h3 class="error_check">이미 존재하는 아이디입니다. 다른 아이디를 입력해주세요.</h3>
+        </div>
+        <div v-if="idCheckFlag">
+          <h3 class="error_check">사용 가능한 아이디입니다.</h3>
+        </div>
         <span class="error_next_box"></span>
       </div>
 
@@ -18,13 +33,14 @@
       <div>
         <h3 class="join_title"><label for="pswd1">비밀번호</label></h3>
         <span class="box int_pass">
-                        <input v-model="password" type="password" id="pswd1" class="int" maxlength="20"
-                               @blur="passwordValid">
-                        <span id="alertTxt">사용불가</span>
-                        <img src="@/assets/lock.png" id="pswd1_img1" class="pswdImg">
-                    </span>
-        <div v-if="!passwordValidFlag"><h3 class="error_check">비밀번호는 대문자, 소문자, 숫자가 1개 이상 사용되어야 하고<br>8자이상이어야 합니다.</h3>
-        </div>
+          <input v-model="password" type="password" id="pswd1" class="int" maxlength="20"
+                 @blur="passwordValid">
+          <span id="alertTxt">사용불가</span>
+            <img src="@/assets/lock.png" id="pswd1_img1" class="pswdImg">
+          </span>
+          <div v-if="!passwordValidFlag">
+            <h3 class="error_check">비밀번호는 대문자, 소문자, 숫자가 1개 이상 사용되어야 하고<br>8자이상이어야 합니다.</h3>
+          </div>
         <span class="error_next_box"></span>
       </div>
 
@@ -133,7 +149,7 @@
 
 <script>
 import join from "@/services/users/join";
-
+import axios from "axios";
 export default {
   name: "SignUp",
   data() {
@@ -149,6 +165,8 @@ export default {
       day: '',
       tag: [],
       mail: '',
+      idCheckFlag: false,
+      idCheckMention:'',
       passwordValidFlag: true,
       passwordCheck: '',
       passwordCheckFlag: true,
@@ -164,6 +182,25 @@ export default {
   methods: {
     fnList() {
       this.$router.push({path: '/views/boards/List'})
+    },
+    idCheckValid(){
+      return axios
+          .post('http://localhost:3000/api/CheckId', {id: this.id})
+          .then(res => {
+            console.log(res)
+            // 성공 시 token: 'existed user' or 'no user'
+            let token = res.data.token
+            console.log('token:' + token)
+            if(token === 'no user'){
+              this.idCheckFlag = true
+            }
+            else{
+              this.idCheckFlag = false
+            }
+          })
+          .catch(() =>{
+            alert('아이디 중복검사를 해주세요.')
+          })
     },
     passwordValid() {
       if (/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,16}$/.test(this.password)) {
@@ -193,6 +230,11 @@ export default {
         alert('비밀번호를 확인해주세요.')
         return
       }
+      if (!this.idCheckFlag){
+        console.log(this.idCheckFlag)
+        alert('아이디 중복검사를 해야합니다.')
+        return
+      }
       let today = new Date();
       alert('회원가입 성공')
       this.data = {
@@ -200,7 +242,7 @@ export default {
         password: this.password,
         name: this.name,
         sex: this.sex,
-        phone: this.phone.substring(0,3) + '-' + this.phone.substring(3, 7) + '-' + this.phone.substring(7),
+        phone: this.phone.substring(0, 3) + '-' + this.phone.substring(3, 7) + '-' + this.phone.substring(7),
         birth: this.year + '-' + this.month + '-' + this.day,
         interest: this.tag,
         mail: this.mail,
@@ -221,7 +263,6 @@ export default {
       } else {
         this.tag.pop(event.currentTarget.id)
       }
-      console.log(this.tag)
     },
     select_tag2: function (event) {
       let click = document.getElementById(event.currentTarget.id);
@@ -232,7 +273,6 @@ export default {
       } else {
         this.tag.pop(event.currentTarget.id)
       }
-      console.log(this.tag)
     },
     select_tag3: function (event) {
       let click = document.getElementById(event.currentTarget.id);
@@ -243,7 +283,6 @@ export default {
       } else {
         this.tag.pop(event.currentTarget.id)
       }
-      console.log(this.tag)
     },
 
   }
@@ -375,6 +414,27 @@ h3 {
   font-weight: 700;
 }
 
+.check_id {
+  position: relative;
+  font-size: 0.6em;
+  font-weight: bold;
+  color: #7994DB;
+  border: solid 2px #7994db;
+  background: white;
+  height: 51px;
+  border-radius: 10px;
+}
+
+.check_id:hover {
+  /*width: 30%;*/
+  font-size: 0.6em;
+  font-weight: bold;
+  color: white;
+  border: solid 2px #7994db;
+  background: #7994DB;
+  height: 51px;
+  border-radius: 10px;
+}
 
 .box {
   display: block;
@@ -401,6 +461,7 @@ h3 {
 .box.int_id {
   /*padding-right: 110px;*/
   outline-color: #7994DB;
+  /*width: 70%;*/
 }
 
 .box.int_pass {

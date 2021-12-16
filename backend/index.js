@@ -49,7 +49,7 @@ app.use('/api/photos',photos);
 
 // SignUp 처리
 app.post('/api/SignUp', (req, res) => {
-    var new_user = new Users(req.body.data);
+    let new_user = new Users(req.body.data);
 
     new_user.save((err) => {
         if (err) return res.status(500).json({ message: '저장 실패!' });
@@ -59,7 +59,7 @@ app.post('/api/SignUp', (req, res) => {
 
 // SignIn 처리
 app.post('/api/SignIn', (req, res) => {
-    var aUser = Users.findOne({ id: req.body.id, password: req.body.password }, (err, user) => {
+    let aUser = Users.findOne({ id: req.body.id, password: req.body.password }, (err, user) => {
         if (err) return res.status(500).json({ message: '에러!' });
         else if (user){
             return res.status(200).json({ "token": user._id.toString() });
@@ -68,6 +68,16 @@ app.post('/api/SignIn', (req, res) => {
     })
 });
 
+// SignUp에서 아이디 중복검사
+app.post('/api/CheckId',(req, res)=> {
+    let aUser = Users.findOne({id: req.body.id}, (err, user) => {
+        if (err) return res.status(500).json({message: '에러!'});
+        else if (user){
+            return res.status(202).json({ "token": 'existed user' });
+        }
+        else return res.status(202).json({ "token": 'no user' });
+    })
+});
 // // Handle production
 // if(process.env.NODE_ENV === 'production') {
 //     // Static folder

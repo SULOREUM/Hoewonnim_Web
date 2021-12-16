@@ -11,14 +11,11 @@ export default new Vuex.Store({
         createPersistedState()
     ],
     state:{ //저장된 유저 정보
-        // allUsers:[
-        //     {userId: 'hoza123', password: '123', name: 'dahye', address: 'Seoul'}
-        // ]
         userInfo: null,
         isLogin: false,
         isLoginError: false,
         posts :null,
-        photos:null
+        photos:null,
     },
     getters: {
         ListPosts : state =>{
