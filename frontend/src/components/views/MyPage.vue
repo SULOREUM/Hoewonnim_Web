@@ -39,10 +39,6 @@
               </div>
             </div>
           </div>
-          <div class="square_right">
-            <p class="challenge">{{challengeList[2]}}</p>
-            <p class="date">{{challengeList[3]}}</p>
-          </div>
         </div>
         <div class="myInfo">
           <div class="title2">
