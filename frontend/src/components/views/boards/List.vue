@@ -52,7 +52,7 @@
 
     <div class="top-menu">
       <div class="wt-button">
-        <router-link :to="{name:'Write', params:{prev:'List'}}"><input type="button" value="글쓰기"></router-link>
+        <router-link :to="{name:'Write', params:{prev:'List'}}"><input v-if="userInfo != null" type="button" value="글쓰기"></router-link>
       </div>
 
       <div class="search">
@@ -127,7 +127,7 @@ export default {
           end = start + this.pageSize;
       return arr.slice(start, end);
     },
-    ...mapState(["posts"])
+    ...mapState(["posts", "userInfo"])
   }
 }
 </script>

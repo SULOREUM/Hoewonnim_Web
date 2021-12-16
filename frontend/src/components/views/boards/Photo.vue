@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="top-menu">
-      <div class="wt-button">
+      <div v-if="userInfo != null" class="wt-button">
         <router-link :to="{ name: 'UploadPhoto' ,params:{prev:'Photo'}}"><input type="button" value="글쓰기"></router-link>
       </div>
 
@@ -101,7 +101,7 @@ export default {
           end = start + this.pageSize;
       return this.photos.slice(start, end);
     },
-    ...mapState(["photos"])
+    ...mapState(["photos", "userInfo"])
   }
 }
 </script>

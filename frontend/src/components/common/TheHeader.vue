@@ -9,7 +9,7 @@
         <router-link id="promo" to="/views/boards/Promotion" v-on:click="clickburger()"> <span>홍보게시판</span> </router-link>
         <router-link id="photo" to="/views/boards/Photo" v-on:click="clickburger()"> <span>자랑게시판</span> </router-link>
         <router-link id="join" to="/views/SignIn" v-on:click="clickburger()" v-if="userInfo==null"> <span>Sign In</span> </router-link>
-        <router-link id="logout" to="/views/SignIn" v-on:click="logout" v-if="userInfo != null"> <span>LogOut</span> </router-link>
+        <router-link id="logout" to="/views/SignIn" @click.native="logout" v-if="userInfo != null"> <span>LogOut</span> </router-link>
         <router-link id="sign_up" to="/views/SignUp" v-on:click="clickburger()" v-if="userInfo==null"> <span>Sign Up</span> </router-link>
         <router-link id="info" to="/views/MyPage" v-on:click="clickburger()" v-if="userInfo != null"> <span>MyPage</span> </router-link>
       </Slide>
@@ -69,7 +69,6 @@ export default {
         m.classList.remove("active")
       })
       clicked.classList.add("active");
-
     }
     , clickburger: function () {
       let menu = document.getElementsByClassName("item");

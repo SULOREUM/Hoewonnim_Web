@@ -16,7 +16,7 @@
 
       <div class="bottomWrap">
           <div class="btnWrap">
-            <input type="button" value="삭제" class="btn" @click =Del>
+            <input v-if="User.id == list.createdUser" type="button" value="삭제" class="btn" @click =Del>
 <!--            <router-link :to="{ name: 'Write', params: { id: this.$route.params.id}}"><input type="button" value="수정" class="btn" ></router-link>-->
             <input type="button" value="돌아가기" class="btn" @click =fnList>
           </div>
@@ -67,6 +67,7 @@ export default {
       this.fnList()
     },
     Like:function (){
+      console.log(this.list)
       if(this.list.likedUsers.includes(this.User.id)){
         alert("이미 좋아요한 글")
         return ;
@@ -76,8 +77,6 @@ export default {
         likedUser.push(this.User.id)
         console.log(likedUser)
         this.updatedData = {
-          title: this.list.title,
-          content: this.list.content,
           likedCount : this.list.likedCount += 1,
           likedUsers: likedUser,
         }

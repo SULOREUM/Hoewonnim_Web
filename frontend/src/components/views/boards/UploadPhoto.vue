@@ -42,7 +42,9 @@ export default {
       selectedFile:null,
       title:'',
       content:'',
-      User:[]
+      User:[],
+      likedCount : 0,
+      likedUsers: []
     }
   },
   async created(){
@@ -64,8 +66,8 @@ export default {
       fd.append('title',this.title)
       fd.append('content',this.content)
       fd.append('createdUser',this.User.id)
-      fd.append('likedCount',0)
-      fd.append('likedUsers',[])
+      fd.append('likedCount',this.likedCount)
+      fd.append('likedUsers',this.likedUsers)
       updatePhotos.insertPost(fd)
       this.fnList()
     },
