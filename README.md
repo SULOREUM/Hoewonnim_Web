@@ -24,3 +24,12 @@
 - **Vue-Slider** 를 이용하여 네비게이션 바를 구현하였습니다.
 - **Vuex**를 통해 글 목록을 불러오고, **MongoDB**와 연결해 글의 입력 · 수정 · 삭제 기능을 구현하였습니다.
 - 사용자는 챌린지(ex) 다이어트, 필라테스) 등을 기간과 함께 설정해서 마이페이지에서 달성도를 볼 수 있습니다. **Chart.js**를 통해 기록한 몸무게를 시각화하였습니다.
+<br/>
+
+## 🖥  DB 구조
+![image](https://user-images.githubusercontent.com/63833392/148009741-3125639c-f218-4613-81d8-b088f022c263.png)
+<br/>
+<br/>
+
+## 🖥 실제 화면 - 모바일
+![image](https://user-images.githubusercontent.com/63833392/148009814-18dc8eff-cb14-487d-a6cf-f74bffa78913.png)
