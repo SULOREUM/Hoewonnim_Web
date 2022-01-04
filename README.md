@@ -6,7 +6,7 @@
 - 조시연 chosiyeonn@gmail.com
 <br/>
 
-## 사용 기술 및 라이브러리 
+## 🛠️ 사용 기술 및 라이브러리 
 - Vue, Vuex, vuex-persistedstate
 - swiper.js
 - MongoDB
@@ -15,7 +15,7 @@
 - npm, node.js
 <br/>
 
-## 구현 기능
+## 💡 구현 기능
 - **swiper.js**를 이용하여 메인페이지에서 이미지가 설정한 시간에 따라 자동으로 스와이프되도록 구현하였습니다.
 - 회원가입 입력 폼의 정보를 **MongoDB**에 저장해 회원가입이 가능하게 했습니다.
 - **MongoDB**의 사용자 정보 데이터를 **mongoose api**의 post로 아이디와 패스워드를 찾아 로그인이 될 수 있게 했습니다.
