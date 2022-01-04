@@ -35,8 +35,6 @@
 ## 🖥 실제 화면 - 모바일
 ![image](https://user-images.githubusercontent.com/63833392/148009814-18dc8eff-cb14-487d-a6cf-f74bffa78913.png)
 <br/>
-![image](https://user-images.githubusercontent.com/63833392/148009741-3125639c-f218-4613-81d8-b088f022c263.png)
-<br/>
 ![frontend - Chrome 2022-01-04 13-00-17](https://user-images.githubusercontent.com/63714074/148009974-e69d4b46-5cd9-4291-9e3d-867cfe2428c7.gif)
 <br/>
 ![frontend - Chrome 2022-01-04 12-37-11_Trim](https://user-images.githubusercontent.com/63714074/148009977-d8c2b8ea-cc67-4a37-88cb-e02e85990bb6.gif)
