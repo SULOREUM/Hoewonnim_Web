@@ -1,6 +1,8 @@
 # Hoewonnim_Web
 ### 👊🏻 Hoewonnim 은 헬스 커뮤니티 반응형 웹 입니다. Hoewonnim 을 통해 자유롭게 운동, 건강, 헬스에 관해 이야기를 나누고 원하는 사진 공유가 가능합니다.
 
+LINK : https://hoewonnim.herokuapp.com/
+
 - 선다혜 adad051111@gmail.com
 - 이슬이 iseuli713@gmail.com
 - 조시연 chosiyeonn@gmail.com
